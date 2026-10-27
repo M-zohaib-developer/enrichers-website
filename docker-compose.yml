@@ -1,0 +1,33 @@
+services:
+  payload:
+    image: node:22.23.4-alpine
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    working_dir: /home/node/app/
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  # Isolated local Postgres for this project only. Host port 5433 (not 5432) so it
+  # never collides with other projects' Postgres instances on this machine.
+  postgres:
+    restart: always
+    image: postgres:16
+    container_name: enrichers-candidate-a-postgres
+    environment:
+      POSTGRES_USER: enrichers_dev
+      POSTGRES_PASSWORD: enrichers_dev_local_pw
+      POSTGRES_DB: enrichers_candidate_a
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+
+volumes:
+  pgdata:
+  node_modules:

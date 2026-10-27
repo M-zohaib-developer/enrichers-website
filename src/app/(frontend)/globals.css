@@ -1,0 +1,562 @@
+@import 'tailwindcss';
+
+/* =============================================================================
+ * Candidate A — design tokens.
+ *
+ * Values mirror the deployed reference at
+ * https://enrichers-demo.innovidio.com/candidates/a (HTML + compiled CSS read
+ * directly, not eyeballed). Sizes, weights, line-heights, letter-spacing,
+ * radii, shadows and motion are copied exactly.
+ *
+ * Three tiers, in order:
+ *   1. Primitives  --e-*        raw palette. NEVER reference these in JSX.
+ *   2. Semantics   --ds-*       runtime vars a theme can re-point.
+ *   3. Bridge      @theme inline  exposes tier 2 as Tailwind utilities
+ *                                 (bg-surface, text-text-muted, border-border…)
+ *
+ * Components use tier 3 utilities only. Tailwind's stock palette is disabled
+ * below, so `bg-red-500` / `bg-black` do not compile — an off-token colour is
+ * a build error, not a review comment.
+ * ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Tier 1 — primitive palette. Plain :root vars (not @theme) on purpose: being
+ * outside @theme means Tailwind generates no `bg-e-midnight-900` utility, so
+ * primitives cannot leak into components.
+ * -------------------------------------------------------------------------- */
+:root {
+  /* Midnight — brand navy, darkest to lightest */
+  --e-midnight-950: #07111f;
+  --e-midnight-900: #0a1f3d;
+  --e-midnight-800: #0f2445;
+  --e-midnight-700: #13294a;
+
+  /* Cube — brand blue ramp */
+  --e-cube-50: #f0f8fd;
+  --e-cube-100: #dceffa;
+  --e-cube-200: #b7e0f5;
+  --e-cube-300: #8acfef;
+  --e-cube-400: #4fb4e6;
+  --e-cube-500: #1c95d0;
+  --e-cube-600: #1480b8;
+  --e-cube-700: #0b6aa2;
+  --e-cube-800: #0a4f7c;
+  --e-cube-900: #0a3558;
+
+  /* Neutral */
+  --e-neutral-0: #ffffff;
+  --e-neutral-25: #f5f7fa;
+  --e-neutral-50: #edf1f5;
+  --e-neutral-100: #e3e8ee;
+  --e-neutral-200: #c9d2dc;
+  --e-neutral-400: #7d8a9c;
+  --e-neutral-500: #5e6b7d;
+  --e-neutral-700: #3a4556;
+  --e-neutral-900: #0c1522;
+
+  /* Accents */
+  --e-logo-red: #d9272e;
+  --e-sandstone: #d6cbb3;
+  --e-slate: #52627a;
+  --e-verdigris: #0e8a7b;
+
+  /* Status */
+  --e-positive: #07806a;
+  --e-positive-inverse: #3ccb9f;
+  --e-negative: #c23a31;
+  --e-negative-inverse: #ff7a6e;
+  --e-warning: #9a5b00;
+  --e-warning-inverse: #f0a83a;
+  --e-info: #0b6aa2;
+  --e-info-inverse: #5cb8ea;
+}
+
+/* -----------------------------------------------------------------------------
+ * Tier 2 — semantic defaults (light surface). Any .theme-* class below
+ * re-points these; everything downstream follows automatically.
+ * -------------------------------------------------------------------------- */
+:root {
+  --ds-background: var(--e-neutral-25);
+  --ds-surface: var(--e-neutral-0);
+  --ds-surface-sunken: var(--e-neutral-50);
+  --ds-surface-inverse: var(--e-midnight-900);
+
+  --ds-text: var(--e-neutral-900);
+  --ds-text-secondary: var(--e-neutral-700);
+  --ds-text-muted: var(--e-neutral-500);
+  --ds-text-inverse: var(--e-neutral-0);
+  --ds-text-link: var(--e-cube-700);
+
+  --ds-action: var(--e-midnight-900);
+  --ds-action-hover: var(--e-midnight-700);
+  --ds-on-action: var(--e-neutral-0);
+
+  --ds-border: var(--e-neutral-200);
+  --ds-border-subtle: var(--e-neutral-100);
+  --ds-border-strong: var(--e-neutral-400);
+
+  --ds-accent: var(--e-cube-500);
+  --ds-focus: var(--e-cube-500);
+
+  --ds-positive: var(--e-positive);
+  --ds-negative: var(--e-negative);
+  --ds-warning: var(--e-warning);
+  --ds-info: var(--e-info);
+
+  /* Scrim for drawers/modals. Tokenised so no component needs bg-black/50. */
+  --ds-overlay: #07111f;
+
+  /* ---- Chrome tones -------------------------------------------------------
+   * The header and footer run on a fixed opacity ladder (85/80/70/65/55/50 and
+   * two rule weights). Naming each step means a component writes
+   * `text-chrome-soft`, never `text-white/70` — so the ladder lives here and
+   * flips with the theme instead of being retyped per element.
+   * These are the light-surface values; .theme-inverse re-points them to the
+   * white ladder the reference actually ships.
+   * ---------------------------------------------------------------------- */
+  --ds-chrome-strong: var(--e-neutral-900);
+  --ds-chrome: var(--e-neutral-900);
+  --ds-chrome-muted: var(--e-neutral-700);
+  --ds-chrome-soft: var(--e-neutral-700);
+  --ds-chrome-legal: var(--e-neutral-500);
+  --ds-chrome-faint: var(--e-neutral-500);
+  --ds-chrome-overline: var(--e-neutral-500);
+  --ds-chrome-rule: var(--e-neutral-200);
+  --ds-chrome-hairline: var(--e-neutral-100);
+  --ds-chrome-ghost: #07111f0d;
+
+  /* Underline marking the active nav item, and the promo-card eyebrow. */
+  --ds-chrome-active: var(--e-cube-500);
+  --ds-chrome-eyebrow: var(--e-neutral-500);
+  --ds-chrome-mark: var(--e-cube-500);
+
+  /* Solid CTA sitting on the bar. */
+  --ds-chrome-cta: var(--e-midnight-900);
+  --ds-chrome-cta-hover: var(--e-midnight-700);
+  --ds-chrome-on-cta: var(--e-neutral-0);
+}
+
+/* -----------------------------------------------------------------------------
+ * Tier 3 — theme classes. Each sets its own background/colour AND re-points the
+ * semantic vars for every descendant. `<header class="theme-inverse">` is all a
+ * component needs; no per-element colour classes.
+ * -------------------------------------------------------------------------- */
+.theme-light {
+  background: var(--e-neutral-0);
+  color: var(--e-neutral-900);
+  --ds-surface: var(--e-neutral-0);
+  --ds-surface-sunken: var(--e-neutral-50);
+  --ds-text: var(--e-neutral-900);
+  --ds-text-secondary: var(--e-neutral-700);
+  --ds-text-muted: var(--e-neutral-500);
+  --ds-text-link: var(--e-cube-700);
+  --ds-border: var(--e-neutral-200);
+  --ds-border-subtle: var(--e-neutral-100);
+  --ds-border-strong: var(--e-neutral-400);
+  --ds-action: var(--e-midnight-900);
+  --ds-action-hover: var(--e-midnight-700);
+  --ds-on-action: var(--e-neutral-0);
+  --ds-focus: var(--e-cube-500);
+}
+
+.theme-surface {
+  background: var(--e-neutral-25);
+  color: var(--e-neutral-900);
+  --ds-surface: var(--e-neutral-0);
+  --ds-surface-sunken: var(--e-neutral-50);
+  --ds-text: var(--e-neutral-900);
+  --ds-text-secondary: var(--e-neutral-700);
+  --ds-text-muted: var(--e-neutral-500);
+}
+
+.theme-sunken {
+  background: var(--e-neutral-50);
+  color: var(--e-neutral-900);
+  --ds-surface: var(--e-neutral-0);
+  --ds-text: var(--e-neutral-900);
+  --ds-text-secondary: var(--e-neutral-700);
+  --ds-text-muted: var(--e-neutral-500);
+}
+
+/* The header and footer both run on this one. */
+.theme-inverse {
+  background: var(--e-midnight-900);
+  color: var(--e-neutral-0);
+  --ds-background: var(--e-midnight-900);
+  --ds-surface: #0e1c31;
+  --ds-surface-sunken: var(--e-midnight-950);
+  --ds-text: var(--e-neutral-0);
+  --ds-text-secondary: #c3cdd9;
+  --ds-text-muted: #93a1b3;
+  --ds-text-link: #5cb8ea;
+  --ds-border: #2a3f5c;
+  --ds-border-subtle: #1c2e47;
+  --ds-border-strong: #5e7391;
+  --ds-action: var(--e-cube-500);
+  --ds-action-hover: var(--e-cube-400);
+  --ds-on-action: var(--e-neutral-900);
+  --ds-accent: var(--e-cube-300);
+  --ds-focus: var(--e-cube-400);
+  --ds-positive: var(--e-positive-inverse);
+  --ds-negative: var(--e-negative-inverse);
+  --ds-warning: var(--e-warning-inverse);
+  --ds-info: var(--e-info-inverse);
+
+  /* Chrome ladder — exact values read off the reference's compiled CSS.
+     Percentages in the comments are the opacity each hex encodes. */
+  --ds-chrome-strong: var(--e-neutral-0); /* 100% — hover, logo, headings  */
+  --ds-chrome: #ffffffd9; /*  85% — nav + contact links    */
+  --ds-chrome-muted: #ffffffcc; /*  80% — footer group links     */
+  --ds-chrome-soft: #ffffffb3; /*  70% — brand tagline          */
+  --ds-chrome-legal: #ffffffa6; /*  65% — legal paragraphs       */
+  --ds-chrome-faint: #ffffff8c; /*  55% — copyright row          */
+  --ds-chrome-overline: #ffffff80; /*  50% — group headings         */
+  --ds-chrome-rule: #ffffff26; /*  15% — band dividers          */
+  --ds-chrome-hairline: #ffffff1a; /*  10% — header bottom border   */
+  --ds-chrome-ghost: #ffffff1a; /*  10% — ghost hover background */
+  --ds-chrome-active: var(--e-cube-500); /* active nav underline       */
+  --ds-chrome-eyebrow: #ffffff99; /*  60% — promo-card eyebrow  */
+  /* The promo card's junction glyph is one step darker than its "Read more"
+     link (cube-400 vs cube-300) — they are deliberately not the same blue. */
+  --ds-chrome-mark: var(--e-cube-400);
+
+  --ds-chrome-cta: var(--e-neutral-0);
+  --ds-chrome-cta-hover: var(--e-cube-50);
+  --ds-chrome-on-cta: var(--e-midnight-900);
+}
+
+.theme-brand {
+  background: var(--e-cube-500);
+  color: var(--e-neutral-0);
+  --ds-text: var(--e-neutral-0);
+  --ds-text-secondary: var(--e-cube-50);
+  --ds-text-muted: var(--e-cube-100);
+  --ds-action: var(--e-neutral-0);
+  --ds-action-hover: var(--e-cube-50);
+  --ds-on-action: var(--e-midnight-900);
+  --ds-border: #ffffff38;
+  --ds-border-subtle: #ffffff1a;
+}
+
+.theme-brand-deep {
+  background: var(--e-cube-800);
+  color: var(--e-neutral-0);
+  --ds-text: var(--e-neutral-0);
+  --ds-text-secondary: var(--e-cube-50);
+  --ds-text-muted: var(--e-cube-100);
+  --ds-action: var(--e-neutral-0);
+  --ds-action-hover: var(--e-cube-50);
+  --ds-on-action: var(--e-midnight-950);
+  --ds-border: #ffffff38;
+  --ds-border-subtle: #ffffff1a;
+}
+
+/* -----------------------------------------------------------------------------
+ * Layout vars. Not in @theme — the container utility and arbitrary values read
+ * them directly, and --gutter has to change per breakpoint at runtime.
+ * -------------------------------------------------------------------------- */
+:root {
+  --wide-max: 1440px;
+  --narrow-max: 768px;
+  --gutter: 16px;
+
+  /* 72px at every width — the reference bar does not change height. */
+  --header-h: 72px;
+
+  /* Section rhythm. Kept out of @theme so a band can override at runtime. */
+  --section-y: 96px;
+  --section-y-first: 64px;
+
+  /* Motion. Tailwind v4 has no duration namespace, so these are used as
+     duration-[var(--duration-fast)] exactly like the reference build. */
+  --duration-instant: 80ms;
+  --duration-fast: 0.14s;
+  --duration-normal: 0.22s;
+  --duration-slow: 0.36s;
+  --duration-deliberate: 0.64s;
+}
+
+/* Gutter steps are the reference's own breakpoints (390/480/768/1024), which
+   are NOT the Tailwind sm/md/lg stops — do not "tidy" these into rem. */
+@media (width >= 390px) {
+  :root {
+    --gutter: 20px;
+  }
+}
+@media (width >= 480px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+@media (width >= 768px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+@media (width >= 1024px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Tailwind theme. Colours bridge to tier 2 via `inline` so .theme-* overrides
+ * are honoured at runtime rather than frozen at build time.
+ * -------------------------------------------------------------------------- */
+@theme inline {
+  /* Drop Tailwind's stock palette. bg-red-500 / bg-black now fail to compile. */
+  --color-*: initial;
+
+  --color-background: var(--ds-background);
+  --color-surface: var(--ds-surface);
+  --color-surface-sunken: var(--ds-surface-sunken);
+  --color-surface-inverse: var(--ds-surface-inverse);
+
+  --color-text: var(--ds-text);
+  --color-text-secondary: var(--ds-text-secondary);
+  --color-text-muted: var(--ds-text-muted);
+  --color-text-inverse: var(--ds-text-inverse);
+  --color-text-link: var(--ds-text-link);
+
+  --color-action: var(--ds-action);
+  --color-action-hover: var(--ds-action-hover);
+  --color-on-action: var(--ds-on-action);
+
+  --color-border: var(--ds-border);
+  --color-border-subtle: var(--ds-border-subtle);
+  --color-border-strong: var(--ds-border-strong);
+
+  --color-accent: var(--ds-accent);
+  --color-focus: var(--ds-focus);
+  --color-overlay: var(--ds-overlay);
+
+  /* Chrome ladder — gives text-chrome, text-chrome-soft, border-chrome-rule,
+     bg-chrome-ghost, etc. Header/footer colour comes entirely from these. */
+  --color-chrome-strong: var(--ds-chrome-strong);
+  --color-chrome: var(--ds-chrome);
+  --color-chrome-muted: var(--ds-chrome-muted);
+  --color-chrome-soft: var(--ds-chrome-soft);
+  --color-chrome-legal: var(--ds-chrome-legal);
+  --color-chrome-faint: var(--ds-chrome-faint);
+  --color-chrome-overline: var(--ds-chrome-overline);
+  --color-chrome-rule: var(--ds-chrome-rule);
+  --color-chrome-hairline: var(--ds-chrome-hairline);
+  --color-chrome-ghost: var(--ds-chrome-ghost);
+  --color-chrome-active: var(--ds-chrome-active);
+  --color-chrome-eyebrow: var(--ds-chrome-eyebrow);
+  --color-chrome-mark: var(--ds-chrome-mark);
+  --color-chrome-cta: var(--ds-chrome-cta);
+  --color-chrome-cta-hover: var(--ds-chrome-cta-hover);
+  --color-chrome-on-cta: var(--ds-chrome-on-cta);
+
+  --color-positive: var(--ds-positive);
+  --color-negative: var(--ds-negative);
+  --color-warning: var(--ds-warning);
+  --color-info: var(--ds-info);
+
+  /* Kept because the inverse themes need a true white/transparent for the
+     /opacity modifiers the header and footer use (text-white/85 etc.). */
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+}
+
+@theme {
+  /* ---- Fonts. Body text is Source Sans 3; Albert Sans is display only and
+     must be opted into with .font-display — matching the reference, where no
+     base rule assigns it to h1–h6. ------------------------------------------ */
+  --font-text: var(--font-source-sans-3), 'Source Sans 3', 'Segoe UI',
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-albert-sans), 'Albert Sans', 'Segoe UI',
+    'Helvetica Neue', Arial, sans-serif;
+  --font-serif: var(--font-source-serif-4), 'Source Serif 4', Georgia,
+    'Times New Roman', serif;
+  --font-mono: var(--font-source-code-pro), 'Source Code Pro', SFMono-Regular,
+    Menlo, Consolas, monospace;
+
+  /* ---- Weights ----------------------------------------------------------- */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---- Type scale. Sizes, line-heights, letter-spacing and (for h1/h2) the
+     weight are copied from the reference build verbatim. Scales without a
+     line-height inherit --line-height-body (1.6) from <body>, exactly as the
+     reference does. ---------------------------------------------------------*/
+  --text-display-xl: clamp(48px, 6.2vw, 88px);
+  --text-display-xl--line-height: 1.02;
+  --text-display-xl--letter-spacing: -0.03em;
+
+  --text-display: clamp(40px, 4.8vw, 64px);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.025em;
+
+  --text-h1: clamp(34px, 3.6vw, 48px);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 300;
+
+  --text-h2: clamp(28px, 2.8vw, 36px);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.015em;
+
+  --text-h3: clamp(23px, 2.2vw, 28px);
+  --text-h3--line-height: 1.2;
+
+  --text-h4: clamp(20px, 1.7vw, 22px);
+  --text-h4--line-height: 1.3;
+
+  --text-h5: 18px;
+  --text-h6: 14px;
+
+  --text-body-lg: 20px;
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 17px;
+  --text-body--line-height: 1.6;
+
+  --text-body-sm: 15px;
+  --text-caption: 13px;
+  --text-label: 13px;
+  --text-overline: 12px;
+  --text-button: 15px;
+
+  /* ---- Tracking ---------------------------------------------------------- */
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.015em;
+  --tracking-label: 0.04em;
+  --tracking-overline: 0.14em;
+
+  /* ---- Leading ----------------------------------------------------------- */
+  --leading-tight: 1.05;
+  --leading-heading: 1.15;
+  --leading-snug: 1.3;
+  --leading-ui: 1.4;
+  --leading-body: 1.6;
+  --leading-relaxed: 1.625;
+
+  /* ---- Radius ------------------------------------------------------------ */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+
+  /* ---- Shadow ------------------------------------------------------------ */
+  --shadow-sm: 0 1px 2px #0a1f3d0f;
+  --shadow-md: 0 4px 12px -2px #0a1f3d14, 0 2px 4px #0a1f3d0a;
+  --shadow-lg: 0 16px 40px -8px #0a1f3d29, 0 4px 10px #0a1f3d0f;
+
+  /* ---- Easing ------------------------------------------------------------ */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* -----------------------------------------------------------------------------
+ * Container. Matches the reference: the max-width includes the gutters, so the
+ * content column lands on --wide-max and the gutter sits outside it.
+ * -------------------------------------------------------------------------- */
+@utility container-wide {
+  width: 100%;
+  max-width: calc(var(--wide-max) + 2 * var(--gutter));
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+}
+
+@utility container-narrow {
+  width: 100%;
+  max-width: calc(var(--narrow-max) + 2 * var(--gutter));
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+}
+
+/* -----------------------------------------------------------------------------
+ * Base
+ *
+ * This whole block MUST stay inside `@layer base`. Unlayered CSS outranks every
+ * layered rule regardless of specificity, and Tailwind ships its utilities in
+ * `@layer utilities` — so an unlayered `a { color: inherit }` silently beats
+ * `.text-chrome-muted` on every anchor. The symptom is subtle: <p> tones look
+ * right while every link renders at full strength, which quietly flattens the
+ * whole opacity ladder in the header and footer.
+ * -------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Anchor targets clear the sticky header. */
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--ds-background);
+    color: var(--ds-text);
+    font-family: var(--font-text);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings carry no size/weight of their own — every heading opts into a
+     --text-* scale utility. Mirrors the reference, which resets them the same
+     way so an <h2> used as a small label is not fighting a base rule. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Links inherit by default and opt into a tone via a utility. Deliberately
+     not `color: var(--ds-text-link)` — that old rule beat the inherited colour
+     inside the inverse header/footer and rendered drawer links blue on navy. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ds-focus);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
