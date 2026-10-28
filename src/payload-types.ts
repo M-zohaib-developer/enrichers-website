@@ -146,22 +146,27 @@ export interface Page {
         headingLineTwo?: string | null;
         headingLineThree?: string | null;
         body?: string | null;
-        primary?: {
-          label?: string | null;
-          url?: string | null;
-          /**
-           * Choose how the button looks on the page.
-           */
-          variant?: ('primary' | 'secondary') | null;
-        };
-        secondary?: {
-          label?: string | null;
-          url?: string | null;
-          /**
-           * Choose how the button looks on the page.
-           */
-          variant?: ('primary' | 'secondary') | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         /**
          * Trading-floor image shown beside the hero content.
          */
@@ -212,6 +217,27 @@ export interface Page {
               supportingLabel?: string | null;
               actionLabel?: string | null;
               url?: string | null;
+              /**
+               * Click + to add a Primary button or Secondary button.
+               */
+              buttons?:
+                | (
+                    | {
+                        label: string;
+                        url: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'primaryButton';
+                      }
+                    | {
+                        label: string;
+                        url: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'secondaryButton';
+                      }
+                  )[]
+                | null;
               id?: string | null;
             }[]
           | null;
@@ -231,16 +257,27 @@ export interface Page {
               id?: string | null;
             }[]
           | null;
-        primaryButton?: {
-          label?: string | null;
-          url?: string | null;
-          variant?: ('primary' | 'secondary') | null;
-        };
-        secondaryButton?: {
-          label?: string | null;
-          url?: string | null;
-          variant?: ('primary' | 'secondary') | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'clientServices';
@@ -256,14 +293,27 @@ export interface Page {
             }[]
           | null;
         note?: string | null;
-        button?: {
-          label?: string | null;
-          url?: string | null;
-        };
-        secondaryButton?: {
-          label?: string | null;
-          url?: string | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'accountOpeningSteps';
@@ -291,10 +341,27 @@ export interface Page {
         eyebrow?: string | null;
         heading?: string | null;
         body?: string | null;
-        button?: {
-          label?: string | null;
-          url?: string | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         cards?:
           | {
               category?: string | null;
@@ -313,11 +380,27 @@ export interface Page {
         eyebrow?: string | null;
         heading?: string | null;
         body?: string | null;
-        itemButtonLabel?: string | null;
-        itemSecondaryButton?: {
-          label?: string | null;
-          url?: string | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         items?:
           | {
               label?: string | null;
@@ -326,6 +409,7 @@ export interface Page {
               quote?: string | null;
               body?: string | null;
               url?: string | null;
+              icon?: ('document' | 'development' | 'agriculture' | 'research' | 'hospitality') | null;
               id?: string | null;
             }[]
           | null;
@@ -349,10 +433,27 @@ export interface Page {
               id?: string | null;
             }[]
           | null;
-        button?: {
-          label?: string | null;
-          url?: string | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'skarduHotelFeature';
@@ -380,14 +481,27 @@ export interface Page {
     | {
         heading?: string | null;
         body?: string | null;
-        openAccount?: {
-          label?: string | null;
-          url?: string | null;
-        };
-        contact?: {
-          label?: string | null;
-          url?: string | null;
-        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         riskNotice?: string | null;
         id?: string | null;
         blockName?: string | null;
@@ -742,19 +856,25 @@ export interface PagesSelect<T extends boolean = true> {
               headingLineTwo?: T;
               headingLineThree?: T;
               body?: T;
-              primary?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
-                    variant?: T;
-                  };
-              secondary?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                    variant?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               heroImage?: T;
               badges?:
@@ -800,6 +920,26 @@ export interface PagesSelect<T extends boolean = true> {
                     supportingLabel?: T;
                     actionLabel?: T;
                     url?: T;
+                    buttons?:
+                      | T
+                      | {
+                          primaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          secondaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
                     id?: T;
                   };
               id?: T;
@@ -819,19 +959,25 @@ export interface PagesSelect<T extends boolean = true> {
                     icon?: T;
                     id?: T;
                   };
-              primaryButton?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
-                    variant?: T;
-                  };
-              secondaryButton?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                    variant?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -849,17 +995,25 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               note?: T;
-              button?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
-                  };
-              secondaryButton?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -887,11 +1041,25 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               body?: T;
-              button?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               cards?:
                 | T
@@ -912,12 +1080,25 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               body?: T;
-              itemButtonLabel?: T;
-              itemSecondaryButton?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               items?:
                 | T
@@ -928,6 +1109,7 @@ export interface PagesSelect<T extends boolean = true> {
                     quote?: T;
                     body?: T;
                     url?: T;
+                    icon?: T;
                     id?: T;
                   };
               id?: T;
@@ -948,11 +1130,25 @@ export interface PagesSelect<T extends boolean = true> {
                     label?: T;
                     id?: T;
                   };
-              button?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -983,17 +1179,25 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               body?: T;
-              openAccount?:
+              buttons?:
                 | T
                 | {
-                    label?: T;
-                    url?: T;
-                  };
-              contact?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               riskNotice?: T;
               id?: T;

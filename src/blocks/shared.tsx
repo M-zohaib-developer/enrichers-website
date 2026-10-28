@@ -1,5 +1,6 @@
 import NextLink from 'next/link'
 import type React from 'react'
+import { ArrowRightIcon } from '@/components/Icon'
 export type MediaValue = number | { url?: string | null; alt?: string | null } | null | undefined
 export type LinkValue = { label?: string | null; url?: string | null } | null | undefined
 export type BlockData = { blockType: string; [key: string]: any }
@@ -21,7 +22,7 @@ export function Eyebrow({ children }: { children?: React.ReactNode }) {
   )
 }
 const BTN_BASE =
-  'inline-flex min-h-11 items-center justify-center rounded-sm px-5 text-button font-semibold transition-colors'
+  'group inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-5 text-button font-semibold transition-colors'
 
 /**
  * `inverse` is required on dark panels. The default variants resolve
@@ -34,10 +35,12 @@ export function Button({
   link,
   secondary = false,
   inverse = false,
+  showArrow = true,
 }: {
   link: LinkValue
   secondary?: boolean
   inverse?: boolean
+  showArrow?: boolean
 }) {
   if (!linkOk(link)) return null
 
@@ -52,6 +55,15 @@ export function Button({
   return (
     <NextLink href={link.url} className={cls}>
       {link.label}
+      {!secondary && showArrow && <ArrowRightIcon size={18} className="transition-transform duration-(--duration-fast) group-hover:translate-x-[3px]" />}
     </NextLink>
   )
+}
+
+export function Buttons({ buttons, fallback = [], inverse = false, showArrow = true }: { buttons?: any[] | null; fallback?: Array<{ label?: string; url?: string; secondary?: boolean }>; inverse?: boolean; showArrow?: boolean }) {
+  const links = Array.isArray(buttons) && buttons.length
+    ? buttons.map((button) => ({ label: button?.label, url: button?.url, secondary: button?.blockType === 'secondaryButton' }))
+    : fallback.filter(Boolean)
+  if (!links.length) return null
+  return <div className="mt-8 flex flex-wrap gap-3">{links.map((link, index) => <Button key={`${link.label || 'button'}-${index}`} link={link} secondary={link.secondary} inverse={inverse} showArrow={showArrow} />)}</div>
 }

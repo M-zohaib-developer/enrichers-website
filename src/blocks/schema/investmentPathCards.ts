@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { buttonsField } from './shared'
 export const investmentPathCards: Block = {
   slug: 'investmentPathCards',
   labels: { singular: 'Investment Path Cards', plural: 'Investment Path Cards' },
@@ -22,6 +23,7 @@ export const investmentPathCards: Block = {
         { name: 'supportingLabel', type: 'text' },
         { name: 'actionLabel', type: 'text' },
         { name: 'url', type: 'text' },
+        { ...buttonsField },
       ],
     },
   ],

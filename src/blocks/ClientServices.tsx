@@ -7,7 +7,7 @@ import {
   PeopleIcon,
   ScaleIcon,
 } from '@/components/Icon'
-import { Button, type BlockData, type LinkValue } from './shared'
+import { Buttons, type BlockData } from './shared'
 
 type ServiceItem = {
   title?: string | null
@@ -28,8 +28,6 @@ function ServiceIcon({ name, index }: { name?: string | null; index: number }) {
   const Icon = icons[name as keyof typeof icons] ?? Object.values(icons)[index % 6]
   return <Icon className="text-text" />
 }
-
-type ServiceButton = LinkValue & { variant?: 'primary' | 'secondary' | null }
 
 export function ClientServices({ data }: { data: BlockData }) {
   const items = (data.items ?? []) as ServiceItem[]
@@ -56,18 +54,7 @@ export function ClientServices({ data }: { data: BlockData }) {
           ))}
         </ul>
 
-        {(data.primaryButton || data.secondaryButton) && (
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button
-              link={data.primaryButton as ServiceButton}
-              secondary={(data.primaryButton as ServiceButton)?.variant === 'secondary'}
-            />
-            <Button
-              link={data.secondaryButton as ServiceButton}
-              secondary={(data.secondaryButton as ServiceButton)?.variant !== 'primary'}
-            />
-          </div>
-        )}
+        <Buttons buttons={data.buttons} fallback={[data.primaryButton, data.secondaryButton]} />
       </div>
     </section>
   )

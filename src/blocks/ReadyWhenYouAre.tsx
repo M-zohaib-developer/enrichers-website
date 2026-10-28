@@ -1,4 +1,4 @@
-import { Button, type BlockData } from './shared'
+import { Buttons, type BlockData } from './shared'
 export function ReadyWhenYouAre({ data }: { data: BlockData }) {
   return (
     /* The dark treatment is a rounded card inside a normal light section, not
@@ -19,8 +19,7 @@ export function ReadyWhenYouAre({ data }: { data: BlockData }) {
             </div>
             <div>
               <div className="flex flex-wrap gap-3 lg:justify-end">
-                <Button link={data.openAccount} inverse />
-                <Button link={data.contact} secondary inverse />
+                <Buttons buttons={data.buttons} fallback={[{ ...data.openAccount, secondary: false }, { ...data.contact, secondary: true }]} inverse />
               </div>
               <p className="text-caption mt-8 text-chrome-legal">{data.riskNotice}</p>
             </div>

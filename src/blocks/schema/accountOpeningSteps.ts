@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-import { linkFields } from './shared'
+import { buttonsField } from './shared'
 export const accountOpeningSteps: Block = {
   slug: 'accountOpeningSteps',
   labels: { singular: 'Account Opening Steps', plural: 'Account Opening Steps' },
@@ -15,17 +15,9 @@ export const accountOpeningSteps: Block = {
       ],
     },
     { name: 'note', type: 'textarea' },
-    {
-      name: 'button',
-      type: 'group',
-      fields: linkFields,
-      defaultValue: { label: 'Start with PSX or PMEX', url: '/open-account/' },
-    },
-    {
-      name: 'secondaryButton',
-      type: 'group',
-      fields: linkFields,
-      defaultValue: { label: "Documents you'll need", url: '/open-account/#documents' },
-    },
+    { ...buttonsField, defaultValue: [
+      { blockType: 'primaryButton', label: 'Start with PSX or PMEX', url: '/open-account/' },
+      { blockType: 'secondaryButton', label: "Documents you'll need", url: '/open-account/#documents' },
+    ] },
   ],
 }

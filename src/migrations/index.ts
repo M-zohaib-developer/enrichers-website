@@ -11,6 +11,9 @@ import * as migration_20261027_145716_add_image_caption from './20261027_145716_
 import * as migration_20261027_161931_add_hero_button_variant from './20261027_161931_add_hero_button_variant';
 import * as migration_20261028_034612_add_client_services_icons_buttons from './20261028_034612_add_client_services_icons_buttons';
 import * as migration_20261028_041607_consultation_form_builder from './20261028_041607_consultation_form_builder';
+import * as migration_20261028_042146_consultation_wizard_fields from './20261028_042146_consultation_wizard_fields';
+import * as migration_20261028_042800_button_blocks_editor from './20261028_042800_button_blocks_editor';
+import * as migration_20261028_043122_group_business_explorer_visual from './20261028_043122_group_business_explorer_visual';
 
 export const migrations = [
   {
@@ -76,6 +79,21 @@ export const migrations = [
   {
     up: migration_20261028_041607_consultation_form_builder.up,
     down: migration_20261028_041607_consultation_form_builder.down,
-    name: '20261028_041607_consultation_form_builder'
+    name: '20261028_041607_consultation_form_builder',
+  },
+  {
+    up: migration_20261028_042146_consultation_wizard_fields.up,
+    down: migration_20261028_042146_consultation_wizard_fields.down,
+    name: '20261028_042146_consultation_wizard_fields',
+  },
+  {
+    up: migration_20261028_042800_button_blocks_editor.up,
+    down: migration_20261028_042800_button_blocks_editor.down,
+    name: '20261028_042800_button_blocks_editor',
+  },
+  {
+    up: migration_20261028_043122_group_business_explorer_visual.up,
+    down: migration_20261028_043122_group_business_explorer_visual.down,
+    name: '20261028_043122_group_business_explorer_visual'
   },
 ];

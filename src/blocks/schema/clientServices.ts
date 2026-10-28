@@ -1,18 +1,5 @@
 import type { Block } from 'payload'
-
-const buttonFields = [
-  { name: 'label', type: 'text' as const },
-  { name: 'url', type: 'text' as const },
-  {
-    name: 'variant',
-    type: 'select' as const,
-    defaultValue: 'primary',
-    options: [
-      { label: 'Primary', value: 'primary' },
-      { label: 'Secondary', value: 'secondary' },
-    ],
-  },
-]
+import { buttonsField } from './shared'
 
 export const clientServices: Block = {
   slug: 'clientServices',
@@ -47,7 +34,6 @@ export const clientServices: Block = {
         },
       ],
     },
-    { name: 'primaryButton', type: 'group', fields: buttonFields },
-    { name: 'secondaryButton', type: 'group', fields: buttonFields },
+    { ...buttonsField },
   ],
 }

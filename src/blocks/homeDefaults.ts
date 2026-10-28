@@ -8,8 +8,7 @@ export const HOME_BLOCKS = [
     headingLineTwo: 'markets with a licensed',
     headingLineThree: 'broker beside you.',
     body: 'Invest in PSX equities, or trade gold, oil, currencies and US index futures on PMEX — with research, risk management and client support 24/5.',
-    primary: { label: 'Open an account', url: '/open-account/' },
-    secondary: { label: 'Talk to our experts', url: '/contact-us/#consultation' },
+    buttons: [{ blockType: 'primaryButton', label: 'Open an account', url: '/open-account/' }, { blockType: 'secondaryButton', label: 'Talk to our experts', url: '/contact-us/#consultation' }],
     heroImage: {
       url: '/brand/trading-floor.webp',
       alt: 'The Enrichers client-services floor in Lahore',
@@ -61,6 +60,7 @@ export const HOME_BLOCKS = [
         supportingLabel: 'Enrichers Securities (Pvt.) Ltd.',
         actionLabel: 'Stock broking',
         url: '/stock-broking/',
+        buttons: [{ blockType: 'primaryButton', label: 'Stock broking', url: '/stock-broking/' }],
       },
       {
         eyebrow: '02 PMEX · COMMODITIES',
@@ -69,6 +69,7 @@ export const HOME_BLOCKS = [
         supportingLabel: 'Enrichers (Pvt.) Ltd.',
         actionLabel: 'Commodity brokerage',
         url: '/commodity-brokerage/',
+        buttons: [{ blockType: 'secondaryButton', label: 'Commodity brokerage', url: '/commodity-brokerage/' }],
       },
       {
         eyebrow: '03 NOT SURE YET',
@@ -77,6 +78,7 @@ export const HOME_BLOCKS = [
         supportingLabel: 'Free consultation',
         actionLabel: 'Book a consultation',
         url: '/contact-us/#consultation',
+        buttons: [{ blockType: 'secondaryButton', label: 'Book a consultation', url: '/contact-us/#consultation' }],
       },
     ],
   },
@@ -122,8 +124,7 @@ export const HOME_BLOCKS = [
       },
     ],
     note: 'Account opening continues on the exchange-approved online portals. Overseas Pakistanis can open accounts online.',
-    button: { label: 'Start with PSX or PMEX', url: '/open-account/' },
-    secondaryButton: { label: "Documents you'll need", url: '/open-account/#documents' },
+    buttons: [{ blockType: 'primaryButton', label: 'Start with PSX or PMEX', url: '/open-account/' }, { blockType: 'secondaryButton', label: "Documents you'll need", url: '/open-account/#documents' }],
   },
   {
     blockType: 'consultationQualifier',
@@ -144,7 +145,7 @@ export const HOME_BLOCKS = [
     eyebrow: 'Enrichers research',
     heading: 'Market insight, every week',
     body: "Notes from our research team on Pakistan's equity market, commodities and the global macro picture.",
-    button: { label: 'All research', url: '/latest-insight/' },
+    buttons: [{ blockType: 'secondaryButton', label: 'All research', url: '/latest-insight/' }],
     cards: [
       {
         category: 'GLOBAL MACRO',
@@ -184,8 +185,7 @@ export const HOME_BLOCKS = [
     eyebrow: 'Beyond brokerage',
     heading: 'Part of a diversified investment group',
     body: 'Enrichers also builds real assets — land, farms and hospitality — and advises on buying and selling businesses.',
-    itemButtonLabel: 'Explore Business Brokerage →',
-    itemSecondaryButton: { label: 'Book a consultation', url: '/contact-us/' },
+    buttons: [{ blockType: 'primaryButton', label: 'Explore Business Brokerage →', url: '/business-brokerage/' }, { blockType: 'secondaryButton', label: 'Book a consultation', url: '/contact-us/' }],
     items: [
       {
         label: 'Business Brokerage',
@@ -194,34 +194,40 @@ export const HOME_BLOCKS = [
         quote: 'There is always a Bid for an Ask.',
         body: 'Trusted business brokerage that makes it easy to buy, sell, or invest with confidence. From accurate valuations to seamless transactions, we handle every step with professionalism and care.',
         url: '/business-brokerage/',
+        icon: 'document',
       },
       {
         label: 'Arid Land Development',
-        eyebrow: 'Enrichers group',
+        eyebrow: 'Real assets · Enrichers Developers (Pvt.) Ltd.',
         title: 'Arid Land Development',
-        body: 'Long-term real asset development in Pakistan.',
+        quote: 'Turning barren landscapes into flourishing fields',
+        body: "Enrichers' Arid Land Development turns arid land into productive farmland. Through smart innovation and sustainable practices, we help grow real value — boosting returns and uplifting local communities along the way.",
         url: '/arid-land-development/',
+        icon: 'development',
       },
       {
         label: 'Agriculture',
-        eyebrow: 'Enrichers group',
+        eyebrow: 'Agriculture · Enri-Farms',
         title: 'Agriculture',
-        body: 'Building productive agricultural projects.',
+        body: "EIG recognizes the crucial role of sustainable practices in ensuring the long-term viability of Pakistan's agricultural sector — enhancing productivity while protecting the environment and conserving resources for future generations.",
         url: '/agriculture/',
+        icon: 'agriculture',
       },
       {
         label: 'Agriculture Research Centre',
-        eyebrow: 'Enrichers group',
+        eyebrow: 'Agriculture · Baab-ul-Ilm',
         title: 'Agriculture Research Centre',
-        body: 'Research and practical knowledge for agriculture.',
+        body: 'Baab-ul-Ilm is an institute of agriculture sciences and research centre that aims to tackle challenges in the agri-food system — bridging fundamental research and agricultural practice.',
         url: '/school-of-agriculture-research-centre/',
+        icon: 'research',
       },
       {
         label: 'Tourism & Hospitality',
-        eyebrow: 'Enrichers group',
+        eyebrow: 'Hospitality',
         title: 'Tourism & Hospitality',
-        body: 'Creating destination-led hospitality projects.',
+        body: "Enrichers is unlocking Northern Pakistan's tourism potential with a bold vision and strategic investments — from developing a 5-star hotel in Skardu to crafting immersive cultural experiences.",
         url: '/tourism-hospitality/',
+        icon: 'hospitality',
       },
     ],
   },
@@ -240,7 +246,7 @@ export const HOME_BLOCKS = [
       { value: '20 km', label: 'From Skardu airport' },
       { value: '100+', label: 'Rooms planned' },
     ],
-    button: { label: 'Explore the hotel', url: '/skardu-riverside-hotel/' },
+    buttons: [{ blockType: 'primaryButton', label: 'Explore the hotel', url: '/skardu-riverside-hotel/' }],
   },
   {
     blockType: 'accountFaq',
@@ -250,34 +256,45 @@ export const HOME_BLOCKS = [
       {
         label: 'Opening an account',
         items: [
-          {
-            question: 'What do I need to do to start trading with Enrichers on PMEX or PSX?',
-            answer:
-              'Choose PSX or PMEX, complete registration, submit KYC documents and activate your account.',
-          },
-          {
-            question: 'Can I invest if I am outside Pakistan?',
-            answer:
-              'Overseas Pakistanis can open accounts online through the exchange-approved portals.',
-          },
-          {
-            question: 'What is the minimum investment amount?',
-            answer:
-              'The appropriate amount depends on the market and product; speak to our team for guidance.',
-          },
+          { question: 'What do I need to do to start trading with Enrichers on PMEX or PSX?', answer: 'Open an account with Enrichers (PMEX or PSX), activate it, and deposit funds. Then you can trade equities, commodities, currencies, or global indices.' },
+          { question: 'Can I invest if I am outside Pakistan?', answer: 'Yes. Online account opening and digital documentation processing are available for overseas clients.' },
+          { question: 'What is the minimum investment amount?', answer: 'The minimum investment varies by service type. Our team will share suitable options based on your goals and preferred investment category.' },
         ],
       },
-      { label: 'Stocks (PSX)', items: [] },
-      { label: 'Commodities (PMEX)', items: [] },
-      { label: 'General', items: [] },
-    ],
+      {
+        label: 'Stocks (PSX)',
+        items: [
+          { question: 'How do I open a stock trading account with Enrichers?', answer: 'Open your trading account online or by visiting our office. Provide your CNIC, proof of income, and bank account details; our team guides you through KYC and account opening step by step.' },
+          { question: 'Can beginners start investing through Enrichers?', answer: 'Yes. Our specialists guide beginners with personalised support, educational resources, and risk-controlled strategies suitable for all experience levels.' },
+          { question: 'What trading products are offered?', answer: 'Equity trading, IPO subscriptions, and portfolio management with access to instruments listed on the PSX.' },
+          { question: 'Do you provide research and market insights?', answer: 'Yes. Our research team publishes market insights, technical analysis, fundamental reports, and trading ideas.' },
+        ],
+      },
+      {
+        label: 'Commodities (PMEX)',
+        items: [
+          { question: 'What is the security of deposited funds?', answer: 'Client funds are deposited into designated accounts at the Pakistan Mercantile Exchange (PMEX), licensed and regulated by the SECP. Investments in PSX are held through the regulated market infrastructure.' },
+          { question: 'Do I need to take physical delivery of gold or oil?', answer: 'No, not unless you want to. Cash-settled futures settle in cash at contract close; deliverable futures suit producers, processors, or anyone who wants physical ownership.' },
+          { question: 'Is currency trading permissible?', answer: "Enrichers' position is that currency trading through PMEX meets acceptable trade conditions, and no interest is charged on positions." },
+        ],
+      },
+      {
+        label: 'General',
+        items: [
+          { question: 'What is Enrichers Investment Group?', answer: 'Enrichers Investment Group is a financial and brokerage firm in Pakistan, offering diversified investment solutions including stock trading, commodities, business brokerage, and agricultural development projects.' },
+          { question: 'Where is Enrichers located?', answer: 'Our head office is on the 3rd Floor, High Q Tower, Gulberg 5, Lahore. We also have an office in the Islamabad Stock Exchange Building and a UAE office.' },
+          { question: 'Do you provide advisory support?', answer: 'Yes. We offer research-supported guidance and ongoing client support to help you make informed investment decisions.' },
+          { question: 'Is Enrichers registered with the SECP?', answer: 'Enrichers is a licensed financial broker of PMEX and PSX, operating under the regulation of the SECP.' },
+        ],
+      },
+    ]
+
   },
   {
     blockType: 'readyWhenYouAre',
     heading: 'Ready when you are.',
     body: 'Open a PSX or PMEX account online, or speak to our team first.',
-    openAccount: { label: 'Open an account', url: '/open-account/' },
-    contact: { label: 'Talk to our experts', url: '/contact-us/#consultation' },
+    buttons: [{ blockType: 'primaryButton', label: 'Open an account', url: '/open-account/' }, { blockType: 'secondaryButton', label: 'Talk to our experts', url: '/contact-us/#consultation' }],
     riskNotice:
       'Trading in futures and financial markets carries inherent risk. No guaranteed returns. Regulated by the SECP.',
   },

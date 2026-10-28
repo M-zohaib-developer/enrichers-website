@@ -1,4 +1,4 @@
-import { Button, Eyebrow, type BlockData } from './shared'
+import { Buttons, Eyebrow, type BlockData } from './shared'
 export function AccountOpeningSteps({ data }: { data: BlockData }) {
   return (
     <section className="py-(--section-y)">
@@ -22,10 +22,7 @@ export function AccountOpeningSteps({ data }: { data: BlockData }) {
         {data.note && (
           <p className="text-body-sm mt-10 max-w-measure text-text-muted">{data.note}</p>
         )}
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button link={data.button} />
-          <Button link={data.secondaryButton} secondary />
-        </div>
+        <Buttons buttons={data.buttons} fallback={[{ ...data.button, secondary: false }, { ...data.secondaryButton, secondary: true }]} />
       </div>
     </section>
   )

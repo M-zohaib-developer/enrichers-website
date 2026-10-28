@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-import { linkFields } from './shared'
+import { buttonsField } from './shared'
 export const skarduHotelFeature: Block = {
   slug: 'skarduHotelFeature',
   labels: { singular: 'Skardu Riverside Hotel Feature', plural: 'Skardu Riverside Hotel Features' },
@@ -29,11 +29,6 @@ export const skarduHotelFeature: Block = {
         { name: 'label', type: 'text' },
       ],
     },
-    {
-      name: 'button',
-      type: 'group',
-      fields: linkFields,
-      defaultValue: { label: 'Explore Skardu Riverside Hotel', url: '/skardu-riverside-hotel/' },
-    },
+    { ...buttonsField, defaultValue: [{ blockType: 'primaryButton', label: 'Explore Skardu Riverside Hotel', url: '/skardu-riverside-hotel/' }] },
   ],
 }

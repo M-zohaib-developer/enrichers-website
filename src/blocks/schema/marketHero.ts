@@ -1,19 +1,5 @@
 import type { Block } from 'payload'
-import { linkFields } from './shared'
-
-const buttonFields = [
-  ...linkFields,
-  {
-    name: 'variant',
-    type: 'select' as const,
-    defaultValue: 'primary',
-    options: [
-      { label: 'Primary (solid)', value: 'primary' },
-      { label: 'Secondary (outline)', value: 'secondary' },
-    ],
-    admin: { description: 'Choose how the button looks on the page.' },
-  },
-]
+import { buttonsField } from './shared'
 
 export const marketHero: Block = {
   slug: 'marketHero',
@@ -36,26 +22,10 @@ export const marketHero: Block = {
       defaultValue:
         'Invest in PSX equities, or trade gold, oil, currencies and US index futures on PMEX — with research, risk management and client support 24/5.',
     },
-    {
-      name: 'primary',
-      type: 'group',
-      fields: buttonFields,
-      defaultValue: {
-        label: 'Open an account',
-        url: '/open-account/',
-        variant: 'primary',
-      },
-    },
-    {
-      name: 'secondary',
-      type: 'group',
-      fields: buttonFields,
-      defaultValue: {
-        label: 'Talk to our experts',
-        url: '/contact-us/#consultation',
-        variant: 'secondary',
-      },
-    },
+    { ...buttonsField, defaultValue: [
+      { blockType: 'primaryButton', label: 'Open an account', url: '/open-account/' },
+      { blockType: 'secondaryButton', label: 'Talk to our experts', url: '/contact-us/#consultation' },
+    ] },
     {
       name: 'heroImage',
       label: 'Hero image',

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { Eyebrow, imageSrc, type BlockData } from './shared'
+import { Buttons, Eyebrow, imageSrc, type BlockData } from './shared'
 export function MarketResearchCards({ data }: { data: BlockData }) {
   return (
     <section className="py-(--section-y)">
@@ -15,14 +15,7 @@ export function MarketResearchCards({ data }: { data: BlockData }) {
           </div>
           <div className="lg:col-span-5">
             <p className="text-body-lg text-text-secondary">{data.body}</p>
-            <div className="mt-6">
-              <NextLink
-                href={data.button?.url || '#'}
-                className="text-button font-semibold text-text-link underline underline-offset-4"
-              >
-                {data.button?.label}
-              </NextLink>
-            </div>
+            <Buttons buttons={data.buttons} fallback={[{ ...data.button, secondary: true }]} />
           </div>
         </div>
         {/* Two-up from the smallest width, matching the reference. Stacking to

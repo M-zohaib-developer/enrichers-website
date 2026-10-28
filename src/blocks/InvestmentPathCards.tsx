@@ -1,33 +1,30 @@
-import NextLink from 'next/link'
-import { Eyebrow, type BlockData } from './shared'
+import { Buttons, Eyebrow, type BlockData } from './shared'
 export function InvestmentPathCards({ data }: { data: BlockData }) {
   return (
-    <section className="py-(--section-y)">
+    <section aria-labelledby="pathCards-h" className="relative py-(--section-y)">
       <div className="container-x">
-        <Eyebrow>{data.eyebrow}</Eyebrow>
-        <h2 className="font-display text-h2 mt-3 text-text">{data.heading}</h2>
-        <p className="text-body-lg mt-3 max-w-measure text-text-secondary">{data.body}</p>
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {(data.cards ?? []).map((card: any, i: number) => (
-            <article
-              key={i}
-              className="border border-border bg-surface p-7 transition-colors hover:border-action"
-            >
-              <span className="text-overline font-semibold tracking-overline text-text-muted">
-                {card.eyebrow}
-              </span>
-              <h3 className="font-display text-h3 mt-8 font-semibold text-text">{card.title}</h3>
-              <p className="text-body-sm mt-4 text-text-secondary">{card.body}</p>
-              <p className="text-body-sm mt-6 text-text-muted">{card.supportingLabel}</p>
-              <NextLink
-                href={card.url || '#'}
-                className="text-button mt-5 inline-flex min-h-10 items-center rounded-sm bg-action px-4 font-semibold text-on-action"
-              >
-                {card.actionLabel || data.cardActionLabel}
-              </NextLink>
-            </article>
-          ))}
+        <div className="max-w-[760px]">
+          <Eyebrow>{data.eyebrow}</Eyebrow>
+          <h2 id="pathCards-h" className="font-display text-h2 mt-3 font-normal tracking-[-0.015em] text-text">{data.heading}</h2>
+          <p className="text-body-lg mt-5 max-w-measure text-text-secondary">{data.body}</p>
         </div>
+        <ol className="mt-12 grid gap-4 lg:grid-cols-3">
+          {(data.cards ?? []).map((card: any, i: number) => (
+            <li
+              key={i}
+              className="flex flex-col rounded-sm border border-border bg-surface p-6 md:p-8"
+            >
+              <p className="flex items-center gap-3 text-overline font-semibold uppercase tracking-overline text-text-muted">
+                <span className="font-display text-h4 font-light tracking-normal text-text tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                <span>{String(card.eyebrow ?? '').replace(/^\d{2}\s*/, '')}</span>
+              </p>
+              <h3 className="font-display text-h3 mt-6 font-semibold text-text">{card.title}</h3>
+              <p className="mt-3 flex-1 text-text-secondary">{card.body}</p>
+              <p className="text-caption mt-4 font-semibold text-text-muted">{card.supportingLabel}</p>
+              <Buttons buttons={card.buttons} fallback={[{ label: card.actionLabel || data.cardActionLabel, url: card.url }]} showArrow={false} />
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

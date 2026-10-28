@@ -34,13 +34,13 @@ const run = async () => {
             { blockType: 'text', name: 'fullName', label: 'Full name', required: true },
             { blockType: 'text', name: 'phone', label: 'Phone number', required: true },
             { blockType: 'select', name: 'investmentAmount', label: 'Investment amount', required: true, options: [
-              { label: 'Under PKR 50,000', value: 'under-50000' }, { label: 'PKR 50K – 500K', value: '50k-500k' }, { label: 'PKR 500K – 2M', value: '500k-2m' }, { label: 'PKR 2M – 5M', value: '2m-5m' }, { label: 'Over PKR 5M', value: 'over-5m' },
+              { label: 'Under PKR 50,000', value: 'under-50000', description: 'Getting started' }, { label: 'PKR 50K – 500K', value: '50k-500k', description: 'Entry level' }, { label: 'PKR 500K – 2M', value: '500k-2m', description: 'Intermediate' }, { label: 'PKR 2M – 5M', value: '2m-5m', description: 'Growth investor' }, { label: 'Over PKR 5M', value: 'over-5m', description: 'High net worth' },
             ] },
             { blockType: 'select', name: 'decisionMaker', label: 'Decision maker', required: true, options: [
-              { label: 'I decide on my own', value: 'self' }, { label: 'Spouse / partner', value: 'spouse-partner' }, { label: 'Family consensus', value: 'family' }, { label: 'Business funds', value: 'business' },
+              { label: 'I decide on my own', value: 'self', description: 'Full autonomy' }, { label: 'Spouse / partner', value: 'spouse-partner', description: 'Joint decision' }, { label: 'Family consensus', value: 'family', description: 'Group decision' }, { label: 'Business funds', value: 'business', description: 'Corporate decision' },
             ] },
             { blockType: 'select', name: 'primaryGoal', label: 'Primary goal', required: true, options: [
-              { label: 'Grow through stocks', value: 'stocks' }, { label: 'Trade commodities', value: 'commodities' }, { label: 'Mixed portfolio', value: 'mixed' }, { label: 'Still exploring', value: 'exploring' },
+              { label: 'Grow through stocks', value: 'stocks', description: 'PSX equities & shares' }, { label: 'Trade commodities', value: 'commodities', description: 'Gold, oil & PMEX futures' }, { label: 'Mixed portfolio', value: 'mixed', description: 'PSX + PMEX diversified' }, { label: 'Still exploring', value: 'exploring', description: 'Need guidance first' },
             ] },
           ],
           submitButtonLabel: 'Submit',
@@ -60,9 +60,9 @@ const run = async () => {
           fields: [
             { blockType: 'text', name: 'fullName', label: 'Full name', required: true },
             { blockType: 'text', name: 'phone', label: 'Phone number', required: true },
-            { blockType: 'select', name: 'investmentAmount', label: 'Investment amount', required: true, options: [{ label: 'Under PKR 50,000', value: 'under-50000' }, { label: 'PKR 50K – 500K', value: '50k-500k' }, { label: 'PKR 500K – 2M', value: '500k-2m' }, { label: 'PKR 2M – 5M', value: '2m-5m' }, { label: 'Over PKR 5M', value: 'over-5m' }] },
-            { blockType: 'select', name: 'decisionMaker', label: 'Decision maker', required: true, options: [{ label: 'I decide on my own', value: 'self' }, { label: 'Spouse / partner', value: 'spouse-partner' }, { label: 'Family consensus', value: 'family' }, { label: 'Business funds', value: 'business' }] },
-            { blockType: 'select', name: 'primaryGoal', label: 'Primary goal', required: true, options: [{ label: 'Grow through stocks', value: 'stocks' }, { label: 'Trade commodities', value: 'commodities' }, { label: 'Mixed portfolio', value: 'mixed' }, { label: 'Still exploring', value: 'exploring' }] },
+            { blockType: 'select', name: 'investmentAmount', label: 'Investment amount', required: true, options: [{ label: 'Under PKR 50,000', value: 'under-50000', description: 'Getting started' }, { label: 'PKR 50K – 500K', value: '50k-500k', description: 'Entry level' }, { label: 'PKR 500K – 2M', value: '500k-2m', description: 'Intermediate' }, { label: 'PKR 2M – 5M', value: '2m-5m', description: 'Growth investor' }, { label: 'Over PKR 5M', value: 'over-5m', description: 'High net worth' }] },
+            { blockType: 'select', name: 'decisionMaker', label: 'Decision maker', required: true, options: [{ label: 'I decide on my own', value: 'self', description: 'Full autonomy' }, { label: 'Spouse / partner', value: 'spouse-partner', description: 'Joint decision' }, { label: 'Family consensus', value: 'family', description: 'Group decision' }, { label: 'Business funds', value: 'business', description: 'Corporate decision' }] },
+            { blockType: 'select', name: 'primaryGoal', label: 'Primary goal', required: true, options: [{ label: 'Grow through stocks', value: 'stocks', description: 'PSX equities & shares' }, { label: 'Trade commodities', value: 'commodities', description: 'Gold, oil & PMEX futures' }, { label: 'Mixed portfolio', value: 'mixed', description: 'PSX + PMEX diversified' }, { label: 'Still exploring', value: 'exploring', description: 'Need guidance first' }] },
           ],
           submitButtonLabel: 'Submit', confirmationType: 'message', confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ text: 'Thank you. We will be in touch shortly.', type: 'text', version: 1 }] }] } }, emails: [],
           step1Heading: "Let's find the right investment path for you", step1Intro: "Just a few quick questions, so we don't waste your time.", step2Heading: 'How much are you looking to invest?', step2Intro: 'This helps us recommend the right instruments for your capital.', step3Heading: 'Who gives the green light?', step3Intro: 'This helps our advisors prepare the right conversation for you.', step4Heading: "What's your primary goal right now?", step4Intro: 'PSX equities, PMEX commodities, or both.',

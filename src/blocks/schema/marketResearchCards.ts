@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-import { linkFields } from './shared'
+import { buttonsField } from './shared'
 export const marketResearchCards: Block = {
   slug: 'marketResearchCards',
   labels: { singular: 'Market Research Cards', plural: 'Market Research Cards' },
@@ -12,12 +12,7 @@ export const marketResearchCards: Block = {
       defaultValue:
         "Notes from our research team on Pakistan's equity market, commodities and the global macro picture.",
     },
-    {
-      name: 'button',
-      type: 'group',
-      fields: linkFields,
-      defaultValue: { label: 'All research', url: '/latest-insight/' },
-    },
+    { ...buttonsField, defaultValue: [{ blockType: 'secondaryButton', label: 'All research', url: '/latest-insight/' }] },
     {
       name: 'cards',
       type: 'array',
