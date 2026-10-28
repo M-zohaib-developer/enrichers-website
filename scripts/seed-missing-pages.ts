@@ -1,0 +1,42 @@
+import 'dotenv/config'
+import { getPayload } from 'payload'
+import config from '../src/payload.config'
+
+const text = (value: string, format = 0) => ({ type: 'text', version: 1, text: value, format, detail: 0, mode: 'normal', style: '' })
+const paragraph = (...children: any[]) => ({ type: 'paragraph', version: 1, children, direction: null, format: '', indent: 0 })
+const heading = (value: string) => ({ type: 'heading', tag: 'h3', version: 1, children: [text(value)], direction: null, format: '', indent: 0 })
+const rich = (children: any[]) => ({ root: { type: 'root', version: 1, children, direction: null, format: '', indent: 0 } })
+
+const pages = [
+  { slug: 'about-us', title: 'About Enrichers', heading: 'Building real wealth with a clear view of the future.', body: 'Enrichers Investment Group brings together regulated brokerage, business advisory and real-asset opportunities for clients who value informed decisions and long-term relationships.', sections: [['Our approach', 'We combine local market knowledge, disciplined research and practical support so every client can move forward with clarity.'], ['A group built around trust', 'Our teams work across financial markets and operating businesses while keeping communication direct, responsible and transparent.']] },
+  { slug: 'enrichers-team', title: 'Leadership', heading: 'People who keep your decisions grounded.', body: 'Meet the professionals behind Enrichers Investment Group. Our leadership combines market experience, operational discipline and a client-first approach.', sections: [['Experience that serves clients', 'Our team supports investors, entrepreneurs and business owners with practical guidance at every stage.'], ['A responsible culture', 'We hold ourselves to clear standards of integrity, confidentiality and regulatory responsibility.']] },
+  { slug: 'regulation', title: 'Regulation & disclosures', heading: 'Clear information for confident decisions.', body: 'Enrichers operates under SECP regulatory oversight. Review our licenses, memberships, disclosures and investor information before you invest or trade.', sections: [['Regulatory framework', 'Enrichers Securities (Pvt.) Ltd. is a TREC holder of the Pakistan Stock Exchange. Enrichers (Pvt.) Ltd. is a corporate member of the Pakistan Mercantile Exchange.'], ['Investor responsibility', 'Trading and investing carry risk. Read the relevant terms, disclosures and product information, and seek independent advice when needed.']] },
+  { slug: 'careers', title: 'Careers', heading: 'Build the next chapter with Enrichers.', body: 'We are looking for thoughtful, capable people who care about clients, markets and the work behind dependable outcomes.', sections: [['Work with purpose', 'Join a growing group where research, service and execution come together to create useful outcomes for clients.'], ['Open conversations', 'Send your profile to our team and tell us where your skills can make a difference.']] },
+  { slug: 'strategicpartner', title: 'Strategic partners', heading: 'Partnerships that create lasting value.', body: 'We work with institutions, founders and operating partners who share our ambition to build responsible, sustainable growth.', sections: [['A practical partnership model', 'Our teams help align capital, expertise and execution around opportunities with a clear path to value creation.'], ['Start a conversation', 'Tell us about your organisation, market and goals so we can explore where our capabilities fit.']] },
+  { slug: 'latest-insight', title: 'Research & insights', heading: 'Research for decisions that matter.', body: 'Explore market notes, explainers and perspectives from Enrichers Investment Group.', sections: [['Market perspective', 'We turn market developments into clear, useful context for investors and business owners.'], ['Keep learning', 'Check back for new research and practical guides across Pakistan’s financial and operating markets.']] },
+  { slug: 'blogs', title: 'Articles', heading: 'Ideas, explainers and market context.', body: 'Read practical articles from Enrichers on investing, business, agriculture and the wider economy.', sections: [['Useful by design', 'Our articles are written to make complex topics easier to understand and apply.']] },
+  { slug: 'school-of-agriculture-research-centre', title: 'Agriculture Research Centre', heading: 'Research for a more productive agricultural future.', body: 'The Agriculture Research Centre explores practical technologies, sustainable practices and market opportunities for Pakistan’s agricultural sector.', sections: [['From field insight to action', 'We connect research, growers and operating partners to improve productivity, resilience and food security.'], ['A long-term view', 'Our work considers land, water, soil health, crops and communities together.']] },
+  { slug: 'tourism-hospitality', title: 'Tourism & Hospitality', heading: 'Investing in places people remember.', body: 'Enrichers explores responsible tourism and hospitality opportunities that combine strong operations with lasting local value.', sections: [['Experience and stewardship', 'We look for projects that respect their setting, serve guests well and create meaningful economic opportunity.']] },
+  { slug: 'skardu-riverside-hotel', title: 'Skardu Riverside Hotel', heading: 'A considered stay in the heart of Skardu.', body: 'Skardu Riverside Hotel is an upcoming hospitality destination designed around comfort, landscape and thoughtful service.', sections: [['Designed for the landscape', 'The project brings together a calm riverside setting, considered spaces and a warm local welcome.']] },
+  { slug: 'financial-glossary', title: 'Financial glossary', heading: 'Clear definitions for financial terms.', body: 'Use this glossary to understand common investing, trading and business terms in plain language.', sections: [['Learn at your pace', 'We are building a practical reference for the terms you will encounter across our products and research.']] },
+  { slug: 'complaints', title: 'Complaints', heading: 'We take concerns seriously.', body: 'If you have a complaint or concern, contact our client support team so we can review it carefully and respond through the appropriate process.', sections: [['How to contact us', 'Include your name, account details, a clear description of the issue and any supporting information.'], ['Need help now?', 'Call (042) 111 111 333 or use WhatsApp client support for assistance.']] },
+  { slug: 'privacy-policy', title: 'Privacy policy', heading: 'Your information deserves careful handling.', body: 'This page explains how Enrichers handles information shared through our website, forms and client-support channels.', sections: [['Information we collect', 'We collect only the information needed to respond to enquiries, provide services, maintain records and meet regulatory obligations.'], ['Questions about privacy', 'Contact our team if you would like to understand how your information is used or retained.']] },
+]
+
+const run = async () => {
+  const payload = await getPayload({ config })
+  for (const page of pages) {
+    const layout: any[] = [
+      { blockType: 'serviceHero', theme: 'light', breadcrumbs: [{ label: 'Home', url: '/' }, { label: page.title, url: '' }], eyebrow: page.title, heading: page.heading, body: page.body, badges: [] },
+      { blockType: 'richTextBlock', sectionId: `${page.slug}-overview`, heading: 'A clear path forward', background: 'gradient', showAccentBar: false, body: rich(page.sections.flatMap(([title, body]) => [heading(title), paragraph(text(body))])) },
+      { blockType: 'readyWhenYouAre', heading: 'Ready to talk?', body: 'Our team is here to help you take the next step.', buttons: [{ blockType: 'primaryButton', label: 'Contact us', url: '/contact-us/' }, { blockType: 'secondaryButton', label: 'Book a consultation', url: '/contact-us/#consultation' }], riskNotice: '' },
+    ]
+    const existing = await payload.find({ collection: 'pages', where: { slug: { equals: page.slug } }, limit: 1 })
+    const data = { title: page.title, slug: page.slug, layout } as never
+    if (existing.docs[0]) await payload.update({ collection: 'pages', id: existing.docs[0].id, data, context: { skipRevalidate: true } })
+    else await payload.create({ collection: 'pages', data, context: { skipRevalidate: true } })
+  }
+  payload.logger.info(`Seeded ${pages.length} missing navigation pages`)
+  process.exit(0)
+}
+run().catch((error) => { console.error(error); process.exit(1) })

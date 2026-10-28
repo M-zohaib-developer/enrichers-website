@@ -75,14 +75,16 @@ export function MarketHero({ data }: { data: BlockData }) {
         <div className="relative z-10 lg:col-span-7">
           {/* Junction mark + eyebrow label, inside one inline-flex row so the
               mark sits on the baseline the way the reference draws it. */}
-          <p className="text-overline mb-5 inline-flex items-center gap-2 font-semibold tracking-overline text-text-muted uppercase">
-            <JunctionMark size={12} className="text-accent" />
-            {data.eyebrow}
-          </p>
+          {data.eyebrow && (
+            <p className="text-overline mb-5 inline-flex items-center gap-2 font-semibold tracking-overline text-text-muted uppercase">
+              <JunctionMark size={12} className="text-accent" />
+              {data.eyebrow}
+            </p>
+          )}
           <h1 className="font-display text-display max-w-[22ch] font-light tracking-[-0.025em] text-text">
             {heading}
           </h1>
-          <p className="text-body-lg mt-6 max-w-[60ch] text-text-secondary">{data.body}</p>
+          {data.body && <p className="text-body-lg mt-6 max-w-[60ch] text-text-secondary">{data.body}</p>}
           {data.showButtons !== false && (
             <div className="mt-9 flex flex-wrap gap-3">
               {(data.buttons?.length ? data.buttons : [data.primary, data.secondary]).map((button: any, index: number) => (
@@ -91,14 +93,16 @@ export function MarketHero({ data }: { data: BlockData }) {
             </div>
           )}
           {/* Trust badges — each row carries a tick in the brand accent. */}
-          <ul className="text-body-sm mt-8 flex flex-wrap gap-x-6 gap-y-2 text-text-secondary">
-            {(data.badges ?? []).map((badge: any, i: number) => (
-              <li key={i} className="inline-flex items-center gap-2">
-                <CheckIcon size={16} className="text-accent" />
-                {badge?.label}
-              </li>
-            ))}
-          </ul>
+          {(data.badges ?? []).length > 0 && (
+            <ul className="text-body-sm mt-8 flex flex-wrap gap-x-6 gap-y-2 text-text-secondary">
+              {(data.badges ?? []).map((badge: any, i: number) => (
+                <li key={i} className="inline-flex items-center gap-2">
+                  <CheckIcon size={16} className="text-accent" />
+                  {badge?.label}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         {/* 4:5 figure, matching the reference exactly. Fixed aspect ratio keeps
             the image taller than our previous `fill`-based panel on desktop. */}

@@ -8,5 +8,14 @@ export const imageTextFeature: Block = {
     { name: 'body', type: 'textarea', required: true },
     { name: 'image', type: 'upload', relationTo: 'media', required: true },
     { name: 'imageAlt', type: 'text', label: 'Image alt text' },
+    {
+      name: 'imagePosition',
+      type: 'select',
+      defaultValue: 'right',
+      options: [
+        { label: 'Image on the right', value: 'right' },
+        { label: 'Image on the left', value: 'left' },
+      ],
+    },
   ],
 }

@@ -958,6 +958,7 @@ export interface Page {
         body: string;
         image: number | Media;
         imageAlt?: string | null;
+        imagePosition?: ('right' | 'left') | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'imageTextFeature';
@@ -975,6 +976,114 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'splitContentList';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        image: number | Media;
+        imageAlt?: string | null;
+        imagePosition?: ('right' | 'left') | null;
+        /**
+         * Use paragraphs, links, bold text, and arrow-style bullet lists.
+         */
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'agricultureFeature';
+      }
+    | {
+        heading: string;
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'richIntro';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        items: {
+          image: number | Media;
+          imageAlt?: string | null;
+          title: string;
+          body: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'focusAreasGrid';
       }
   )[];
   updatedAt: string;
@@ -2126,6 +2235,7 @@ export interface PagesSelect<T extends boolean = true> {
               body?: T;
               image?: T;
               imageAlt?: T;
+              imagePosition?: T;
               id?: T;
               blockName?: T;
             };
@@ -2141,6 +2251,86 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        agricultureFeature?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              image?: T;
+              imageAlt?: T;
+              imagePosition?: T;
+              body?: T;
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        richIntro?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        focusAreasGrid?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              items?:
+                | T
+                | {
+                    image?: T;
+                    imageAlt?: T;
+                    title?: T;
+                    body?: T;
                     id?: T;
                   };
               id?: T;

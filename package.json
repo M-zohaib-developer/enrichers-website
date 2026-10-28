@@ -30,13 +30,16 @@
     "seed:business-brokerage": "tsx scripts/seed-business-brokerage.ts",
     "seed:arid-land-development": "tsx scripts/seed-arid-land-development.ts",
     "seed:agriculture": "tsx scripts/seed-agriculture.ts",
+    "seed:missing-pages": "tsx scripts/seed-missing-pages.ts",
     "setup:globals": "tsx scripts/reset-globals-schema.mjs && tsx scripts/seed-globals.ts",
     "verify:editing": "tsx scripts/verify-editing.ts",
     "verify:migrations": "tsx scripts/verify-migrations.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "seed:research-centre-hero": "tsx scripts/seed-research-centre-hero.ts",
+    "seed:research-centre-consultation": "tsx scripts/seed-research-centre-consultation.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.88.0",

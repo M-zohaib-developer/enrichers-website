@@ -14,6 +14,7 @@ import * as migration_20261028_041607_consultation_form_builder from './20261028
 import * as migration_20261028_042146_consultation_wizard_fields from './20261028_042146_consultation_wizard_fields';
 import * as migration_20261028_042800_button_blocks_editor from './20261028_042800_button_blocks_editor';
 import * as migration_20261028_043122_group_business_explorer_visual from './20261028_043122_group_business_explorer_visual';
+import * as migration_20261028_050000_agriculture_feature from './20261028_050000_agriculture_feature';
 
 export const migrations = [
   {
@@ -94,6 +95,11 @@ export const migrations = [
   {
     up: migration_20261028_043122_group_business_explorer_visual.up,
     down: migration_20261028_043122_group_business_explorer_visual.down,
-    name: '20261028_043122_group_business_explorer_visual'
+    name: '20261028_043122_group_business_explorer_visual',
+  },
+  {
+    up: migration_20261028_050000_agriculture_feature.up,
+    down: migration_20261028_050000_agriculture_feature.down,
+    name: '20261028_050000_agriculture_feature',
   },
 ];

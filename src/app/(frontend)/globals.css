@@ -14,6 +14,9 @@
 .rich-text ul, .rich-text ol { padding-left: 1.5rem; }
 .rich-text ul { list-style: disc; }
 .rich-text ol { list-style: decimal; }
+.agriculture-rich-text ul { list-style: none; padding-left: 0; }
+.agriculture-rich-text li { position: relative; padding-left: 1.5rem; }
+.agriculture-rich-text li::before { content: '→'; position: absolute; left: 0; color: var(--e-cube-600); font-weight: 600; }
 .rich-text li + li { margin-top: .25rem; }
 .rich-text strong { color: #061f49; font-weight: 700; }
 .rich-text a { color: #006fc9; text-decoration: underline; text-underline-offset: 3px; }

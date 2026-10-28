@@ -28,6 +28,9 @@ import { benefitsGrid } from './schema/benefitsGrid'
 import { richTextSection } from './schema/richTextSection'
 import { imageTextFeature } from './schema/imageTextFeature'
 import { splitContentList } from './schema/splitContentList'
+import { agricultureFeature } from './schema/agricultureFeature'
+import { richIntro } from './schema/richIntro'
+import { focusAreasGrid } from './schema/focusAreasGrid'
 
 /** Payload registry for the editable homepage. Each block schema lives beside its own definition. */
 export const HomeBlocks: Block[] = [
@@ -60,4 +63,7 @@ export const HomeBlocks: Block[] = [
   richTextSection,
   imageTextFeature,
   splitContentList,
+  agricultureFeature,
+  richIntro,
+  focusAreasGrid,
 ]

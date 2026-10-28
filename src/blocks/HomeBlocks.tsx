@@ -27,6 +27,9 @@ import { BenefitsGrid } from './BenefitsGrid'
 import { RichTextSection } from './RichTextSection'
 import { ImageTextFeature } from './ImageTextFeature'
 import { SplitContentList } from './SplitContentList'
+import { AgricultureFeature } from './AgricultureFeature'
+import { RichIntro } from './RichIntro'
+import { FocusAreasGrid } from './FocusAreasGrid'
 import type { BlockData } from './shared'
 
 const components = {
@@ -59,6 +62,9 @@ const components = {
   richTextBlock: RichTextSection,
   imageTextFeature: ImageTextFeature,
   splitContentList: SplitContentList,
+  agricultureFeature: AgricultureFeature,
+  richIntro: RichIntro,
+  focusAreasGrid: FocusAreasGrid,
 } as const
 
 export function RenderHomeBlocks({ blocks }: { blocks: BlockData[] }) {
