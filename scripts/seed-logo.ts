@@ -21,7 +21,7 @@ import { getPayload } from 'payload'
 import config from '../src/payload.config'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
-const LOGO_PATH = path.resolve(dirname, '../public/brand/enrichers-logo.webp')
+const LOGO_PATH = path.resolve(dirname, '../public/brand/enrichers-logo-enhanced.webp')
 const ALT = 'Enrichers Investment Group — Converting To Real-Wealth'
 
 const run = async () => {

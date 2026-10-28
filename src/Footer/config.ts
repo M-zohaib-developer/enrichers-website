@@ -60,6 +60,12 @@ export const Footer: GlobalConfig = {
               label: 'WhatsApp link',
               defaultValue: 'https://api.whatsapp.com/send?phone=9242111111333',
             },
+            {
+              name: 'whatsappLabel',
+              type: 'text',
+              label: 'WhatsApp label',
+              defaultValue: 'WhatsApp',
+            },
           ],
         },
         {

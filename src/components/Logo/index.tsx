@@ -14,7 +14,7 @@ import Image from 'next/image'
  * size change per breakpoint.
  */
 
-const FALLBACK_SRC = '/brand/enrichers-logo.webp'
+const FALLBACK_SRC = '/brand/enrichers-logo-enhanced.webp'
 const FALLBACK_W = 1140
 const FALLBACK_H = 396
 

@@ -67,8 +67,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pages: Page;
     users: User;
     media: Media;
+    forms: Form;
+    'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,8 +79,11 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    pages: PagesSelect<false> | PagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    forms: FormsSelect<false> | FormsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -125,6 +131,471 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: string;
+  layout: (
+    | {
+        eyebrow?: string | null;
+        heading: string;
+        headingAccent?: string | null;
+        headingLineOne?: string | null;
+        headingLineTwo?: string | null;
+        headingLineThree?: string | null;
+        body?: string | null;
+        primary?: {
+          label?: string | null;
+          url?: string | null;
+          /**
+           * Choose how the button looks on the page.
+           */
+          variant?: ('primary' | 'secondary') | null;
+        };
+        secondary?: {
+          label?: string | null;
+          url?: string | null;
+          /**
+           * Choose how the button looks on the page.
+           */
+          variant?: ('primary' | 'secondary') | null;
+        };
+        /**
+         * Trading-floor image shown beside the hero content.
+         */
+        heroImage?: (number | null) | Media;
+        badges?:
+          | {
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'marketHero';
+      }
+    | {
+        eyebrow?: string | null;
+        items?:
+          | {
+              title?: string | null;
+              body?: string | null;
+              /**
+               * Small highlighted line under the body, e.g. the regulator. Leave blank to hide.
+               */
+              note?: string | null;
+              url?: string | null;
+              linkLabel?: string | null;
+              /**
+               * Chooses the border and icon. Set per item so reordering or adding a card cannot move the styling to the wrong one.
+               */
+              variant?: ('entity' | 'documents') | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'licensingCredentials';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        cardActionLabel?: string | null;
+        cards?:
+          | {
+              eyebrow?: string | null;
+              title?: string | null;
+              body?: string | null;
+              supportingLabel?: string | null;
+              actionLabel?: string | null;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'investmentPathCards';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        items?:
+          | {
+              title?: string | null;
+              body?: string | null;
+              icon?: ('people' | 'chart' | 'scale' | 'globe' | 'compass' | 'ledger') | null;
+              id?: string | null;
+            }[]
+          | null;
+        primaryButton?: {
+          label?: string | null;
+          url?: string | null;
+          variant?: ('primary' | 'secondary') | null;
+        };
+        secondaryButton?: {
+          label?: string | null;
+          url?: string | null;
+          variant?: ('primary' | 'secondary') | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'clientServices';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        steps?:
+          | {
+              title?: string | null;
+              body?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        note?: string | null;
+        button?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        secondaryButton?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'accountOpeningSteps';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        phone?: string | null;
+        phoneHref?: string | null;
+        whatsappUrl?: string | null;
+        whatsappLabel?: string | null;
+        hours?: string | null;
+        formStepLabel?: string | null;
+        formHeading?: string | null;
+        formIntro?: string | null;
+        /**
+         * Select the form document managed in the Forms collection.
+         */
+        form: number | Form;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'consultationQualifier';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        button?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        cards?:
+          | {
+              category?: string | null;
+              date?: string | null;
+              title?: string | null;
+              url?: string | null;
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'marketResearchCards';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        itemButtonLabel?: string | null;
+        itemSecondaryButton?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        items?:
+          | {
+              label?: string | null;
+              eyebrow?: string | null;
+              title?: string | null;
+              quote?: string | null;
+              body?: string | null;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'groupBusinessExplorer';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        image?: (number | null) | Media;
+        /**
+         * Overlaid on the bottom of the image. Leave blank to hide the caption.
+         */
+        imageCaption?: string | null;
+        facts?:
+          | {
+              value?: string | null;
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        button?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'skarduHotelFeature';
+      }
+    | {
+        eyebrow?: string | null;
+        heading?: string | null;
+        categories?:
+          | {
+              label?: string | null;
+              items?:
+                | {
+                    question?: string | null;
+                    answer?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'accountFaq';
+      }
+    | {
+        heading?: string | null;
+        body?: string | null;
+        openAccount?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        contact?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        riskNotice?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'readyWhenYouAre';
+      }
+  )[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms".
+ */
+export interface Form {
+  id: number;
+  title: string;
+  fields?:
+    | (
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'checkbox';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'country';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'email';
+          }
+        | {
+            message?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'message';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'number';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            placeholder?: string | null;
+            options?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'state';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textarea';
+          }
+      )[]
+    | null;
+  submitButtonLabel?: string | null;
+  confirmationType?: ('message' | 'redirect') | null;
+  confirmationMessage?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  redirect?: {
+    url: string;
+  };
+  emails?:
+    | {
+        emailTo?: string | null;
+        cc?: string | null;
+        bcc?: string | null;
+        replyTo?: string | null;
+        emailFrom?: string | null;
+        subject: string;
+        message?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  submitButtonColor?: ('primary' | 'dark' | 'outline' | 'ghost') | null;
+  /**
+   * Optional icon name, for example arrow-right.
+   */
+  submitButtonIcon?: string | null;
+  step1Heading?: string | null;
+  step1Intro?: string | null;
+  step2Heading?: string | null;
+  step2Intro?: string | null;
+  step3Heading?: string | null;
+  step3Intro?: string | null;
+  step4Heading?: string | null;
+  step4Intro?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -150,22 +621,20 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "form-submissions".
  */
-export interface Media {
+export interface FormSubmission {
   id: number;
-  alt: string;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -192,12 +661,24 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'forms';
+        value: number | Form;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -243,6 +724,287 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        marketHero?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              headingAccent?: T;
+              headingLineOne?: T;
+              headingLineTwo?: T;
+              headingLineThree?: T;
+              body?: T;
+              primary?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              secondary?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              heroImage?: T;
+              badges?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        licensingCredentials?:
+          | T
+          | {
+              eyebrow?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    note?: T;
+                    url?: T;
+                    linkLabel?: T;
+                    variant?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        investmentPathCards?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              cardActionLabel?: T;
+              cards?:
+                | T
+                | {
+                    eyebrow?: T;
+                    title?: T;
+                    body?: T;
+                    supportingLabel?: T;
+                    actionLabel?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        clientServices?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    icon?: T;
+                    id?: T;
+                  };
+              primaryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              secondaryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        accountOpeningSteps?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              steps?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              note?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              secondaryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        consultationQualifier?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              phone?: T;
+              phoneHref?: T;
+              whatsappUrl?: T;
+              whatsappLabel?: T;
+              hours?: T;
+              formStepLabel?: T;
+              formHeading?: T;
+              formIntro?: T;
+              form?: T;
+              id?: T;
+              blockName?: T;
+            };
+        marketResearchCards?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              cards?:
+                | T
+                | {
+                    category?: T;
+                    date?: T;
+                    title?: T;
+                    url?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        groupBusinessExplorer?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              itemButtonLabel?: T;
+              itemSecondaryButton?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              items?:
+                | T
+                | {
+                    label?: T;
+                    eyebrow?: T;
+                    title?: T;
+                    quote?: T;
+                    body?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        skarduHotelFeature?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              image?: T;
+              imageCaption?: T;
+              facts?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              button?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        accountFaq?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              categories?:
+                | T
+                | {
+                    label?: T;
+                    items?:
+                      | T
+                      | {
+                          question?: T;
+                          answer?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        readyWhenYouAre?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              openAccount?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              contact?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              riskNotice?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -280,6 +1042,165 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms_select".
+ */
+export interface FormsSelect<T extends boolean = true> {
+  title?: T;
+  fields?:
+    | T
+    | {
+        checkbox?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              defaultValue?: T;
+              id?: T;
+              blockName?: T;
+            };
+        country?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        email?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        message?:
+          | T
+          | {
+              message?: T;
+              id?: T;
+              blockName?: T;
+            };
+        number?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        select?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              placeholder?: T;
+              options?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        state?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        text?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textarea?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  submitButtonLabel?: T;
+  confirmationType?: T;
+  confirmationMessage?: T;
+  redirect?:
+    | T
+    | {
+        url?: T;
+      };
+  emails?:
+    | T
+    | {
+        emailTo?: T;
+        cc?: T;
+        bcc?: T;
+        replyTo?: T;
+        emailFrom?: T;
+        subject?: T;
+        message?: T;
+        id?: T;
+      };
+  submitButtonColor?: T;
+  submitButtonIcon?: T;
+  step1Heading?: T;
+  step1Intro?: T;
+  step2Heading?: T;
+  step2Intro?: T;
+  step3Heading?: T;
+  step3Intro?: T;
+  step4Heading?: T;
+  step4Intro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -393,6 +1314,14 @@ export interface Header {
     whatsappUrl?: string | null;
     whatsappLabel?: string | null;
   };
+  /**
+   * Regulatory line shown above the bar. Scrolls away with the page.
+   */
+  riskNotice?: {
+    enabled?: boolean | null;
+    lead?: string | null;
+    body?: string | null;
+  };
   tradeInvest?: {
     label?: string | null;
     promoCard?: {
@@ -427,6 +1356,7 @@ export interface Footer {
   phoneHref?: string | null;
   email?: string | null;
   whatsappUrl?: string | null;
+  whatsappLabel?: string | null;
   tradeInvest: {
     label: string;
     links?:
@@ -600,6 +1530,13 @@ export interface HeaderSelect<T extends boolean = true> {
         whatsappUrl?: T;
         whatsappLabel?: T;
       };
+  riskNotice?:
+    | T
+    | {
+        enabled?: T;
+        lead?: T;
+        body?: T;
+      };
   tradeInvest?:
     | T
     | {
@@ -644,6 +1581,7 @@ export interface FooterSelect<T extends boolean = true> {
   phoneHref?: T;
   email?: T;
   whatsappUrl?: T;
+  whatsappLabel?: T;
   tradeInvest?:
     | T
     | {

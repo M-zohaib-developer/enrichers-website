@@ -107,6 +107,7 @@ export async function Footer() {
     phoneHref?: string | null
     email?: string | null
     whatsappUrl?: string | null
+    whatsappLabel?: string | null
     regulationTitle?: string | null
     regulationLinks?: ({ link: LinkField } | null)[] | null
     legalParagraphs?: ({ lead?: string | null; body?: string | null } | null)[] | null
@@ -119,6 +120,7 @@ export async function Footer() {
   const phoneHref = d.phoneHref ?? FALLBACK_CONTACT.phoneHref
   const email = d.email ?? FALLBACK_CONTACT.email
   const whatsappUrl = d.whatsappUrl ?? FALLBACK_CONTACT.whatsappUrl
+  const whatsappLabel = d.whatsappLabel ?? 'WhatsApp'
   const regulationTitle = d.regulationTitle ?? FALLBACK_REGULATION_TITLE
 
   const cmsRegulation = (d.regulationLinks ?? []).filter((l): l is { link: LinkField } =>
@@ -171,7 +173,7 @@ export async function Footer() {
               )}
               {whatsappUrl && (
                 <ContactRow href={whatsappUrl} icon={<WhatsAppIcon />} external>
-                  WhatsApp
+                  {whatsappLabel}
                 </ContactRow>
               )}
             </ul>

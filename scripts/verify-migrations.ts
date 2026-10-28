@@ -38,6 +38,11 @@ const REQUIRED_TABLES = [
   'footer_regulation_links',
   'footer_legal_paragraphs',
   'footer_bottom_links',
+  'pages',
+  'pages_blocks_market_hero',
+  'pages_blocks_licensing_credentials',
+  'pages_blocks_account_faq',
+  'pages_blocks_ready_when_you_are',
   'payload_migrations',
 ]
 

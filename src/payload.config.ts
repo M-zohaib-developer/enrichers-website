@@ -2,6 +2,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -9,6 +10,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Header } from './Header/config'
 import { Footer } from './Footer/config'
+import { Pages } from './collections/Pages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,7 +22,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Pages, Users, Media],
   globals: [Header, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -68,5 +70,36 @@ export default buildConfig({
     ],
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    formBuilderPlugin({
+      formOverrides: {
+        fields: ({ defaultFields }) => ([
+          ...defaultFields,
+          {
+            name: 'submitButtonColor',
+            type: 'select',
+            label: 'Submit Button Color',
+            defaultValue: 'primary',
+            options: [
+              { label: 'Primary', value: 'primary' },
+              { label: 'Dark / Navy', value: 'dark' },
+              { label: 'Outline', value: 'outline' },
+              { label: 'Ghost', value: 'ghost' },
+            ],
+            admin: { position: 'sidebar' },
+          },
+          {
+            name: 'submitButtonIcon',
+            type: 'text',
+            label: 'Submit Button Icon',
+            admin: { position: 'sidebar', description: 'Optional icon name, for example arrow-right.' },
+          },
+          ...(['step1', 'step2', 'step3', 'step4'] as const).flatMap((step) => [
+            { name: `${step}Heading`, type: 'text', label: `${step} heading`, admin: { position: 'sidebar' } },
+            { name: `${step}Intro`, type: 'text', label: `${step} intro`, admin: { position: 'sidebar' } },
+          ]),
+        ] as any),
+      },
+    }),
+  ],
 })

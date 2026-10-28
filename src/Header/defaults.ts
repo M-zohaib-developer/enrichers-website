@@ -147,3 +147,9 @@ export const FALLBACK_CONTACT = {
   whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
   whatsappLabel: 'WhatsApp our client support',
 }
+
+export const FALLBACK_RISK_NOTICE = {
+  enabled: true,
+  lead: 'Risk notice:',
+  body: 'Trading in futures and financial markets carries inherent risk. No guaranteed returns. Enrichers operates under SECP regulatory oversight; content is for information and education, not personalised advice.',
+}

@@ -160,13 +160,19 @@
 }
 
 .theme-surface {
-  background: var(--e-neutral-25);
+  background: var(--e-neutral-0);
   color: var(--e-neutral-900);
   --ds-surface: var(--e-neutral-0);
   --ds-surface-sunken: var(--e-neutral-50);
   --ds-text: var(--e-neutral-900);
   --ds-text-secondary: var(--e-neutral-700);
   --ds-text-muted: var(--e-neutral-500);
+}
+
+/* hero-pattern class is no longer used — lattice is an inline SVG in MarketHero. */
+.hero-pattern > * {
+  position: relative;
+  z-index: 1;
 }
 
 .theme-sunken {
@@ -257,14 +263,22 @@
  * -------------------------------------------------------------------------- */
 :root {
   --wide-max: 1440px;
+  /* Page-body column. The header and footer run on --wide-max; the content
+     between them is the narrower 1280px column, which is why page content
+     starts at x=80 on a 1440 viewport while the header starts at x=48. */
+  --content-max: 1280px;
+  --measure: 680px;
   --narrow-max: 768px;
   --gutter: 16px;
 
   /* 72px at every width — the reference bar does not change height. */
   --header-h: 72px;
 
-  /* Section rhythm. Kept out of @theme so a band can override at runtime. */
-  --section-y: 96px;
+  /* Section rhythm. Kept out of @theme so a band can override at runtime.
+     Steps up with the viewport exactly as the reference does (same 768 / 1024
+     breakpoints as --gutter): 64px, then 96px, then 128px. A flat value here
+     made every band ~25% shorter than the reference on desktop. */
+  --section-y: 64px;
   --section-y-first: 64px;
 
   /* Motion. Tailwind v4 has no duration namespace, so these are used as
@@ -291,11 +305,13 @@
 @media (width >= 768px) {
   :root {
     --gutter: 32px;
+    --section-y: 96px;
   }
 }
 @media (width >= 1024px) {
   :root {
     --gutter: 48px;
+    --section-y: 128px;
   }
 }
 
@@ -437,6 +453,16 @@
   --leading-body: 1.6;
   --leading-relaxed: 1.625;
 
+  /* ---- Max-width ---------------------------------------------------------
+   * Tailwind builds `max-w-*` from the --container-* namespace, so a plain
+   * :root var is not enough — `max-w-measure` compiled to nothing and eight
+   * paragraphs silently ran the full container width instead of a readable
+   * line. Mirrors --measure / --content-max, which stay in :root because the
+   * container utilities read them directly.
+   * --------------------------------------------------------------------- */
+  --container-measure: 680px;
+  --container-content: 1280px;
+
   /* ---- Radius ------------------------------------------------------------ */
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -463,6 +489,13 @@
 @utility container-wide {
   width: 100%;
   max-width: calc(var(--wide-max) + 2 * var(--gutter));
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
   padding-inline: var(--gutter);
   margin-inline: auto;
 }

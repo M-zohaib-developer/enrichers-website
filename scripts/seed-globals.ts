@@ -24,6 +24,7 @@ import {
   FALLBACK_CONTACT as HEADER_CONTACT,
   FALLBACK_CTA,
   FALLBACK_NAV,
+  FALLBACK_RISK_NOTICE,
 } from '../src/Header/defaults'
 import {
   FALLBACK_BOTTOM,
@@ -47,6 +48,7 @@ const run = async () => {
       consultationLink: { link: FALLBACK_CONSULTATION },
       ctaButton: { link: FALLBACK_CTA },
       contact: HEADER_CONTACT,
+      riskNotice: FALLBACK_RISK_NOTICE,
     } as never,
     context: { skipRevalidate: true },
   })

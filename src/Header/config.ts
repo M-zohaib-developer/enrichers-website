@@ -218,6 +218,22 @@ export const Header: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'riskNotice',
+      type: 'group',
+      label: 'Risk notice strip (above the header)',
+      admin: { description: 'Regulatory line shown above the bar. Scrolls away with the page.' },
+      fields: [
+        { name: 'enabled', type: 'checkbox', defaultValue: true },
+        { name: 'lead', type: 'text', defaultValue: 'Risk notice:' },
+        {
+          name: 'body',
+          type: 'textarea',
+          defaultValue:
+            'Trading in futures and financial markets carries inherent risk. No guaranteed returns. Enrichers operates under SECP regulatory oversight; content is for information and education, not personalised advice.',
+        },
+      ],
+    },
 
     /* ---------------------------------------------------------------------
      * DEPRECATED — not rendered anywhere, hidden from editors.

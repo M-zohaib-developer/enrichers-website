@@ -20,6 +20,7 @@
     "migrate:fresh": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:fresh",
     "seed:globals": "tsx scripts/seed-globals.ts",
     "seed:logo": "tsx scripts/seed-logo.ts",
+    "seed:home": "tsx scripts/seed-home.ts",
     "setup:globals": "tsx scripts/reset-globals-schema.mjs && tsx scripts/seed-globals.ts",
     "verify:editing": "tsx scripts/verify-editing.ts",
     "verify:migrations": "tsx scripts/verify-migrations.ts",
@@ -29,10 +30,13 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15",
+    "@payloadcms/db-postgres": "3.88.0",
     "@payloadcms/next": "3.88.0",
+    "@payloadcms/plugin-form-builder": "^3.88.0",
     "@payloadcms/richtext-lexical": "3.88.0",
     "@payloadcms/ui": "3.88.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@tailwindcss/postcss": "^4.1.18",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "graphql": "^16.8.1",
@@ -40,10 +44,9 @@
     "payload": "3.88.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
+    "react-hook-form": "^7.71.1",
     "sharp": "0.34.2",
-    "@payloadcms/db-postgres": "3.88.0",
-    "tailwindcss": "^4.1.18",
-    "@tailwindcss/postcss": "^4.1.18"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
