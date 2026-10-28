@@ -51,15 +51,12 @@ export const HOME_BLOCKS = [
     eyebrow: 'Three ways to start',
     heading: 'What would you like to do?',
     body: "Choose the market you want to trade — or tell us your goals and we'll recommend a path.",
-    cardActionLabel: 'Explore →',
     cards: [
       {
         eyebrow: '01 PSX · STOCKS',
         title: 'Invest in Pakistani equities',
         body: 'Equity trading, IPO subscriptions and portfolio management through Enrichers Securities, a TREC holder of the Pakistan Stock Exchange.',
         supportingLabel: 'Enrichers Securities (Pvt.) Ltd.',
-        actionLabel: 'Stock broking',
-        url: '/stock-broking/',
         buttons: [{ blockType: 'primaryButton', label: 'Stock broking', url: '/stock-broking/' }],
       },
       {
@@ -67,8 +64,6 @@ export const HOME_BLOCKS = [
         title: 'Trade commodities & futures',
         body: 'Deliverable and cash-settled futures in metal, energy, agriculture and financials, plus currencies and US index futures.',
         supportingLabel: 'Enrichers (Pvt.) Ltd.',
-        actionLabel: 'Commodity brokerage',
-        url: '/commodity-brokerage/',
         buttons: [{ blockType: 'secondaryButton', label: 'Commodity brokerage', url: '/commodity-brokerage/' }],
       },
       {
@@ -76,8 +71,6 @@ export const HOME_BLOCKS = [
         title: 'Get a recommendation',
         body: 'Answer three quick questions — your budget, who decides, and your goal — and an advisor will call you.',
         supportingLabel: 'Free consultation',
-        actionLabel: 'Book a consultation',
-        url: '/contact-us/#consultation',
         buttons: [{ blockType: 'secondaryButton', label: 'Book a consultation', url: '/contact-us/#consultation' }],
       },
     ],

@@ -25,6 +25,33 @@ export const productRange: Block = {
           ],
         },
         { name: 'quote', type: 'text', label: 'Dark panel quote' },
+        {
+          name: 'table',
+          type: 'group',
+          label: 'Specification table (replaces dark quote)',
+          fields: [
+            { name: 'caption', type: 'text', label: 'Table caption' },
+            {
+              name: 'columns',
+              type: 'array',
+              label: 'Column headings',
+              fields: [{ name: 'label', type: 'text', required: true }],
+            },
+            {
+              name: 'rows',
+              type: 'array',
+              label: 'Table rows',
+              fields: [
+                {
+                  name: 'cells',
+                  type: 'array',
+                  label: 'Cell values (in column order)',
+                  fields: [{ name: 'value', type: 'text', required: true }],
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     { name: 'disclosureText', type: 'textarea', label: 'Disclosure text' },

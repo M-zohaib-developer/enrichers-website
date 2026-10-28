@@ -139,6 +139,7 @@ export interface Page {
   slug: string;
   layout: (
     | {
+        theme?: ('dark' | 'light') | null;
         /**
          * Items shown above the heading. First item is usually Home.
          */
@@ -150,22 +151,30 @@ export interface Page {
             }[]
           | null;
         /**
+         * Use below heading for split product/platform heroes.
+         */
+        breadcrumbPosition?: ('top' | 'bottom') | null;
+        /**
          * Small text above the heading with a junction-mark icon.
          */
         eyebrow?: string | null;
         heading: string;
         body?: string | null;
-        primary: {
-          label: string;
-          url: string;
+        /**
+         * Adds a responsive image beside the light hero content.
+         */
+        heroImage?: (number | null) | Media;
+        primary?: {
+          label?: string | null;
+          url?: string | null;
           /**
            * Primary renders white on dark; secondary renders outline.
            */
           variant?: ('primary' | 'secondary') | null;
         };
-        secondary: {
-          label: string;
-          url: string;
+        secondary?: {
+          label?: string | null;
+          url?: string | null;
           /**
            * Primary renders white on dark; secondary renders outline.
            */
@@ -218,6 +227,26 @@ export interface Page {
               }[]
             | null;
           quote?: string | null;
+          table?: {
+            caption?: string | null;
+            columns?:
+              | {
+                  label: string;
+                  id?: string | null;
+                }[]
+              | null;
+            rows?:
+              | {
+                  cells?:
+                    | {
+                        value: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+          };
           id?: string | null;
         }[];
         disclosureText?: string | null;
@@ -232,9 +261,44 @@ export interface Page {
         eyebrow?: string | null;
         heading: string;
         body?: string | null;
+        /**
+         * Starts at 0. Use 3 to start on the fourth tab.
+         */
+        defaultTab?: number | null;
         tabs: {
           label: string;
           body: string;
+          featureCards?:
+            | {
+                title: string;
+                body: string;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * Used when no specification table is provided for this tab.
+           */
+          quote?: string | null;
+          table?: {
+            caption?: string | null;
+            columns?:
+              | {
+                  label: string;
+                  id?: string | null;
+                }[]
+              | null;
+            rows?:
+              | {
+                  cells?:
+                    | {
+                        value: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+          };
           id?: string | null;
         }[];
         disclosureText?: string | null;
@@ -374,8 +438,8 @@ export interface Page {
     | {
         eyebrow?: string | null;
         heading?: string | null;
-        body?: string | null;
         cardActionLabel?: string | null;
+        body?: string | null;
         cards?:
           | {
               eyebrow?: string | null;
@@ -385,7 +449,7 @@ export interface Page {
               actionLabel?: string | null;
               url?: string | null;
               /**
-               * Click + to add a Primary button or Secondary button.
+               * Click + to add a button, then choose Primary (filled) or Secondary (outline).
                */
               buttons?:
                 | (
@@ -677,6 +741,49 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'readyWhenYouAre';
+      }
+    | {
+        sectionId?: string | null;
+        heading: string;
+        channels: {
+          icon: 'phone' | 'message' | 'mail' | 'mapPin' | 'building';
+          label: string;
+          description: string;
+          meta: string;
+          url: string;
+          id?: string | null;
+        }[];
+        offices: {
+          name: string;
+          address: string;
+          phone?: string | null;
+          hours?: string | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contactDetails';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        platforms: {
+          platform: string;
+          title: string;
+          description: string;
+          image: number | Media;
+          button: {
+            label: string;
+            url: string;
+            variant?: ('primary' | 'secondary') | null;
+          };
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'platformDownloads';
       }
   )[];
   updatedAt: string;
@@ -1020,6 +1127,7 @@ export interface PagesSelect<T extends boolean = true> {
         serviceHero?:
           | T
           | {
+              theme?: T;
               breadcrumbs?:
                 | T
                 | {
@@ -1027,9 +1135,11 @@ export interface PagesSelect<T extends boolean = true> {
                     url?: T;
                     id?: T;
                   };
+              breadcrumbPosition?: T;
               eyebrow?: T;
               heading?: T;
               body?: T;
+              heroImage?: T;
               primary?:
                 | T
                 | {
@@ -1093,6 +1203,28 @@ export interface PagesSelect<T extends boolean = true> {
                           id?: T;
                         };
                     quote?: T;
+                    table?:
+                      | T
+                      | {
+                          caption?: T;
+                          columns?:
+                            | T
+                            | {
+                                label?: T;
+                                id?: T;
+                              };
+                          rows?:
+                            | T
+                            | {
+                                cells?:
+                                  | T
+                                  | {
+                                      value?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                              };
+                        };
                     id?: T;
                   };
               disclosureText?: T;
@@ -1108,11 +1240,42 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               body?: T;
+              defaultTab?: T;
               tabs?:
                 | T
                 | {
                     label?: T;
                     body?: T;
+                    featureCards?:
+                      | T
+                      | {
+                          title?: T;
+                          body?: T;
+                          id?: T;
+                        };
+                    quote?: T;
+                    table?:
+                      | T
+                      | {
+                          caption?: T;
+                          columns?:
+                            | T
+                            | {
+                                label?: T;
+                                id?: T;
+                              };
+                          rows?:
+                            | T
+                            | {
+                                cells?:
+                                  | T
+                                  | {
+                                      value?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                              };
+                        };
                     id?: T;
                   };
               disclosureText?: T;
@@ -1261,8 +1424,8 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               eyebrow?: T;
               heading?: T;
-              body?: T;
               cardActionLabel?: T;
+              body?: T;
               cards?:
                 | T
                 | {
@@ -1553,6 +1716,59 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                   };
               riskNotice?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactDetails?:
+          | T
+          | {
+              sectionId?: T;
+              heading?: T;
+              channels?:
+                | T
+                | {
+                    icon?: T;
+                    label?: T;
+                    description?: T;
+                    meta?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              offices?:
+                | T
+                | {
+                    name?: T;
+                    address?: T;
+                    phone?: T;
+                    hours?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        platformDownloads?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              platforms?:
+                | T
+                | {
+                    platform?: T;
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    button?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          variant?: T;
+                        };
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

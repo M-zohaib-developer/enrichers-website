@@ -1,12 +1,12 @@
 import { Buttons, Eyebrow, type BlockData } from './shared'
 export function InvestmentPathCards({ data }: { data: BlockData }) {
   return (
-    <section aria-labelledby="pathCards-h" className="relative py-(--section-y)">
+    <section aria-labelledby="pathCards-h" className="relative theme-surface py-(--section-y)">
       <div className="container-x">
         <div className="max-w-[760px]">
-          <Eyebrow>{data.eyebrow}</Eyebrow>
+          {data.eyebrow && <Eyebrow>{data.eyebrow}</Eyebrow>}
           <h2 id="pathCards-h" className="font-display text-h2 mt-3 font-normal tracking-[-0.015em] text-text">{data.heading}</h2>
-          <p className="text-body-lg mt-5 max-w-measure text-text-secondary">{data.body}</p>
+          {data.body && <p className="text-body-lg mt-5 max-w-measure text-text-secondary">{data.body}</p>}
         </div>
         <ol className="mt-12 grid gap-4 lg:grid-cols-3">
           {(data.cards ?? []).map((card: any, i: number) => (
@@ -20,7 +20,7 @@ export function InvestmentPathCards({ data }: { data: BlockData }) {
               </p>
               <h3 className="font-display text-h3 mt-6 font-semibold text-text">{card.title}</h3>
               <p className="mt-3 flex-1 text-text-secondary">{card.body}</p>
-              <p className="text-caption mt-4 font-semibold text-text-muted">{card.supportingLabel}</p>
+              {card.supportingLabel && <p className="text-caption mt-4 font-semibold text-text-muted">{card.supportingLabel}</p>}
               <Buttons buttons={card.buttons} fallback={[{ label: card.actionLabel || data.cardActionLabel, url: card.url }]} showArrow={false} />
             </li>
           ))}

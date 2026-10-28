@@ -70,7 +70,45 @@ export function ProductRange({ data }: { data: BlockData }) {
                     ))}
                   </dl>
 
-                  {tab.quote && (
+                  {tab.table?.rows?.length ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full min-w-[420px] text-left text-body-sm tabular">
+                        {tab.table.caption && (
+                          <caption className="mb-3 text-left font-semibold text-text">
+                            {tab.table.caption}
+                          </caption>
+                        )}
+                        {tab.table.columns?.length ? (
+                          <thead>
+                            <tr className="border-b-2 border-text text-caption uppercase tracking-[0.08em] text-text-muted">
+                              {tab.table.columns.map((column: any, index: number) => (
+                                <th key={index} scope="col" className="py-2 pr-4">
+                                  {column.label}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                        ) : null}
+                        <tbody>
+                          {tab.table.rows.map((row: any, rowIndex: number) => (
+                            <tr key={rowIndex} className="border-b border-border">
+                              {(row.cells || []).map((cell: any, cellIndex: number) =>
+                                cellIndex === 0 ? (
+                                  <th key={cellIndex} scope="row" className="py-3 pr-4 font-semibold text-text">
+                                    {cell.value}
+                                  </th>
+                                ) : (
+                                  <td key={cellIndex} className="py-3 pr-4 text-text">
+                                    {cell.value}
+                                  </td>
+                                ),
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : tab.quote ? (
                     <div className="theme-inverse relative grid min-h-[220px] place-items-center overflow-hidden rounded-sm p-8">
                       <svg
                         className="pointer-events-none absolute inset-0 h-full w-full"
@@ -94,7 +132,7 @@ export function ProductRange({ data }: { data: BlockData }) {
                         &ldquo;{tab.quote}&rdquo;
                       </p>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             )

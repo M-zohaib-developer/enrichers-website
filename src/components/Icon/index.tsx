@@ -140,6 +140,14 @@ export function ArrowRightIcon({ size = 16, className }: IconProps) {
   )
 }
 
+export function ExternalLinkIcon({ size = 16, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <path d="M14 4H20V10M20 4L11 13M18 14V20H4V6H10" />
+    </Svg>
+  )
+}
+
 export function PlusIcon({ size = 20, className }: IconProps) {
   return (
     <Svg size={size} className={className}>

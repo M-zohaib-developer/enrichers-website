@@ -18,6 +18,8 @@ import { guideAccordion } from './schema/guideAccordion'
 import { faqAccordion } from './schema/faqAccordion'
 import { readyWhenYouAre } from './schema/readyWhenYouAre'
 import { skarduHotelFeature } from './schema/skarduHotelFeature'
+import { contactDetails } from './schema/contactDetails'
+import { platformDownloads } from './schema/platformDownloads'
 
 /** Payload registry for the editable homepage. Each block schema lives beside its own definition. */
 export const HomeBlocks: Block[] = [
@@ -40,4 +42,6 @@ export const HomeBlocks: Block[] = [
   skarduHotelFeature,
   accountFaq,
   readyWhenYouAre,
+  contactDetails,
+  platformDownloads,
 ]

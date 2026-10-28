@@ -1,8 +1,7 @@
 import type { Block } from 'payload'
-import { linkFields } from './shared'
-
 const buttonFields = [
-  ...linkFields,
+  { name: 'label', type: 'text' as const },
+  { name: 'url', type: 'text' as const },
   {
     name: 'variant',
     type: 'select' as const,
@@ -20,6 +19,15 @@ export const serviceHero: Block = {
   labels: { singular: 'Service Hero', plural: 'Service Heroes' },
   fields: [
     {
+      name: 'theme',
+      type: 'select',
+      defaultValue: 'dark',
+      options: [
+        { label: 'Dark (inverse navy — service pages)', value: 'dark' },
+        { label: 'Light (white — open account, regulation etc.)', value: 'light' },
+      ],
+    },
+    {
       name: 'breadcrumbs',
       type: 'array',
       label: 'Breadcrumb trail',
@@ -31,6 +39,16 @@ export const serviceHero: Block = {
         { name: 'label', type: 'text', required: true },
         { name: 'url', type: 'text' },
       ],
+    },
+    {
+      name: 'breadcrumbPosition',
+      type: 'select',
+      defaultValue: 'top',
+      options: [
+        { label: 'Above heading', value: 'top' },
+        { label: 'Below heading', value: 'bottom' },
+      ],
+      admin: { description: 'Use below heading for split product/platform heroes.' },
     },
     {
       name: 'eyebrow',
@@ -48,18 +66,23 @@ export const serviceHero: Block = {
       label: 'Body text',
     },
     {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Right-side hero image (optional)',
+      admin: { description: 'Adds a responsive image beside the light hero content.' },
+    },
+    {
       name: 'primary',
       type: 'group',
       label: 'Primary button',
       fields: buttonFields,
-      defaultValue: { variant: 'primary' },
     },
     {
       name: 'secondary',
       type: 'group',
       label: 'Secondary button',
       fields: buttonFields,
-      defaultValue: { variant: 'secondary' },
     },
     {
       name: 'badges',

@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 import type React from 'react'
-import { ArrowRightIcon } from '@/components/Icon'
+import { ArrowRightIcon, ExternalLinkIcon } from '@/components/Icon'
 export type MediaValue = number | { url?: string | null; alt?: string | null } | null | undefined
 export type LinkValue = { label?: string | null; url?: string | null } | null | undefined
 export type BlockData = { blockType: string; [key: string]: any }
@@ -44,6 +44,8 @@ export function Button({
 }) {
   if (!linkOk(link)) return null
 
+  const external = /^https?:\/\//i.test(link.url)
+
   const cls = inverse
     ? secondary
       ? `${BTN_BASE} border border-chrome-rule text-chrome-strong hover:bg-chrome-ghost`
@@ -52,12 +54,8 @@ export function Button({
       ? `${BTN_BASE} border border-border-strong text-action hover:bg-surface-sunken`
       : `${BTN_BASE} bg-action text-on-action hover:bg-action-hover`
 
-  return (
-    <NextLink href={link.url} className={cls}>
-      {link.label}
-      {!secondary && showArrow && <ArrowRightIcon size={18} className="transition-transform duration-(--duration-fast) group-hover:translate-x-[3px]" />}
-    </NextLink>
-  )
+  const content = <>{link.label}{external ? <ExternalLinkIcon size={18} /> : !secondary && showArrow ? <ArrowRightIcon size={18} className="transition-transform duration-(--duration-fast) group-hover:translate-x-[3px]" /> : null}</>
+  return external ? <a href={link.url} target="_blank" rel="noopener noreferrer" className={cls}>{content}<span className="sr-only"> (opens in a new tab)</span></a> : <NextLink href={link.url} className={cls}>{content}</NextLink>
 }
 
 export function Buttons({ buttons, fallback = [], inverse = false, showArrow = true }: { buttons?: any[] | null; fallback?: Array<{ label?: string; url?: string; secondary?: boolean }>; inverse?: boolean; showArrow?: boolean }) {

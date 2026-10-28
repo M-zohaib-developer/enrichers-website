@@ -88,7 +88,7 @@ function ConsultationForm({ form, data }: { form: PayloadForm; data: Consultatio
           }
           return <label key={fieldName} className="block text-body-sm font-semibold text-text" htmlFor={`consultation-${fieldName}`}>
             {field.label || fieldName}{field.required ? ' *' : ''}
-            <input id={`consultation-${fieldName}`} className="mt-1.5 h-12 w-full rounded-sm border border-border-strong bg-surface px-3.5 text-body text-text" type={field.blockType === 'email' ? 'email' : 'text'} autoComplete={field.blockType === 'email' ? 'email' : fieldName.toLowerCase().includes('phone') ? 'tel' : 'name'} {...register(fieldName, { required: Boolean(field.required) })} />
+            <input id={`consultation-${fieldName}`} className="mt-1.5 h-12 w-full rounded-sm border border-border-strong bg-surface px-3.5 text-body text-text" type={field.blockType === 'email' ? 'email' : 'text'} inputMode={fieldName.toLowerCase().includes('phone') ? 'tel' : undefined} autoComplete={field.blockType === 'email' ? 'email' : fieldName.toLowerCase().includes('phone') ? 'tel' : 'name'} placeholder={fieldName.toLowerCase().includes('phone') ? '03XX XXXXXXX' : undefined} {...register(fieldName, { required: Boolean(field.required) })} />
             {errors[fieldName] && <span className="mt-1 block text-body-sm text-text-secondary">This field is required.</span>}
           </label>
         })}

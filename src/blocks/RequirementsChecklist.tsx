@@ -15,7 +15,7 @@ export function RequirementsChecklist({ data }: { data: BlockData }) {
   const headingId = `${sectionId}-h`
 
   return (
-    <section id={sectionId} aria-labelledby={headingId} className="relative py-(--section-y)">
+    <section id={sectionId} aria-labelledby={headingId} className="relative theme-surface py-(--section-y)">
       <div className="container-x">
         <div className="max-w-[760px]">
           <Eyebrow>{data.eyebrow}</Eyebrow>
@@ -24,7 +24,7 @@ export function RequirementsChecklist({ data }: { data: BlockData }) {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-6">
+        <div className={`mt-10 grid gap-6 ${groups.length > 1 ? 'lg:grid-cols-2' : ''}`}>
           {groups.map((group: any, index: number) => (
             <div key={index} className="rounded-sm border border-border bg-surface p-6 md:p-8">
               <h3 className="font-display text-h4 font-semibold text-text">{group.title}</h3>

@@ -17,6 +17,8 @@ import { GuideAccordion } from './GuideAccordion'
 import { FaqAccordion } from './FaqAccordion'
 import { ReadyWhenYouAre } from './ReadyWhenYouAre'
 import { SkarduHotelFeature } from './SkarduHotelFeature'
+import { ContactDetails } from './ContactDetails'
+import { PlatformDownloads } from './PlatformDownloads'
 import type { BlockData } from './shared'
 
 const components = {
@@ -39,6 +41,8 @@ const components = {
   skarduHotelFeature: SkarduHotelFeature,
   accountFaq: AccountFaq,
   readyWhenYouAre: ReadyWhenYouAre,
+  contactDetails: ContactDetails,
+  platformDownloads: PlatformDownloads,
 } as const
 
 export function RenderHomeBlocks({ blocks }: { blocks: BlockData[] }) {
