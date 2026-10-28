@@ -109,6 +109,7 @@ export function ConsultationQualifier({ data }: { data: ConsultationData }) {
       <div className="lg:col-span-5">
         <Eyebrow>{data.eyebrow || 'Investor enquiries'}</Eyebrow>
         <h2 id="qualifier-h" className="font-display text-h2 mt-3 font-normal tracking-[-0.015em] text-text">{data.heading || 'Talk to us about the project'}</h2>
+        {(data.subheading || data.intro) && <p className="text-body-lg mt-5 text-text-secondary">{data.subheading || data.intro}</p>}
         <ul className="mt-8 space-y-3">
           <li><a href={data.phoneHref} className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M5 4H9L10.5 8.5L8 10C9 12.5 11.5 15 14 16L15.5 13.5L20 15V19C20 19.6 19.6 20 19 20C11 20 4 13 4 5C4 4.4 4.4 4 5 4Z" /></Icon>{data.phone}</a></li>
           <li><a href={data.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M4 5H20V16H10L5 20V16H4Z" /><path d="M8 10H16M8 13H13" /></Icon>{data.whatsappLabel}</a></li>

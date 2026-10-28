@@ -7,11 +7,27 @@ import { InvestmentPathCards } from './InvestmentPathCards'
 import { LicensingCredentials } from './LicensingCredentials'
 import { MarketHero } from './MarketHero'
 import { MarketResearchCards } from './MarketResearchCards'
+import { ProductRange } from './ProductRange'
+import { ServiceHero } from './ServiceHero'
+import { SectionNavigation } from './SectionNavigation'
+import { TabbedContent } from './TabbedContent'
+import { ProcessSteps } from './ProcessSteps'
+import { RequirementsChecklist } from './RequirementsChecklist'
+import { GuideAccordion } from './GuideAccordion'
+import { FaqAccordion } from './FaqAccordion'
 import { ReadyWhenYouAre } from './ReadyWhenYouAre'
 import { SkarduHotelFeature } from './SkarduHotelFeature'
 import type { BlockData } from './shared'
 
 const components = {
+  productRange: ProductRange,
+  serviceHero: ServiceHero,
+  sectionNavigation: SectionNavigation,
+  tabbedContent: TabbedContent,
+  processSteps: ProcessSteps,
+  requirementsChecklist: RequirementsChecklist,
+  guideAccordion: GuideAccordion,
+  faqAccordion: FaqAccordion,
   marketHero: MarketHero,
   licensingCredentials: LicensingCredentials,
   investmentPathCards: InvestmentPathCards,

@@ -44,6 +44,14 @@ export function ChevronDownIcon({ size = 16, className }: IconProps) {
   )
 }
 
+export function ChevronRightIcon({ size = 16, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <path d="M9 6L15 12L9 18" />
+    </Svg>
+  )
+}
+
 export function MenuIcon({ size = 24, className }: IconProps) {
   return (
     <Svg size={size} className={className}>

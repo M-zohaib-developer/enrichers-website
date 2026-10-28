@@ -12,6 +12,7 @@ export const consultationQualifier: Block = {
           fields: [
             { name: 'eyebrow', type: 'text', defaultValue: 'Investor enquiries' },
             { name: 'heading', type: 'text', defaultValue: 'Talk to us about the project' },
+            { name: 'subheading', type: 'textarea', label: 'Subheading (optional)', admin: { description: 'Shown below the main heading when provided.' } },
           ],
         },
         {

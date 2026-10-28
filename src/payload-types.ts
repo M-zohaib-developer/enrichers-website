@@ -139,6 +139,173 @@ export interface Page {
   slug: string;
   layout: (
     | {
+        /**
+         * Items shown above the heading. First item is usually Home.
+         */
+        breadcrumbs?:
+          | {
+              label: string;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Small text above the heading with a junction-mark icon.
+         */
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        primary: {
+          label: string;
+          url: string;
+          /**
+           * Primary renders white on dark; secondary renders outline.
+           */
+          variant?: ('primary' | 'secondary') | null;
+        };
+        secondary: {
+          label: string;
+          url: string;
+          /**
+           * Primary renders white on dark; secondary renders outline.
+           */
+          variant?: ('primary' | 'secondary') | null;
+        };
+        /**
+         * Shield-icon pills shown below the buttons (e.g. PSX TREC holder).
+         */
+        badges?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'serviceHero';
+      }
+    | {
+        ariaLabel?: string | null;
+        links: {
+          label: string;
+          /**
+           * Section ID without the #, for example documents.
+           */
+          anchor: string;
+          active?: boolean | null;
+          id?: string | null;
+        }[];
+        cta?: {
+          label?: string | null;
+          url?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'sectionNavigation';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        tabs: {
+          label: string;
+          features?:
+            | {
+                term: string;
+                description: string;
+                id?: string | null;
+              }[]
+            | null;
+          quote?: string | null;
+          id?: string | null;
+        }[];
+        disclosureText?: string | null;
+        disclosureLabel?: string | null;
+        disclosureUrl?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'productRange';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        tabs: {
+          label: string;
+          body: string;
+          id?: string | null;
+        }[];
+        disclosureText?: string | null;
+        disclosureLabel?: string | null;
+        disclosureUrl?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'tabbedContent';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        intro?: string | null;
+        steps: {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'processSteps';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        groups: {
+          title: string;
+          items: {
+            label: string;
+            id?: string | null;
+          }[];
+          button?: {
+            label?: string | null;
+            url?: string | null;
+          };
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'requirementsChecklist';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        intro?: string | null;
+        items: {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'guideAccordion';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        items: {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'faqAccordion';
+      }
+    | {
         eyebrow?: string | null;
         heading: string;
         headingAccent?: string | null;
@@ -321,6 +488,10 @@ export interface Page {
     | {
         eyebrow?: string | null;
         heading?: string | null;
+        /**
+         * Shown below the main heading when provided.
+         */
+        subheading?: string | null;
         phone?: string | null;
         phoneHref?: string | null;
         whatsappUrl?: string | null;
@@ -846,6 +1017,187 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        serviceHero?:
+          | T
+          | {
+              breadcrumbs?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              primary?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              secondary?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    variant?: T;
+                  };
+              badges?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        sectionNavigation?:
+          | T
+          | {
+              ariaLabel?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    anchor?: T;
+                    active?: T;
+                    id?: T;
+                  };
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        productRange?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              tabs?:
+                | T
+                | {
+                    label?: T;
+                    features?:
+                      | T
+                      | {
+                          term?: T;
+                          description?: T;
+                          id?: T;
+                        };
+                    quote?: T;
+                    id?: T;
+                  };
+              disclosureText?: T;
+              disclosureLabel?: T;
+              disclosureUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        tabbedContent?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              tabs?:
+                | T
+                | {
+                    label?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              disclosureText?: T;
+              disclosureLabel?: T;
+              disclosureUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        processSteps?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              intro?: T;
+              steps?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        requirementsChecklist?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              groups?:
+                | T
+                | {
+                    title?: T;
+                    items?:
+                      | T
+                      | {
+                          label?: T;
+                          id?: T;
+                        };
+                    button?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        guideAccordion?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              intro?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faqAccordion?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         marketHero?:
           | T
           | {
@@ -1023,6 +1375,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               eyebrow?: T;
               heading?: T;
+              subheading?: T;
               phone?: T;
               phoneHref?: T;
               whatsappUrl?: T;

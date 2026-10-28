@@ -21,6 +21,8 @@
     "seed:globals": "tsx scripts/seed-globals.ts",
     "seed:logo": "tsx scripts/seed-logo.ts",
     "seed:home": "tsx scripts/seed-home.ts",
+    "seed:stock-broking": "tsx scripts/seed-stock-broking.ts",
+    "seed:commodity-brokerage": "tsx scripts/seed-commodity-brokerage.ts",
     "setup:globals": "tsx scripts/reset-globals-schema.mjs && tsx scripts/seed-globals.ts",
     "verify:editing": "tsx scripts/verify-editing.ts",
     "verify:migrations": "tsx scripts/verify-migrations.ts",
