@@ -86,7 +86,7 @@ const run = async () => {
             { label: 'Zakat declaration form' },
             { label: "Mother's maiden name" },
           ],
-          button: { label: 'Open a PSX account', url: '/open-account' },
+          buttons: [{ blockType: 'secondaryButton', label: 'Open a PSX account', url: '/open-account' }],
         },
       ],
     },

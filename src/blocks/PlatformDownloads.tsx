@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Button, Eyebrow, imageAlt, imageSrc, type BlockData } from './shared'
+import { Buttons, Eyebrow, imageAlt, imageSrc, type BlockData } from './shared'
 
 export function PlatformDownloads({ data }: { data: BlockData }) {
   const platforms = Array.isArray(data.platforms) ? data.platforms : []
@@ -23,7 +23,7 @@ export function PlatformDownloads({ data }: { data: BlockData }) {
                 <p className="text-overline font-semibold tracking-overline text-text-muted uppercase">{platform.platform}</p>
                 <h3 className="font-display text-h4 mt-3 font-semibold text-text">{platform.title}</h3>
                 <p className="mt-3 flex-1 text-text-secondary">{platform.description}</p>
-                <div className="mt-8"><Button link={platform.button} secondary={platform.button?.variant === 'secondary'} showArrow={false} /></div>
+                <Buttons buttons={platform.buttons} showArrow={false} />
               </li>
             )
           })}

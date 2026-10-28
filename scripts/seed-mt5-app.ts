@@ -61,23 +61,45 @@ const run = async () => {
           title: 'Download for Android',
           description: 'Trade currencies on your Android phone or tablet and check your account wherever you are.',
           image: androidImage.id,
-          button: { label: 'Download for Android', url: 'https://play.google.com/store/apps/details?id=net.metaquotes.metatrader5&hl=en', variant: 'primary' },
+          buttons: [{ blockType: 'primaryButton', label: 'Download for Android', url: 'https://play.google.com/store/apps/details?id=net.metaquotes.metatrader5&hl=en' }],
         },
         {
           platform: 'Windows',
           title: 'Download for Windows',
           description: 'Trade currencies and indices with technical and fundamental market analysis, copy trading and automated strategies.',
           image: windowsImage.id,
-          button: { label: 'Download for Windows', url: 'https://download.mql5.com/cdn/web/pakistan.mercantile.exchange/mt5/pmex5setup.exe', variant: 'secondary' },
+          buttons: [{ blockType: 'secondaryButton', label: 'Download for Windows', url: 'https://download.mql5.com/cdn/web/pakistan.mercantile.exchange/mt5/pmex5setup.exe' }],
         },
         {
           platform: 'MacOS',
           title: 'Download for MacOS',
           description: 'Trade currencies and indices with multiple order types and execution modes on your Mac.',
           image: macImage.id,
-          button: { label: 'Download for MacOS', url: '#', variant: 'secondary' },
+          buttons: [{ blockType: 'secondaryButton', label: 'Download for MacOS', url: '#' }],
         },
       ],
+    },
+    {
+      blockType: 'processSteps',
+      sectionId: 'getting-started',
+      eyebrow: 'Getting started',
+      heading: 'Start trading in three steps',
+      intro: 'Open your account, install the platform and connect to the markets with support from our team.',
+      steps: [
+        { title: 'Open an account', body: 'Choose PMEX and complete the exchange-approved account opening process.' },
+        { title: 'Download MetaTrader 5', body: 'Install the version for Android, Windows or MacOS that suits your device.' },
+        { title: 'Log in and trade', body: 'Use your account details to access the platform and begin exploring the markets.' },
+      ],
+    },
+    {
+      blockType: 'readyWhenYouAre',
+      heading: 'Ready to start trading?',
+      body: 'Open a PMEX account and download MetaTrader 5 to get started.',
+      buttons: [
+        { blockType: 'primaryButton', label: 'Open a PMEX account', url: '/open-account/' },
+        { blockType: 'secondaryButton', label: 'Talk to an advisor', url: '/contact-us/#consultation' },
+      ],
+      riskNotice: 'Trading in futures and financial markets carries inherent risk. No guaranteed returns. Regulated by the SECP.',
     },
   ]
   const slug = 'download-metatrader-5-for-your-device'

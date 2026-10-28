@@ -19,6 +19,14 @@ import { ReadyWhenYouAre } from './ReadyWhenYouAre'
 import { SkarduHotelFeature } from './SkarduHotelFeature'
 import { ContactDetails } from './ContactDetails'
 import { PlatformDownloads } from './PlatformDownloads'
+import { KnowledgeHero } from './KnowledgeHero'
+import { ConsultationShowcase } from './ConsultationShowcase'
+import { BusinessIntro } from './BusinessIntro'
+import { ServiceOfferings } from './ServiceOfferings'
+import { BenefitsGrid } from './BenefitsGrid'
+import { RichTextSection } from './RichTextSection'
+import { ImageTextFeature } from './ImageTextFeature'
+import { SplitContentList } from './SplitContentList'
 import type { BlockData } from './shared'
 
 const components = {
@@ -43,6 +51,14 @@ const components = {
   readyWhenYouAre: ReadyWhenYouAre,
   contactDetails: ContactDetails,
   platformDownloads: PlatformDownloads,
+  knowledgeHero: KnowledgeHero,
+  consultationShowcase: ConsultationShowcase,
+  businessIntro: BusinessIntro,
+  serviceOfferings: ServiceOfferings,
+  benefitsGrid: BenefitsGrid,
+  richTextBlock: RichTextSection,
+  imageTextFeature: ImageTextFeature,
+  splitContentList: SplitContentList,
 } as const
 
 export function RenderHomeBlocks({ blocks }: { blocks: BlockData[] }) {

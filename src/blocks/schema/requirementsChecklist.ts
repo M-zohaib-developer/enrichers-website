@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { buttonsField } from './shared'
 
 export const requirementsChecklist: Block = {
   slug: 'requirementsChecklist',
@@ -20,12 +21,7 @@ export const requirementsChecklist: Block = {
           required: true,
           fields: [{ name: 'label', type: 'text', required: true }],
         },
-        {
-          name: 'button',
-          type: 'group',
-          label: 'Secondary button',
-          fields: [{ name: 'label', type: 'text' }, { name: 'url', type: 'text' }],
-        },
+        { ...buttonsField, label: 'Group buttons' },
       ],
     },
   ],

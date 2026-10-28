@@ -1,5 +1,4 @@
-import NextLink from 'next/link'
-import { Eyebrow, type BlockData } from './shared'
+import { Buttons, Eyebrow, type BlockData } from './shared'
 
 function CheckIcon() {
   return (
@@ -36,11 +35,7 @@ export function RequirementsChecklist({ data }: { data: BlockData }) {
                   </li>
                 ))}
               </ul>
-              {group.button?.label && group.button?.url && (
-                <NextLink href={group.button.url} className="mt-6 inline-flex h-11 items-center justify-center rounded-sm border border-border-strong bg-transparent px-5 text-button font-semibold text-text transition-colors hover:border-text">
-                  <span>{group.button.label}</span>
-                </NextLink>
-              )}
+              <Buttons buttons={group.buttons} showArrow={false} />
             </div>
           ))}
         </div>

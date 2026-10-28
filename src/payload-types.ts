@@ -332,10 +332,27 @@ export interface Page {
             label: string;
             id?: string | null;
           }[];
-          button?: {
-            label?: string | null;
-            url?: string | null;
-          };
+          /**
+           * Click + to add a Primary button or Secondary button.
+           */
+          buttons?:
+            | (
+                | {
+                    label: string;
+                    url: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'primaryButton';
+                  }
+                | {
+                    label: string;
+                    url: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'secondaryButton';
+                  }
+              )[]
+            | null;
           id?: string | null;
         }[];
         id?: string | null;
@@ -377,6 +394,7 @@ export interface Page {
         headingLineTwo?: string | null;
         headingLineThree?: string | null;
         body?: string | null;
+        showButtons?: boolean | null;
         /**
          * Click + to add a Primary button or Secondary button.
          */
@@ -774,16 +792,189 @@ export interface Page {
           title: string;
           description: string;
           image: number | Media;
-          button: {
-            label: string;
-            url: string;
-            variant?: ('primary' | 'secondary') | null;
-          };
+          /**
+           * Click + to add a Primary button or Secondary button.
+           */
+          buttons?:
+            | (
+                | {
+                    label: string;
+                    url: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'primaryButton';
+                  }
+                | {
+                    label: string;
+                    url: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'secondaryButton';
+                  }
+              )[]
+            | null;
           id?: string | null;
         }[];
         id?: string | null;
         blockName?: string | null;
         blockType: 'platformDownloads';
+      }
+    | {
+        breadcrumbs?:
+          | {
+              label: string;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        image?: (number | null) | Media;
+        imageAlt?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'knowledgeHero';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        subheading?: string | null;
+        phone?: string | null;
+        phoneHref?: string | null;
+        whatsappUrl?: string | null;
+        whatsappLabel?: string | null;
+        hours?: string | null;
+        formStepLabel?: string | null;
+        formHeading?: string | null;
+        formIntro?: string | null;
+        form: number | Form;
+        /**
+         * Add 2–4 images. The carousel changes automatically every 3 seconds.
+         */
+        images: {
+          image: number | Media;
+          alt: string;
+          id?: string | null;
+        }[];
+        intervalSeconds?: number | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'consultationShowcase';
+      }
+    | {
+        heading: string;
+        body: string;
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'businessIntro';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        background?: ('light' | 'gradient') | null;
+        columns?: ('2' | '3') | null;
+        items: {
+          title: string;
+          body?: string | null;
+          details?:
+            | {
+                label: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'serviceOfferings';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        showHeader?: boolean | null;
+        body?: string | null;
+        background?: ('sunken' | 'gradient') | null;
+        items: {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'benefitsGrid';
+      }
+    | {
+        sectionId?: string | null;
+        heading?: string | null;
+        background?: ('white' | 'gradient') | null;
+        showAccentBar?: boolean | null;
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'richTextBlock';
+      }
+    | {
+        heading: string;
+        body: string;
+        image: number | Media;
+        imageAlt?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'imageTextFeature';
+      }
+    | {
+        sectionId?: string | null;
+        leftHeading: string;
+        leftBody: string;
+        rightHeading: string;
+        rightBody: string;
+        rightItems: {
+          label: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'splitContentList';
       }
   )[];
   updatedAt: string;
@@ -1317,11 +1508,25 @@ export interface PagesSelect<T extends boolean = true> {
                           label?: T;
                           id?: T;
                         };
-                    button?:
+                    buttons?:
                       | T
                       | {
-                          label?: T;
-                          url?: T;
+                          primaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          secondaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
                         };
                     id?: T;
                   };
@@ -1371,6 +1576,7 @@ export interface PagesSelect<T extends boolean = true> {
               headingLineTwo?: T;
               headingLineThree?: T;
               body?: T;
+              showButtons?: T;
               buttons?:
                 | T
                 | {
@@ -1760,13 +1966,181 @@ export interface PagesSelect<T extends boolean = true> {
                     title?: T;
                     description?: T;
                     image?: T;
-                    button?:
+                    buttons?:
+                      | T
+                      | {
+                          primaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          secondaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        knowledgeHero?:
+          | T
+          | {
+              breadcrumbs?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              image?: T;
+              imageAlt?: T;
+              id?: T;
+              blockName?: T;
+            };
+        consultationShowcase?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              subheading?: T;
+              phone?: T;
+              phoneHref?: T;
+              whatsappUrl?: T;
+              whatsappLabel?: T;
+              hours?: T;
+              formStepLabel?: T;
+              formHeading?: T;
+              formIntro?: T;
+              form?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    alt?: T;
+                    id?: T;
+                  };
+              intervalSeconds?: T;
+              id?: T;
+              blockName?: T;
+            };
+        businessIntro?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
                       | T
                       | {
                           label?: T;
                           url?: T;
-                          variant?: T;
+                          id?: T;
+                          blockName?: T;
                         };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        serviceOfferings?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              background?: T;
+              columns?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    details?:
+                      | T
+                      | {
+                          label?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        benefitsGrid?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              showHeader?: T;
+              body?: T;
+              background?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        richTextBlock?:
+          | T
+          | {
+              sectionId?: T;
+              heading?: T;
+              background?: T;
+              showAccentBar?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageTextFeature?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              image?: T;
+              imageAlt?: T;
+              id?: T;
+              blockName?: T;
+            };
+        splitContentList?:
+          | T
+          | {
+              sectionId?: T;
+              leftHeading?: T;
+              leftBody?: T;
+              rightHeading?: T;
+              rightBody?: T;
+              rightItems?:
+                | T
+                | {
+                    label?: T;
                     id?: T;
                   };
               id?: T;

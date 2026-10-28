@@ -83,11 +83,13 @@ export function MarketHero({ data }: { data: BlockData }) {
             {heading}
           </h1>
           <p className="text-body-lg mt-6 max-w-[60ch] text-text-secondary">{data.body}</p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            {(data.buttons?.length ? data.buttons : [data.primary, data.secondary]).map((button: any, index: number) => (
-              <HeroButton key={index} data={button.blockType ? { label: button.label, url: button.url, variant: button.blockType === 'secondaryButton' ? 'secondary' : 'primary' } : button} />
-            ))}
-          </div>
+          {data.showButtons !== false && (
+            <div className="mt-9 flex flex-wrap gap-3">
+              {(data.buttons?.length ? data.buttons : [data.primary, data.secondary]).map((button: any, index: number) => (
+                <HeroButton key={index} data={button.blockType ? { label: button.label, url: button.url, variant: button.blockType === 'secondaryButton' ? 'secondary' : 'primary' } : button} />
+              ))}
+            </div>
+          )}
           {/* Trust badges — each row carries a tick in the brand accent. */}
           <ul className="text-body-sm mt-8 flex flex-wrap gap-x-6 gap-y-2 text-text-secondary">
             {(data.badges ?? []).map((badge: any, i: number) => (

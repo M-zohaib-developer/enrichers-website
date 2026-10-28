@@ -110,7 +110,7 @@ const run = async () => {
             { label: 'Picture of a cheque for IBAN verification' },
             { label: 'Proof of income' },
           ],
-          button: { label: 'Open a PMEX account', url: '/open-account' },
+          buttons: [{ blockType: 'secondaryButton', label: 'Open a PMEX account', url: '/open-account' }],
         },
       ],
     },

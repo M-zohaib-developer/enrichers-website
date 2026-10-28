@@ -18,7 +18,7 @@ function Arrow() {
   return <Icon><path d="M4 12H19M13 6L19 12L13 18" /></Icon>
 }
 
-function ConsultationForm({ form, data }: { form: PayloadForm; data: ConsultationData }) {
+export function ConsultationForm({ form, data }: { form: PayloadForm; data: ConsultationData }) {
   const fields = (form.fields || []) as FormField[]
   const steps = [fields.slice(0, 2), ...fields.slice(2).map((field) => [field])].filter((step) => step.length > 0)
   const [step, setStep] = useState(0)

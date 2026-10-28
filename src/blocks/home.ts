@@ -20,6 +20,14 @@ import { readyWhenYouAre } from './schema/readyWhenYouAre'
 import { skarduHotelFeature } from './schema/skarduHotelFeature'
 import { contactDetails } from './schema/contactDetails'
 import { platformDownloads } from './schema/platformDownloads'
+import { knowledgeHero } from './schema/knowledgeHero'
+import { consultationShowcase } from './schema/consultationShowcase'
+import { businessIntro } from './schema/businessIntro'
+import { serviceOfferings } from './schema/serviceOfferings'
+import { benefitsGrid } from './schema/benefitsGrid'
+import { richTextSection } from './schema/richTextSection'
+import { imageTextFeature } from './schema/imageTextFeature'
+import { splitContentList } from './schema/splitContentList'
 
 /** Payload registry for the editable homepage. Each block schema lives beside its own definition. */
 export const HomeBlocks: Block[] = [
@@ -44,4 +52,12 @@ export const HomeBlocks: Block[] = [
   readyWhenYouAre,
   contactDetails,
   platformDownloads,
+  knowledgeHero,
+  consultationShowcase,
+  businessIntro,
+  serviceOfferings,
+  benefitsGrid,
+  richTextSection,
+  imageTextFeature,
+  splitContentList,
 ]

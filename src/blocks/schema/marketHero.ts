@@ -22,6 +22,7 @@ export const marketHero: Block = {
       defaultValue:
         'Invest in PSX equities, or trade gold, oil, currencies and US index futures on PMEX — with research, risk management and client support 24/5.',
     },
+    { name: 'showButtons', type: 'checkbox', defaultValue: true, label: 'Show hero buttons' },
     { ...buttonsField, defaultValue: [
       { blockType: 'primaryButton', label: 'Open an account', url: '/open-account/' },
       { blockType: 'secondaryButton', label: 'Talk to our experts', url: '/contact-us/#consultation' },

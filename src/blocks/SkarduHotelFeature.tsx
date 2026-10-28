@@ -1,18 +1,13 @@
 import Image from 'next/image'
-import NextLink from 'next/link'
-import { Eyebrow, imageAlt, imageSrc, type BlockData } from './shared'
+import { Buttons, Eyebrow, imageAlt, imageSrc, type BlockData } from './shared'
 export function SkarduHotelFeature({ data }: { data: BlockData }) {
-  const button = data.buttons?.[0] ?? data.button
   return (
     <section className="py-(--section-y)">
       <div className="container-x">
         {/* One card, one link. The border and background belong to the card,
             not to container-x, and the two halves sit flush with no gap —
             padding lives on the text column so the image reaches the edge. */}
-        <NextLink
-          href={button?.url || '#'}
-          className="group grid overflow-hidden rounded-sm border border-border bg-surface md:grid-cols-2"
-        >
+        <div className="group grid overflow-hidden rounded-sm border border-border bg-surface md:grid-cols-2">
           <figure className="relative overflow-hidden bg-surface-sunken">
             <Image
               src={imageSrc(data.image, '/brand/skardu-hotel.webp')}
@@ -44,8 +39,9 @@ export function SkarduHotelFeature({ data }: { data: BlockData }) {
                 </div>
               ))}
             </dl>
+            <Buttons buttons={data.buttons} fallback={[data.button]} />
           </div>
-        </NextLink>
+        </div>
       </div>
     </section>
   )

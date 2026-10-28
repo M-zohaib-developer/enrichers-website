@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { buttonsField } from './shared'
 
 export const platformDownloads: Block = {
   slug: 'platformDownloads',
@@ -18,20 +19,7 @@ export const platformDownloads: Block = {
         { name: 'title', type: 'text', required: true },
         { name: 'description', type: 'textarea', required: true },
         { name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Screenshot' },
-        {
-          name: 'button',
-          type: 'group',
-          fields: [
-            { name: 'label', type: 'text', required: true, defaultValue: 'Download now' },
-            { name: 'url', type: 'text', required: true },
-            {
-              name: 'variant', type: 'select', defaultValue: 'primary', options: [
-                { label: 'Primary (filled)', value: 'primary' },
-                { label: 'Secondary (outline)', value: 'secondary' },
-              ],
-            },
-          ],
-        },
+        { ...buttonsField, label: 'Download buttons' },
       ],
     },
   ],
