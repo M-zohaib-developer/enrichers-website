@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { buttonsField } from './shared'
 
 export const processSteps: Block = {
   slug: 'processSteps',
@@ -9,6 +10,15 @@ export const processSteps: Block = {
     { name: 'heading', type: 'text', required: true },
     { name: 'intro', type: 'textarea', label: 'Intro text' },
     {
+      name: 'layoutVariant',
+      type: 'select',
+      defaultValue: 'grid',
+      options: [
+        { label: 'Grid', value: 'grid' },
+        { label: 'Connected timeline', value: 'timeline' },
+      ],
+    },
+    {
       name: 'steps',
       type: 'array',
       required: true,
@@ -18,5 +28,6 @@ export const processSteps: Block = {
         { name: 'body', type: 'textarea' },
       ],
     },
+    { ...buttonsField, label: 'Call to action' },
   ],
 }

@@ -8,6 +8,15 @@ export const clientServices: Block = {
     { name: 'eyebrow', type: 'text', defaultValue: 'Client services' },
     { name: 'heading', type: 'text', defaultValue: 'What you get with Enrichers' },
     {
+      name: 'layoutVariant',
+      type: 'select',
+      defaultValue: 'grid',
+      options: [
+        { label: 'Card grid', value: 'grid' },
+        { label: 'Feature list', value: 'featureList' },
+      ],
+    },
+    {
       name: 'body',
       type: 'textarea',
       defaultValue:

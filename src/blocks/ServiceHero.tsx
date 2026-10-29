@@ -140,7 +140,7 @@ export function ServiceHero({ data }: { data: BlockData }) {
       )
     }
     return (
-      <section className="theme-surface border-b border-border">
+      <section className={`theme-surface ${data.showBottomBorder === false ? '' : 'border-b border-border'}`}>
         <div className="container-x py-12 md:py-16">
           <div className={data.heroImage ? 'grid gap-10 lg:grid-cols-2 lg:items-center' : undefined}>
             <div>

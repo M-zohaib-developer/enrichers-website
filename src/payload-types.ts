@@ -158,6 +158,7 @@ export interface Page {
          * Use below heading for split product/platform heroes.
          */
         breadcrumbPosition?: ('top' | 'bottom') | null;
+        showBottomBorder?: boolean | null;
         /**
          * Small text above the heading with a junction-mark icon.
          */
@@ -332,11 +333,33 @@ export interface Page {
         eyebrow?: string | null;
         heading: string;
         intro?: string | null;
+        layoutVariant?: ('grid' | 'timeline') | null;
         steps: {
           title: string;
           body?: string | null;
           id?: string | null;
         }[];
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'processSteps';
@@ -528,6 +551,7 @@ export interface Page {
     | {
         eyebrow?: string | null;
         heading?: string | null;
+        layoutVariant?: ('grid' | 'featureList') | null;
         body?: string | null;
         items?:
           | {
@@ -1807,6 +1831,7 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               breadcrumbPosition?: T;
+              showBottomBorder?: T;
               eyebrow?: T;
               heading?: T;
               headingAccent?: T;
@@ -1971,12 +1996,33 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               intro?: T;
+              layoutVariant?: T;
               steps?:
                 | T
                 | {
                     title?: T;
                     body?: T;
                     id?: T;
+                  };
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -2166,6 +2212,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               eyebrow?: T;
               heading?: T;
+              layoutVariant?: T;
               body?: T;
               items?:
                 | T

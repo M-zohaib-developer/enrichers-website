@@ -19,7 +19,10 @@ export function ResearchLibrary({ data }: { data: BlockData }) {
   const notes = (data.notes ?? []) as Note[]
   const categories = useMemo(() => ['All', ...Array.from(new Set(notes.map((note) => note.category).filter((category): category is string => Boolean(category))))], [notes])
   const [activeCategory, setActiveCategory] = useState('All')
-  const visibleNotes = activeCategory === 'All' ? notes : notes.filter((note) => note.category === activeCategory)
+  const [visibleCount, setVisibleCount] = useState(8)
+  const filteredNotes = activeCategory === 'All' ? notes : notes.filter((note) => note.category === activeCategory)
+  const visibleNotes = filteredNotes.slice(0, visibleCount)
+  const remainingCount = Math.max(filteredNotes.length - visibleNotes.length, 0)
 
   return (
     <section id={data.sectionId || 'notes'} aria-labelledby={`${data.sectionId || 'notes'}-h`} className="theme-sunken py-[var(--section-y)]">
@@ -33,8 +36,8 @@ export function ResearchLibrary({ data }: { data: BlockData }) {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-2" aria-label="Filter research by topic">
-          {categories.map((category) => (
-            <button key={category} type="button" aria-pressed={activeCategory === category} onClick={() => setActiveCategory(category)} className={`rounded-full border px-4 py-2 text-button font-semibold transition-colors ${activeCategory === category ? 'border-action bg-action text-on-action' : 'border-border-strong bg-surface text-text-secondary hover:border-action hover:text-action'}`}>
+            {categories.map((category) => (
+              <button key={category} type="button" aria-pressed={activeCategory === category} onClick={() => { setActiveCategory(category); setVisibleCount(8) }} className={`rounded-full border px-4 py-2 text-button font-semibold transition-colors ${activeCategory === category ? 'border-action bg-action text-on-action' : 'border-border-strong bg-surface text-text-secondary hover:border-action hover:text-action'}`}>
               {category}
             </button>
           ))}
@@ -57,6 +60,14 @@ export function ResearchLibrary({ data }: { data: BlockData }) {
             )
           })}
         </div>
+
+        {remainingCount > 0 && (
+          <div className="mt-12 flex justify-center">
+            <button type="button" onClick={() => setVisibleCount((count) => count + 8)} className="rounded-sm border border-border-strong bg-surface px-5 py-3 text-button font-semibold text-action transition-colors hover:border-action hover:bg-surface-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">
+              Show more notes <span className="font-normal text-text-muted">({remainingCount} more)</span>
+            </button>
+          </div>
+        )}
 
       </div>
     </section>

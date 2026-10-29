@@ -13,6 +13,7 @@ const run = async () => {
     {
       blockType: 'serviceHero',
       theme: 'light',
+      showBottomBorder: false,
       breadcrumbs: [
         { label: 'Home', url: '/' },
         { label: 'Open an account', url: '' },

@@ -61,6 +61,12 @@ export const serviceHero: Block = {
       admin: { description: 'Use below heading for split product/platform heroes.' },
     },
     {
+      name: 'showBottomBorder',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Show bottom border',
+    },
+    {
       name: 'eyebrow',
       type: 'text',
       admin: { description: 'Small text above the heading with a junction-mark icon.' },
