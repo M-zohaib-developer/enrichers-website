@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'enrichers-candidate-a-redesign',
+      name: 'enrichers-app',
       cwd: __dirname,
       script: './scripts/start-available-port.mjs',
       interpreter: 'node',
