@@ -14,6 +14,14 @@ export function ReadyWhenYouAre({ data }: { data: BlockData }) {
     <section className="py-(--section-y)">
       <div className="container-x">
         <div className="theme-inverse relative overflow-hidden rounded-sm p-8 md:p-14">
+          <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="none">
+            <defs>
+              <pattern id="ready-cta-lattice" width="34.64" height="20" patternUnits="userSpaceOnUse">
+                <path d="M0 0L34.64 20M0 20L34.64 0M0 0V20M17.32 0V20" stroke="var(--e-neutral-0)" strokeOpacity="0.07" strokeWidth=".8" fill="none" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#ready-cta-lattice)" />
+          </svg>
           <div className="relative grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
               {/* text-h1, not text-h2 — the reference sizes this closing CTA
