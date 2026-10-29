@@ -3,7 +3,7 @@ import type { BlockData } from './shared'
 export function BenefitsGrid({ data }: { data: BlockData }) {
   const items = Array.isArray(data.items) ? data.items : []
   return (
-    <section id={data.sectionId || undefined} className={`${data.background === 'gradient' ? 'theme-surface' : 'theme-sunken'} py-(--section-y)`}>
+    <section id={data.sectionId || undefined} className={`${data.background === 'sunken' ? 'theme-sunken' : 'theme-surface'} py-(--section-y)`}>
       <div className="container-x">
         {data.showHeader !== false && <div className="max-w-[760px]">
           {data.eyebrow && <p className="text-overline mb-4 font-semibold tracking-overline text-text-muted uppercase">{data.eyebrow}</p>}

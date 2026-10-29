@@ -5,6 +5,7 @@ export const readyWhenYouAre: Block = {
   labels: { singular: 'Ready When You Are CTA', plural: 'Ready When You Are CTAs' },
   fields: [
     { name: 'heading', type: 'text', defaultValue: 'Ready when you are.' },
+    { name: 'variant', type: 'select', defaultValue: 'darkCard', options: [{ label: 'Dark card', value: 'darkCard' }, { label: 'Compact light band', value: 'compact' }] },
     {
       name: 'body',
       type: 'textarea',

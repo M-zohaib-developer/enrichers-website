@@ -321,7 +321,7 @@ export function HeaderClient({ data }: { data: HeaderType }) {
                     </span>
                     <span className="font-display text-h4 mt-2">{feature.title}</span>
                     <span className="text-body-sm mt-4 inline-flex items-center gap-1.5 font-semibold text-accent">
-                      Read more
+                      {feature.linkLabel || 'Read more'}
                       <ArrowRightIcon className="transition-transform group-hover:translate-x-[3px]" />
                     </span>
                   </NextLink>

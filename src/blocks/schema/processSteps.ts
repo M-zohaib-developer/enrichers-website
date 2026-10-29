@@ -15,7 +15,7 @@ export const processSteps: Block = {
       minRows: 1,
       fields: [
         { name: 'title', type: 'text', required: true },
-        { name: 'body', type: 'textarea', required: true },
+        { name: 'body', type: 'textarea' },
       ],
     },
   ],

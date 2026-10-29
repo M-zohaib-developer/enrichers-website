@@ -35,6 +35,7 @@ import {
   FALLBACK_OFFICES_LINE,
   FALLBACK_REGULATION,
   FALLBACK_REGULATION_TITLE,
+  FALLBACK_SOCIAL,
   fallbackCopyright,
 } from '../src/Footer/defaults'
 
@@ -66,6 +67,7 @@ const run = async () => {
       officesLine: FALLBACK_OFFICES_LINE,
       copyrightText: fallbackCopyright(),
       bottomLinks: FALLBACK_BOTTOM,
+      socialLinks: FALLBACK_SOCIAL,
     } as never,
     context: { skipRevalidate: true },
   })

@@ -1,5 +1,13 @@
 import { Buttons, type BlockData } from './shared'
 export function ReadyWhenYouAre({ data }: { data: BlockData }) {
+  if (data.variant === 'compact') return (
+    <section className="relative theme-sunken py-[calc(var(--section-y)*0.5)]">
+      <div className="container-x flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div><h2 className="font-display text-h3 font-semibold text-text">{data.heading}</h2><p className="text-body-lg mt-2 text-text-secondary">{data.body}</p></div>
+        <Buttons buttons={data.buttons} fallback={[]} />
+      </div>
+    </section>
+  )
   return (
     /* The dark treatment is a rounded card inside a normal light section, not
        a full-bleed band — that is how the reference closes the page. */

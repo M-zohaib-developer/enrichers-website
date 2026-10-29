@@ -21,7 +21,7 @@ function HeroButton({ data }: { data?: HeroButton | null }) {
   if (!linkOk(data)) return null
   const isPrimary = variant !== 'secondary'
   const base =
-    'group inline-flex h-13 items-center justify-center gap-2 rounded-sm px-7 text-[16px] font-semibold whitespace-nowrap transition-colors'
+    'group inline-flex h-13 max-w-full items-center justify-center gap-2 rounded-sm px-7 text-[16px] font-semibold whitespace-nowrap transition-colors'
   const cls = isPrimary
     ? `${base} bg-action text-on-action hover:bg-action-hover`
     : `${base} border border-border-strong text-action hover:bg-surface-sunken`
@@ -71,8 +71,8 @@ export function MarketHero({ data }: { data: BlockData }) {
         </defs>
         <rect width="100%" height="100%" fill="url(#hero-lat)" />
       </svg>
-      <div className="container-x relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-12 lg:py-24">
-        <div className="relative z-10 lg:col-span-7">
+      <div className="container-x relative grid min-h-[34rem] grid-cols-[minmax(0,1fr)] items-center gap-12 py-16 md:min-h-[40rem] md:py-24 lg:min-h-[42rem] lg:grid-cols-12 lg:gap-10 lg:py-24">
+        <div className="relative z-10 min-w-0 lg:col-span-5">
           {/* Junction mark + eyebrow label, inside one inline-flex row so the
               mark sits on the baseline the way the reference draws it. */}
           {data.eyebrow && (
@@ -86,7 +86,7 @@ export function MarketHero({ data }: { data: BlockData }) {
           </h1>
           {data.body && <p className="text-body-lg mt-6 max-w-[60ch] text-text-secondary">{data.body}</p>}
           {data.showButtons !== false && (
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               {(data.buttons?.length ? data.buttons : [data.primary, data.secondary]).map((button: any, index: number) => (
                 <HeroButton key={index} data={button.blockType ? { label: button.label, url: button.url, variant: button.blockType === 'secondaryButton' ? 'secondary' : 'primary' } : button} />
               ))}
@@ -104,16 +104,16 @@ export function MarketHero({ data }: { data: BlockData }) {
             </ul>
           )}
         </div>
-        {/* 4:5 figure, matching the reference exactly. Fixed aspect ratio keeps
-            the image taller than our previous `fill`-based panel on desktop. */}
-        <div className="lg:col-span-5">
-          <figure className="relative aspect-[4/5] overflow-hidden rounded-sm bg-surface-sunken">
+        {/* Give the image the visual weight of the hero while preserving a
+            stable crop for landscape and portrait source assets. */}
+        <div className="min-w-0 lg:col-span-7">
+          <figure className="relative aspect-[4/3] min-h-[16rem] overflow-hidden rounded-sm bg-transparent sm:min-h-[22rem] md:min-h-[28rem] lg:aspect-[5/4] lg:min-h-[34rem]">
             <Image
               src={imageSrc(data.heroImage, '/brand/trading-floor.webp')}
               alt={imageAlt(data.heroImage, 'Hero image')}
               fill
               className="object-cover"
-              sizes="(min-width: 1024px) 40vw, 100vw"
+              sizes="(min-width: 1024px) 58vw, 100vw"
               priority
             />
           </figure>

@@ -6,7 +6,20 @@ export const licensingCredentials: Block = {
     plural: 'Licensing & Regulatory Credentials',
   },
   fields: [
+    { name: 'sectionId', type: 'text', label: 'Section ID (optional)' },
     { name: 'eyebrow', type: 'text', defaultValue: 'Licensed, and published openly' },
+    { name: 'heading', type: 'text', label: 'Heading (optional)' },
+    { name: 'body', type: 'textarea', label: 'Supporting text (optional)' },
+    {
+      name: 'layoutVariant',
+      type: 'select',
+      defaultValue: 'cards',
+      options: [
+        { label: 'Cards grid', value: 'cards' },
+        { label: 'Split entities and documents', value: 'split' },
+      ],
+    },
+    { name: 'disclosureText', type: 'textarea', label: 'Disclosure note (split layout)' },
     {
       name: 'items',
       type: 'array',
@@ -21,7 +34,23 @@ export const licensingCredentials: Block = {
               'Small highlighted line under the body, e.g. the regulator. Leave blank to hide.',
           },
         },
-        { name: 'url', type: 'text' },
+        {
+          name: 'url',
+          type: 'text',
+          admin: {
+            description: 'Relative path or full URL. Ignored when a document is uploaded below.',
+          },
+        },
+        {
+          name: 'file',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Or upload a document (PDF)',
+          admin: {
+            description:
+              'Upload a licence, certificate or disclosure PDF. When set, the card links to this file instead of the URL.',
+          },
+        },
         { name: 'linkLabel', type: 'text', defaultValue: 'View documents' },
         {
           name: 'variant',

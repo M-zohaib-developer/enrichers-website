@@ -28,6 +28,16 @@ export const serviceHero: Block = {
       ],
     },
     {
+      name: 'heroVariant',
+      type: 'select',
+      defaultValue: 'standard',
+      options: [
+        { label: 'Standard service hero', value: 'standard' },
+        { label: 'Platform download hero', value: 'platform' },
+      ],
+      admin: { description: 'Use the platform variant for product download pages with feature highlights.' },
+    },
+    {
       name: 'breadcrumbs',
       type: 'array',
       label: 'Breadcrumb trail',
@@ -61,6 +71,12 @@ export const serviceHero: Block = {
       required: true,
     },
     {
+      name: 'headingAccent',
+      type: 'text',
+      label: 'Highlighted heading segment (optional)',
+      admin: { description: 'The exact text is rendered in the accent color inside the platform hero.' },
+    },
+    {
       name: 'body',
       type: 'textarea',
       label: 'Body text',
@@ -91,6 +107,27 @@ export const serviceHero: Block = {
       admin: { description: 'Shield-icon pills shown below the buttons (e.g. PSX TREC holder).' },
       fields: [{ name: 'label', type: 'text', required: true }],
       defaultValue: [],
+    },
+    {
+      name: 'heroBenefits',
+      type: 'array',
+      label: 'Platform hero benefits',
+      admin: { description: 'Optional highlights shown in the platform download hero.' },
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          defaultValue: 'fast',
+          options: [
+            { label: 'Fast / lightning', value: 'fast' },
+            { label: 'Shield / secure', value: 'secure' },
+            { label: 'Devices', value: 'devices' },
+            { label: 'Markets / chart', value: 'markets' },
+          ],
+        },
+        { name: 'title', type: 'text', required: true },
+        { name: 'body', type: 'text', required: true },
+      ],
     },
   ],
 }

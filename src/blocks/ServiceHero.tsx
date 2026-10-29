@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 import Image from 'next/image'
-import { ArrowRightIcon, ChevronRightIcon, JunctionMark, ShieldIcon } from '@/components/Icon'
+import { ArrowRightIcon, ChartIcon, ChevronRightIcon, CompassIcon, DocumentIcon, GlobeIcon, JunctionMark, LedgerIcon, ShieldIcon } from '@/components/Icon'
 import { imageAlt, imageSrc, linkOk, type BlockData } from './shared'
 
 type ButtonData = {
@@ -13,6 +13,20 @@ type BreadcrumbItem = {
   label?: string | null
   url?: string | null
 }
+
+type PlatformBenefit = {
+  icon?: string | null
+  title?: string | null
+  body?: string | null
+}
+
+const platformBenefitIcons = {
+  fast: ChartIcon,
+  secure: ShieldIcon,
+  devices: CompassIcon,
+  markets: GlobeIcon,
+  chart: LedgerIcon,
+} as const
 
 function HeroButton({ data, isLight }: { data?: ButtonData | null; isLight?: boolean }) {
   const variant = data?.variant ?? 'primary'
@@ -45,6 +59,22 @@ export function ServiceHero({ data }: { data: BlockData }) {
   const isLight = data.theme === 'light'
   const breadcrumbPosition = data.breadcrumbPosition === 'bottom' ? 'bottom' : 'top'
 
+  const renderPlatformHeading = () => {
+    const heading = String(data.heading || '')
+    const accent = String(data.headingAccent || '')
+    const accentStart = accent ? heading.indexOf(accent) : -1
+    if (accentStart < 0) return <span>{heading}</span>
+    return <><span>{heading.slice(0, accentStart).trim()}</span>{' '}<span className="text-text-link">{heading.slice(accentStart, accentStart + accent.length)}</span></>
+  }
+
+  const renderDarkHeading = () => {
+    const heading = String(data.heading || '')
+    const accent = String(data.headingAccent || '')
+    const accentStart = accent ? heading.indexOf(accent) : -1
+    if (accentStart < 0) return <span>{heading}</span>
+    return <><span>{heading.slice(0, accentStart).trim()}</span>{' '}<span className="text-text-link">{heading.slice(accentStart, accentStart + accent.length)}</span></>
+  }
+
   const breadcrumbNav = breadcrumbs.length > 0 ? (
     <nav aria-label="Breadcrumb" className="mb-6 text-caption">
       <ol className="flex flex-wrap items-center gap-1.5 text-text-muted">
@@ -59,6 +89,56 @@ export function ServiceHero({ data }: { data: BlockData }) {
   ) : null
 
   if (isLight) {
+    if (data.heroVariant === 'platform') {
+      const benefits = (Array.isArray(data.heroBenefits) ? data.heroBenefits : []) as PlatformBenefit[]
+      return (
+        <section className="theme-surface relative overflow-hidden">
+          <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-48 right-0 h-[28rem] w-[28rem] rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
+          <div className="container-wide relative grid gap-10 py-14 md:py-20 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-24">
+            <div className="lg:col-span-6">
+              {data.eyebrow && <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-4 py-2 text-overline font-semibold tracking-overline text-text-link uppercase"><JunctionMark size={12} />{data.eyebrow}</p>}
+              <h1 className="font-display text-display font-semibold leading-[0.98] tracking-[-0.04em] text-text">{renderPlatformHeading()}</h1>
+              {data.body && <p className="mt-6 max-w-[58ch] text-body-lg leading-relaxed text-text-secondary">{data.body}</p>}
+              {benefits.length > 0 && (
+                <ul className="mt-9 grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                  {benefits.map((benefit, index) => {
+                    const BenefitIcon = platformBenefitIcons[benefit.icon as keyof typeof platformBenefitIcons] ?? ChartIcon
+                    return <li key={`${benefit.title || 'benefit'}-${index}`}>
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-text-link"><BenefitIcon size={25} /></span>
+                      <h2 className="font-display mt-3 text-h6 font-semibold text-text">{benefit.title}</h2>
+                      <p className="mt-1 text-caption leading-relaxed text-text-secondary">{benefit.body}</p>
+                    </li>
+                  })}
+                </ul>
+              )}
+              {(linkOk(data.primary) || linkOk(data.secondary)) && <div className="mt-9 flex flex-wrap items-center gap-4"><HeroButton data={data.primary} isLight /><HeroButton data={data.secondary} isLight /></div>}
+              {breadcrumbPosition === 'bottom' && breadcrumbNav}
+            </div>
+            {data.heroImage && imageSrc(data.heroImage) ? (
+              <div className="relative order-last mx-auto w-full max-w-[680px] lg:order-none lg:col-span-6">
+                <div className="absolute inset-8 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
+                <div className="relative aspect-[1.08] w-full"><Image src={imageSrc(data.heroImage)} alt={imageAlt(data.heroImage, data.heading)} fill className="object-contain drop-shadow-[0_24px_40px_var(--e-neutral-200)]" sizes="(min-width: 1024px) 50vw, 94vw" priority /></div>
+              </div>
+            ) : (
+              <div className="relative order-last mx-auto w-full max-w-[620px] lg:order-none lg:col-span-6" aria-label="Regulatory documents and investor protection">
+                <div className="absolute inset-8 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
+                <div className="relative rounded-md border border-border bg-surface p-5 shadow-[0_24px_56px_rgb(8_29_65_/_0.10)] sm:p-7">
+                  <div className="flex items-center justify-between border-b border-border pb-5">
+                    <div className="flex items-center gap-3"><span className="inline-flex h-11 w-11 items-center justify-center rounded-sm bg-accent/10 text-text-link"><ShieldIcon size={23} /></span><span><span className="block text-caption font-semibold uppercase tracking-overline text-text-muted">Investor protection</span><span className="font-display mt-0.5 block text-h5 font-semibold text-text">Regulatory documents</span></span></div>
+                    <span className="rounded-full bg-accent/10 px-3 py-1 text-caption font-semibold text-text-link">Published</span>
+                  </div>
+                  <ul className="mt-5 space-y-3">
+                    {['SECP licence', 'PMEX membership certificate', 'Investor disclosures'].map((label) => <li key={label} className="flex items-center gap-3 rounded-sm border border-border bg-surface-sunken/40 px-4 py-3"><DocumentIcon size={20} className="shrink-0 text-action" /><span className="text-body-sm font-semibold text-text">{label}</span><span className="ml-auto h-2 w-2 rounded-full bg-accent" /></li>)}
+                  </ul>
+                  <p className="mt-5 text-caption leading-relaxed text-text-secondary">Clear documents, public disclosures and direct support before you make a decision.</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
     return (
       <section className="theme-surface border-b border-border">
         <div className="container-x py-12 md:py-16">
@@ -126,7 +206,7 @@ export function ServiceHero({ data }: { data: BlockData }) {
               {data.eyebrow}
             </p>
           )}
-          <h1 className="font-display text-display font-light tracking-[-0.025em] text-text">{data.heading}</h1>
+          <h1 className="font-display text-display font-light tracking-[-0.025em] text-text">{renderDarkHeading()}</h1>
           {data.body && (
             <p className="mt-6 max-w-[58ch] text-body-lg text-text-secondary">{data.body}</p>
           )}

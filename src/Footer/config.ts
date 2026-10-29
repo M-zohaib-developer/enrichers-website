@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
+import { FALLBACK_SOCIAL } from './defaults'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
 // String-path component reference — see Header/config.ts for why this isn't a direct import.
@@ -53,7 +54,7 @@ export const Footer: GlobalConfig = {
               label: 'Phone link (tel:)',
               defaultValue: 'tel:+9242111111333',
             },
-            { name: 'email', type: 'text', defaultValue: 'info@enrichers.com.pk' },
+            { name: 'email', type: 'text', defaultValue: 'connect@enrichers.com.pk' },
             {
               name: 'whatsappUrl',
               type: 'text',
@@ -65,6 +66,31 @@ export const Footer: GlobalConfig = {
               type: 'text',
               label: 'WhatsApp label',
               defaultValue: 'WhatsApp',
+            },
+            {
+              name: 'socialLinks',
+              type: 'array',
+              label: 'Social profiles',
+              admin: {
+                description:
+                  'Icon row under the contact details. The platform picks the icon, so an unknown platform cannot render a blank square.',
+              },
+              defaultValue: FALLBACK_SOCIAL,
+              fields: [
+                {
+                  name: 'platform',
+                  type: 'select',
+                  required: true,
+                  options: [
+                    { label: 'Facebook', value: 'facebook' },
+                    { label: 'LinkedIn', value: 'linkedin' },
+                    { label: 'Instagram', value: 'instagram' },
+                    { label: 'Threads', value: 'threads' },
+                    { label: 'YouTube', value: 'youtube' },
+                  ],
+                },
+                { name: 'url', type: 'text', required: true },
+              ],
             },
           ],
         },

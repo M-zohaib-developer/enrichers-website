@@ -36,11 +36,13 @@ export function Button({
   secondary = false,
   inverse = false,
   showArrow = true,
+  showExternalIcon = true,
 }: {
   link: LinkValue
   secondary?: boolean
   inverse?: boolean
   showArrow?: boolean
+  showExternalIcon?: boolean
 }) {
   if (!linkOk(link)) return null
 
@@ -54,14 +56,14 @@ export function Button({
       ? `${BTN_BASE} border border-border-strong text-action hover:bg-surface-sunken`
       : `${BTN_BASE} bg-action text-on-action hover:bg-action-hover`
 
-  const content = <>{link.label}{external ? <ExternalLinkIcon size={18} /> : !secondary && showArrow ? <ArrowRightIcon size={18} className="transition-transform duration-(--duration-fast) group-hover:translate-x-[3px]" /> : null}</>
+  const content = <>{link.label}{external && showExternalIcon ? <ExternalLinkIcon size={18} /> : !external && !secondary && showArrow ? <ArrowRightIcon size={18} className="transition-transform duration-(--duration-fast) group-hover:translate-x-[3px]" /> : null}</>
   return external ? <a href={link.url} target="_blank" rel="noopener noreferrer" className={cls}>{content}<span className="sr-only"> (opens in a new tab)</span></a> : <NextLink href={link.url} className={cls}>{content}</NextLink>
 }
 
-export function Buttons({ buttons, fallback = [], inverse = false, showArrow = true }: { buttons?: any[] | null; fallback?: Array<{ label?: string; url?: string; secondary?: boolean }>; inverse?: boolean; showArrow?: boolean }) {
+export function Buttons({ buttons, fallback = [], inverse = false, showArrow = true, showExternalIcon = true }: { buttons?: any[] | null; fallback?: Array<{ label?: string; url?: string; secondary?: boolean }>; inverse?: boolean; showArrow?: boolean; showExternalIcon?: boolean }) {
   const links = Array.isArray(buttons) && buttons.length
     ? buttons.map((button) => ({ label: button?.label, url: button?.url, secondary: button?.blockType === 'secondaryButton' }))
     : fallback.filter(Boolean)
   if (!links.length) return null
-  return <div className="mt-8 flex flex-wrap gap-3">{links.map((link, index) => <Button key={`${link.label || 'button'}-${index}`} link={link} secondary={link.secondary} inverse={inverse} showArrow={showArrow} />)}</div>
+  return <div className="mt-8 flex flex-wrap gap-3">{links.map((link, index) => <Button key={`${link.label || 'button'}-${index}`} link={link} secondary={link.secondary} inverse={inverse} showArrow={showArrow} showExternalIcon={showExternalIcon} />)}</div>
 }

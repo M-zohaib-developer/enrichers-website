@@ -30,8 +30,7 @@ export const contactDetails: Block = {
     {
       name: 'offices',
       type: 'array',
-      required: true,
-      minRows: 1,
+      required: false,
       fields: [
         { name: 'name', type: 'text', required: true },
         { name: 'address', type: 'textarea', required: true },

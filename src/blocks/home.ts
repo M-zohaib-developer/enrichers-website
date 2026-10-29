@@ -31,6 +31,16 @@ import { splitContentList } from './schema/splitContentList'
 import { agricultureFeature } from './schema/agricultureFeature'
 import { richIntro } from './schema/richIntro'
 import { focusAreasGrid } from './schema/focusAreasGrid'
+import { hospitalityExperienceGrid } from './schema/hospitalityExperienceGrid'
+import { destinationLocationShowcase } from './schema/destinationLocationShowcase'
+import { videoTextFeature } from './schema/videoTextFeature'
+import { immersiveMediaGallery } from './schema/immersiveMediaGallery'
+import { statsBand } from './schema/statsBand'
+import { teamGrid } from './schema/teamGrid'
+import { researchLibrary } from './schema/researchLibrary'
+import { articleList } from './schema/articleList'
+import { teamMemberProfile } from './schema/teamMemberProfile'
+import { founderStatement } from './schema/founderStatement'
 
 /** Payload registry for the editable homepage. Each block schema lives beside its own definition. */
 export const HomeBlocks: Block[] = [
@@ -66,4 +76,14 @@ export const HomeBlocks: Block[] = [
   agricultureFeature,
   richIntro,
   focusAreasGrid,
+  hospitalityExperienceGrid,
+  destinationLocationShowcase,
+  videoTextFeature,
+  immersiveMediaGallery,
+  statsBand,
+  teamGrid,
+  researchLibrary,
+  articleList,
+  teamMemberProfile,
+  founderStatement,
 ]

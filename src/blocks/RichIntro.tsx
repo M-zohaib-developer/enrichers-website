@@ -3,7 +3,7 @@ import { Buttons, type BlockData } from './shared'
 
 export function RichIntro({ data }: { data: BlockData }) {
   return (
-    <section className="theme-light py-(--section-y)">
+    <section className="theme-light py-14 md:py-16 lg:py-20">
       <div className="container-x">
         <div className="w-full max-w-[1280px]">
           <h2 className="font-display text-h2 text-text">{data.heading}</h2>

@@ -141,6 +141,10 @@ export interface Page {
     | {
         theme?: ('dark' | 'light') | null;
         /**
+         * Use the platform variant for product download pages with feature highlights.
+         */
+        heroVariant?: ('standard' | 'platform') | null;
+        /**
          * Items shown above the heading. First item is usually Home.
          */
         breadcrumbs?:
@@ -159,6 +163,10 @@ export interface Page {
          */
         eyebrow?: string | null;
         heading: string;
+        /**
+         * The exact text is rendered in the accent color inside the platform hero.
+         */
+        headingAccent?: string | null;
         body?: string | null;
         /**
          * Adds a responsive image beside the light hero content.
@@ -186,6 +194,17 @@ export interface Page {
         badges?:
           | {
               label: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Optional highlights shown in the platform download hero.
+         */
+        heroBenefits?:
+          | {
+              icon?: ('fast' | 'secure' | 'devices' | 'markets') | null;
+              title: string;
+              body: string;
               id?: string | null;
             }[]
           | null;
@@ -315,7 +334,7 @@ export interface Page {
         intro?: string | null;
         steps: {
           title: string;
-          body: string;
+          body?: string | null;
           id?: string | null;
         }[];
         id?: string | null;
@@ -431,7 +450,12 @@ export interface Page {
         blockType: 'marketHero';
       }
     | {
+        sectionId?: string | null;
         eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        layoutVariant?: ('cards' | 'split') | null;
+        disclosureText?: string | null;
         items?:
           | {
               title?: string | null;
@@ -440,7 +464,14 @@ export interface Page {
                * Small highlighted line under the body, e.g. the regulator. Leave blank to hide.
                */
               note?: string | null;
+              /**
+               * Relative path or full URL. Ignored when a document is uploaded below.
+               */
               url?: string | null;
+              /**
+               * Upload a licence, certificate or disclosure PDF. When set, the card links to this file instead of the URL.
+               */
+              file?: (number | null) | Media;
               linkLabel?: string | null;
               /**
                * Chooses the border and icon. Set per item so reordering or adding a card cannot move the styling to the wrong one.
@@ -579,9 +610,12 @@ export interface Page {
         whatsappUrl?: string | null;
         whatsappLabel?: string | null;
         hours?: string | null;
+        formMode?: ('wizard' | 'singlePage') | null;
         formStepLabel?: string | null;
         formHeading?: string | null;
         formIntro?: string | null;
+        termsUrl?: string | null;
+        termsLabel?: string | null;
         /**
          * Select the form document managed in the Forms collection.
          */
@@ -733,6 +767,7 @@ export interface Page {
       }
     | {
         heading?: string | null;
+        variant?: ('darkCard' | 'compact') | null;
         body?: string | null;
         /**
          * Click + to add a Primary button or Secondary button.
@@ -771,13 +806,15 @@ export interface Page {
           url: string;
           id?: string | null;
         }[];
-        offices: {
-          name: string;
-          address: string;
-          phone?: string | null;
-          hours?: string | null;
-          id?: string | null;
-        }[];
+        offices?:
+          | {
+              name: string;
+              address: string;
+              phone?: string | null;
+              hours?: string | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'contactDetails';
@@ -849,6 +886,14 @@ export interface Page {
         formStepLabel?: string | null;
         formHeading?: string | null;
         formIntro?: string | null;
+        /**
+         * Use the single-page mode for Careers and other forms with a position or topic select.
+         */
+        formMode?: ('wizard' | 'singlePage') | null;
+        /**
+         * Short, factual note shown beneath the form button. Leave blank to use the default.
+         */
+        reassurance?: string | null;
         form: number | Form;
         /**
          * Add 2–4 images. The carousel changes automatically every 3 seconds.
@@ -856,6 +901,10 @@ export interface Page {
         images: {
           image: number | Media;
           alt: string;
+          /**
+           * Shown over the bottom of the image. Leave blank for no caption.
+           */
+          caption?: string | null;
           id?: string | null;
         }[];
         intervalSeconds?: number | null;
@@ -954,11 +1003,32 @@ export interface Page {
         blockType: 'richTextBlock';
       }
     | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
         heading: string;
         body: string;
+        /**
+         * Short check-mark points shown below the body copy.
+         */
+        highlights?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
         image: number | Media;
         imageAlt?: string | null;
         imagePosition?: ('right' | 'left') | null;
+        /**
+         * Set this to turn the section into a signed message, e.g. a note from the Chairman.
+         */
+        attributionName?: string | null;
+        attributionRole?: string | null;
+        /**
+         * Uses a 4:5 crop instead of 16:9 — right for a person, wrong for a landscape photo.
+         */
+        portrait?: boolean | null;
+        background?: ('surface' | 'sunken') | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'imageTextFeature';
@@ -1085,16 +1155,316 @@ export interface Page {
         blockName?: string | null;
         blockType: 'focusAreasGrid';
       }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        items: {
+          image: number | Media;
+          imageAlt?: string | null;
+          title: string;
+          body: string;
+          id?: string | null;
+        }[];
+        closingLine?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hospitalityExperienceGrid';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body: string;
+        facts?:
+          | {
+              value: string;
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        supportingText?: string | null;
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
+        image: number | Media;
+        imageAlt?: string | null;
+        imageCaption?: string | null;
+        imageCaptionDetail?: string | null;
+        attractionsIntro?: string | null;
+        attractions?:
+          | {
+              image: number | Media;
+              imageAlt?: string | null;
+              title: string;
+              body?: string | null;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'destinationLocationShowcase';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        /**
+         * Use paragraphs, bold text, italics, and links.
+         */
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        videoUrl: string;
+        thumbnail: number | Media;
+        thumbnailAlt?: string | null;
+        videoLabel?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'videoTextFeature';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        autoplay?: boolean | null;
+        interval?: ('4000' | '5000' | '6000') | null;
+        items: {
+          image: number | Media;
+          imageAlt?: string | null;
+          caption?: string | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'immersiveMediaGallery';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        background?: ('inverse' | 'surface' | 'sunken') | null;
+        /**
+         * Two to four reads best. Keep the value short — "8,000+", "95%".
+         */
+        stats: {
+          value: string;
+          label: string;
+          id?: string | null;
+        }[];
+        /**
+         * Small line under the figures, e.g. how they are measured.
+         */
+        footnote?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'statsBand';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        displayVariant?: ('legacy' | 'candidate') | null;
+        leadershipEyebrow?: string | null;
+        leadershipHeading?: string | null;
+        leadershipBody?: string | null;
+        leadershipCtaLabel?: string | null;
+        leadershipCtaUrl?: string | null;
+        managementEyebrow?: string | null;
+        managementHeading?: string | null;
+        managementBody?: string | null;
+        /**
+         * One or two people shown above the main grid at a larger size.
+         */
+        leaders?:
+          | {
+              name: string;
+              role: string;
+              photo?: (number | null) | Media;
+              profileUrl?: string | null;
+              bio?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        members?:
+          | {
+              name: string;
+              role: string;
+              photo?: (number | null) | Media;
+              profileUrl?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'teamGrid';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading?: string | null;
+        /**
+         * Each note can link to an uploaded PDF or a published PDF URL.
+         */
+        notes?:
+          | {
+              category: string;
+              date: string;
+              title: string;
+              summary: string;
+              image?: (number | null) | Media;
+              /**
+               * Upload a PDF; it takes precedence over the URL below.
+               */
+              file?: (number | null) | Media;
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'researchLibrary';
+      }
+    | {
+        sectionId?: string | null;
+        heading?: string | null;
+        linkLabel?: string | null;
+        linkUrl?: string | null;
+        items?:
+          | {
+              title: string;
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'articleList';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        photo: number | Media;
+        role: string;
+        companyLabel?: string | null;
+        companyUrl?: string | null;
+        credentials?:
+          | {
+              text: string;
+              linkLabel?: string | null;
+              linkUrl?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        backLinkLabel?: string | null;
+        backLinkUrl?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'teamMemberProfile';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        quote: string;
+        body?: string | null;
+        authorName: string;
+        authorRole: string;
+        portrait: number | Media;
+        /**
+         * Selecting a position enables the full two-column founder message layout.
+         */
+        imagePosition?: ('left' | 'right') | null;
+        /**
+         * Click + to add a Primary button or Secondary button.
+         */
+        buttons?:
+          | (
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'primaryButton';
+                }
+              | {
+                  label: string;
+                  url: string;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'secondaryButton';
+                }
+            )[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'founderStatement';
+      }
   )[];
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Images used in blocks, and PDF documents such as licences and disclosures.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
+  /**
+   * For an image, describe what it shows. For a PDF, give the document name — it is used as the link label.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -1428,6 +1798,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               theme?: T;
+              heroVariant?: T;
               breadcrumbs?:
                 | T
                 | {
@@ -1438,6 +1809,7 @@ export interface PagesSelect<T extends boolean = true> {
               breadcrumbPosition?: T;
               eyebrow?: T;
               heading?: T;
+              headingAccent?: T;
               body?: T;
               heroImage?: T;
               primary?:
@@ -1458,6 +1830,14 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     label?: T;
+                    id?: T;
+                  };
+              heroBenefits?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    body?: T;
                     id?: T;
                   };
               id?: T;
@@ -1719,7 +2099,12 @@ export interface PagesSelect<T extends boolean = true> {
         licensingCredentials?:
           | T
           | {
+              sectionId?: T;
               eyebrow?: T;
+              heading?: T;
+              body?: T;
+              layoutVariant?: T;
+              disclosureText?: T;
               items?:
                 | T
                 | {
@@ -1727,6 +2112,7 @@ export interface PagesSelect<T extends boolean = true> {
                     body?: T;
                     note?: T;
                     url?: T;
+                    file?: T;
                     linkLabel?: T;
                     variant?: T;
                     id?: T;
@@ -1859,9 +2245,12 @@ export interface PagesSelect<T extends boolean = true> {
               whatsappUrl?: T;
               whatsappLabel?: T;
               hours?: T;
+              formMode?: T;
               formStepLabel?: T;
               formHeading?: T;
               formIntro?: T;
+              termsUrl?: T;
+              termsLabel?: T;
               form?: T;
               id?: T;
               blockName?: T;
@@ -2009,6 +2398,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
+              variant?: T;
               body?: T;
               buttons?:
                 | T
@@ -2133,12 +2523,15 @@ export interface PagesSelect<T extends boolean = true> {
               formStepLabel?: T;
               formHeading?: T;
               formIntro?: T;
+              formMode?: T;
+              reassurance?: T;
               form?: T;
               images?:
                 | T
                 | {
                     image?: T;
                     alt?: T;
+                    caption?: T;
                     id?: T;
                   };
               intervalSeconds?: T;
@@ -2231,11 +2624,23 @@ export interface PagesSelect<T extends boolean = true> {
         imageTextFeature?:
           | T
           | {
+              sectionId?: T;
+              eyebrow?: T;
               heading?: T;
               body?: T;
+              highlights?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
               image?: T;
               imageAlt?: T;
               imagePosition?: T;
+              attributionName?: T;
+              attributionRole?: T;
+              portrait?: T;
+              background?: T;
               id?: T;
               blockName?: T;
             };
@@ -2332,6 +2737,266 @@ export interface PagesSelect<T extends boolean = true> {
                     title?: T;
                     body?: T;
                     id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        hospitalityExperienceGrid?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              items?:
+                | T
+                | {
+                    image?: T;
+                    imageAlt?: T;
+                    title?: T;
+                    body?: T;
+                    id?: T;
+                  };
+              closingLine?: T;
+              id?: T;
+              blockName?: T;
+            };
+        destinationLocationShowcase?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              facts?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              supportingText?: T;
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              image?: T;
+              imageAlt?: T;
+              imageCaption?: T;
+              imageCaptionDetail?: T;
+              attractionsIntro?: T;
+              attractions?:
+                | T
+                | {
+                    image?: T;
+                    imageAlt?: T;
+                    title?: T;
+                    body?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        videoTextFeature?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              videoUrl?: T;
+              thumbnail?: T;
+              thumbnailAlt?: T;
+              videoLabel?: T;
+              id?: T;
+              blockName?: T;
+            };
+        immersiveMediaGallery?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              autoplay?: T;
+              interval?: T;
+              items?:
+                | T
+                | {
+                    image?: T;
+                    imageAlt?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        statsBand?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              background?: T;
+              stats?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              footnote?: T;
+              id?: T;
+              blockName?: T;
+            };
+        teamGrid?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              displayVariant?: T;
+              leadershipEyebrow?: T;
+              leadershipHeading?: T;
+              leadershipBody?: T;
+              leadershipCtaLabel?: T;
+              leadershipCtaUrl?: T;
+              managementEyebrow?: T;
+              managementHeading?: T;
+              managementBody?: T;
+              leaders?:
+                | T
+                | {
+                    name?: T;
+                    role?: T;
+                    photo?: T;
+                    profileUrl?: T;
+                    bio?: T;
+                    id?: T;
+                  };
+              members?:
+                | T
+                | {
+                    name?: T;
+                    role?: T;
+                    photo?: T;
+                    profileUrl?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        researchLibrary?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              notes?:
+                | T
+                | {
+                    category?: T;
+                    date?: T;
+                    title?: T;
+                    summary?: T;
+                    image?: T;
+                    file?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        articleList?:
+          | T
+          | {
+              sectionId?: T;
+              heading?: T;
+              linkLabel?: T;
+              linkUrl?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        teamMemberProfile?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              photo?: T;
+              role?: T;
+              companyLabel?: T;
+              companyUrl?: T;
+              credentials?:
+                | T
+                | {
+                    text?: T;
+                    linkLabel?: T;
+                    linkUrl?: T;
+                    id?: T;
+                  };
+              body?: T;
+              backLinkLabel?: T;
+              backLinkUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        founderStatement?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              quote?: T;
+              body?: T;
+              authorName?: T;
+              authorRole?: T;
+              portrait?: T;
+              imagePosition?: T;
+              buttons?:
+                | T
+                | {
+                    primaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    secondaryButton?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -2621,27 +3286,36 @@ export interface Header {
           eyebrow?: string | null;
           title?: string | null;
           href?: string | null;
+          linkLabel?: string | null;
         };
         id?: string | null;
       }[]
     | null;
-  consultationLink: {
-    link: {
+  consultationLink?: {
+    link?: {
       label?: string | null;
       /**
        * Relative path (e.g. /contact-us#consultation) or full URL.
        */
-      url: string;
+      url?: string | null;
+      /**
+       * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+       */
+      file?: (number | null) | Media;
       newTab?: boolean | null;
     };
   };
-  ctaButton: {
-    link: {
+  ctaButton?: {
+    link?: {
       label?: string | null;
       /**
        * Relative path (e.g. /contact-us#consultation) or full URL.
        */
-      url: string;
+      url?: string | null;
+      /**
+       * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+       */
+      file?: (number | null) | Media;
       newTab?: boolean | null;
     };
   };
@@ -2694,6 +3368,16 @@ export interface Footer {
   email?: string | null;
   whatsappUrl?: string | null;
   whatsappLabel?: string | null;
+  /**
+   * Icon row under the contact details. The platform picks the icon, so an unknown platform cannot render a blank square.
+   */
+  socialLinks?:
+    | {
+        platform: 'facebook' | 'linkedin' | 'instagram' | 'threads' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   tradeInvest: {
     label: string;
     links?:
@@ -2703,7 +3387,11 @@ export interface Footer {
             /**
              * Relative path (e.g. /contact-us#consultation) or full URL.
              */
-            url: string;
+            url?: string | null;
+            /**
+             * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+             */
+            file?: (number | null) | Media;
             newTab?: boolean | null;
           };
           id?: string | null;
@@ -2719,7 +3407,11 @@ export interface Footer {
             /**
              * Relative path (e.g. /contact-us#consultation) or full URL.
              */
-            url: string;
+            url?: string | null;
+            /**
+             * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+             */
+            file?: (number | null) | Media;
             newTab?: boolean | null;
           };
           id?: string | null;
@@ -2735,7 +3427,11 @@ export interface Footer {
             /**
              * Relative path (e.g. /contact-us#consultation) or full URL.
              */
-            url: string;
+            url?: string | null;
+            /**
+             * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+             */
+            file?: (number | null) | Media;
             newTab?: boolean | null;
           };
           id?: string | null;
@@ -2751,7 +3447,11 @@ export interface Footer {
             /**
              * Relative path (e.g. /contact-us#consultation) or full URL.
              */
-            url: string;
+            url?: string | null;
+            /**
+             * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+             */
+            file?: (number | null) | Media;
             newTab?: boolean | null;
           };
           id?: string | null;
@@ -2766,7 +3466,11 @@ export interface Footer {
           /**
            * Relative path (e.g. /contact-us#consultation) or full URL.
            */
-          url: string;
+          url?: string | null;
+          /**
+           * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+           */
+          file?: (number | null) | Media;
           newTab?: boolean | null;
         };
         id?: string | null;
@@ -2791,7 +3495,11 @@ export interface Footer {
           /**
            * Relative path (e.g. /contact-us#consultation) or full URL.
            */
-          url: string;
+          url?: string | null;
+          /**
+           * Upload a PDF — a licence, certificate or disclosure — and it is linked instead of the URL. Clear this to go back to using a URL.
+           */
+          file?: (number | null) | Media;
           newTab?: boolean | null;
         };
         id?: string | null;
@@ -2834,6 +3542,7 @@ export interface HeaderSelect<T extends boolean = true> {
               eyebrow?: T;
               title?: T;
               href?: T;
+              linkLabel?: T;
             };
         id?: T;
       };
@@ -2845,6 +3554,7 @@ export interface HeaderSelect<T extends boolean = true> {
           | {
               label?: T;
               url?: T;
+              file?: T;
               newTab?: T;
             };
       };
@@ -2856,6 +3566,7 @@ export interface HeaderSelect<T extends boolean = true> {
           | {
               label?: T;
               url?: T;
+              file?: T;
               newTab?: T;
             };
       };
@@ -2919,6 +3630,13 @@ export interface FooterSelect<T extends boolean = true> {
   email?: T;
   whatsappUrl?: T;
   whatsappLabel?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
   tradeInvest?:
     | T
     | {
@@ -2931,6 +3649,7 @@ export interface FooterSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     url?: T;
+                    file?: T;
                     newTab?: T;
                   };
               id?: T;
@@ -2948,6 +3667,7 @@ export interface FooterSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     url?: T;
+                    file?: T;
                     newTab?: T;
                   };
               id?: T;
@@ -2965,6 +3685,7 @@ export interface FooterSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     url?: T;
+                    file?: T;
                     newTab?: T;
                   };
               id?: T;
@@ -2982,6 +3703,7 @@ export interface FooterSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     url?: T;
+                    file?: T;
                     newTab?: T;
                   };
               id?: T;
@@ -2996,6 +3718,7 @@ export interface FooterSelect<T extends boolean = true> {
           | {
               label?: T;
               url?: T;
+              file?: T;
               newTab?: T;
             };
         id?: T;
@@ -3017,6 +3740,7 @@ export interface FooterSelect<T extends boolean = true> {
           | {
               label?: T;
               url?: T;
+              file?: T;
               newTab?: T;
             };
         id?: T;

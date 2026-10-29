@@ -30,6 +30,16 @@ import { SplitContentList } from './SplitContentList'
 import { AgricultureFeature } from './AgricultureFeature'
 import { RichIntro } from './RichIntro'
 import { FocusAreasGrid } from './FocusAreasGrid'
+import { HospitalityExperienceGrid } from './HospitalityExperienceGrid'
+import { DestinationLocationShowcase } from './DestinationLocationShowcase'
+import { VideoTextFeature } from './VideoTextFeature'
+import { ImmersiveMediaGallery } from './ImmersiveMediaGallery'
+import { StatsBand } from './StatsBand'
+import { TeamGrid } from './TeamGrid'
+import { ResearchLibrary } from './ResearchLibrary'
+import { ArticleList } from './ArticleList'
+import { TeamMemberProfile } from './TeamMemberProfile'
+import { FounderStatement } from './FounderStatement'
 import type { BlockData } from './shared'
 
 const components = {
@@ -65,6 +75,16 @@ const components = {
   agricultureFeature: AgricultureFeature,
   richIntro: RichIntro,
   focusAreasGrid: FocusAreasGrid,
+  hospitalityExperienceGrid: HospitalityExperienceGrid,
+  destinationLocationShowcase: DestinationLocationShowcase,
+  videoTextFeature: VideoTextFeature,
+  immersiveMediaGallery: ImmersiveMediaGallery,
+  statsBand: StatsBand,
+  teamGrid: TeamGrid,
+  researchLibrary: ResearchLibrary,
+  articleList: ArticleList,
+  teamMemberProfile: TeamMemberProfile,
+  founderStatement: FounderStatement,
 } as const
 
 export function RenderHomeBlocks({ blocks }: { blocks: BlockData[] }) {

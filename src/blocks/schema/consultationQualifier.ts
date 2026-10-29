@@ -28,9 +28,20 @@ export const consultationQualifier: Block = {
         {
           label: 'Form',
           fields: [
+            {
+              name: 'formMode',
+              type: 'select',
+              defaultValue: 'wizard',
+              options: [
+                { label: 'Guided multi-step form', value: 'wizard' },
+                { label: 'Single-page enquiry form', value: 'singlePage' },
+              ],
+            },
             { name: 'formStepLabel', type: 'text', defaultValue: 'Step 1 of 4 · Demo — nothing is submitted' },
             { name: 'formHeading', type: 'text', defaultValue: "Let's find the right investment path for you" },
             { name: 'formIntro', type: 'text', defaultValue: "Just a few quick questions, so we don't waste your time." },
+            { name: 'termsUrl', type: 'text', label: 'Terms URL (optional)' },
+            { name: 'termsLabel', type: 'text', label: 'Terms link label (optional)', defaultValue: 'Terms & Conditions' },
             {
               name: 'form',
               type: 'relationship',

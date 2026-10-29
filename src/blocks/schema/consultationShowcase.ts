@@ -16,6 +16,25 @@ export const consultationShowcase: Block = {
     { name: 'formStepLabel', type: 'text', defaultValue: 'Step 1 of 4 · Demo — nothing is submitted' },
     { name: 'formHeading', type: 'text', defaultValue: "Let's find the right investment path for you" },
     { name: 'formIntro', type: 'text', defaultValue: "Just a few quick questions, so we don't waste your time." },
+    {
+      name: 'formMode',
+      type: 'select',
+      defaultValue: 'wizard',
+      options: [
+        { label: 'Guided multi-step form', value: 'wizard' },
+        { label: 'Single-page form with select fields', value: 'singlePage' },
+      ],
+      admin: { description: 'Use the single-page mode for Careers and other forms with a position or topic select.' },
+    },
+    {
+      name: 'reassurance',
+      type: 'text',
+      label: 'Reassurance line (under the button)',
+      admin: {
+        description:
+          'Short, factual note shown beneath the form button. Leave blank to use the default.',
+      },
+    },
     { name: 'form', type: 'relationship', relationTo: 'forms', required: true },
     {
       name: 'images', type: 'array', required: true, minRows: 1, label: 'Carousel images',
@@ -23,6 +42,12 @@ export const consultationShowcase: Block = {
       fields: [
         { name: 'image', type: 'upload', relationTo: 'media', required: true },
         { name: 'alt', type: 'text', required: true },
+        {
+          name: 'caption',
+          type: 'text',
+          label: 'Caption (optional)',
+          admin: { description: 'Shown over the bottom of the image. Leave blank for no caption.' },
+        },
       ],
     },
     { name: 'intervalSeconds', type: 'number', defaultValue: 3, min: 2, max: 10, label: 'Rotation interval (seconds)' },

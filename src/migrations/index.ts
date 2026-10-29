@@ -15,6 +15,15 @@ import * as migration_20261028_042146_consultation_wizard_fields from './2026102
 import * as migration_20261028_042800_button_blocks_editor from './20261028_042800_button_blocks_editor';
 import * as migration_20261028_043122_group_business_explorer_visual from './20261028_043122_group_business_explorer_visual';
 import * as migration_20261028_050000_agriculture_feature from './20261028_050000_agriculture_feature';
+import * as migration_20261028_140048_add_service_hero_platform_benefits from './20261028_140048_add_service_hero_platform_benefits';
+import * as migration_20261028_144811 from './20261028_144811';
+import * as migration_20261028_150928 from './20261028_150928';
+import * as migration_20261028_151502 from './20261028_151502';
+import * as migration_20261028_152125 from './20261028_152125';
+import * as migration_20261028_152827 from './20261028_152827';
+import * as migration_20261028_154800 from './20261028_154800';
+import * as migration_20261029_043438 from './20261029_043438';
+import * as migration_20261029_045241 from './20261029_045241';
 
 export const migrations = [
   {
@@ -101,5 +110,50 @@ export const migrations = [
     up: migration_20261028_050000_agriculture_feature.up,
     down: migration_20261028_050000_agriculture_feature.down,
     name: '20261028_050000_agriculture_feature',
+  },
+  {
+    up: migration_20261028_140048_add_service_hero_platform_benefits.up,
+    down: migration_20261028_140048_add_service_hero_platform_benefits.down,
+    name: '20261028_140048_add_service_hero_platform_benefits',
+  },
+  {
+    up: migration_20261028_144811.up,
+    down: migration_20261028_144811.down,
+    name: '20261028_144811',
+  },
+  {
+    up: migration_20261028_150928.up,
+    down: migration_20261028_150928.down,
+    name: '20261028_150928',
+  },
+  {
+    up: migration_20261028_151502.up,
+    down: migration_20261028_151502.down,
+    name: '20261028_151502',
+  },
+  {
+    up: migration_20261028_152125.up,
+    down: migration_20261028_152125.down,
+    name: '20261028_152125',
+  },
+  {
+    up: migration_20261028_152827.up,
+    down: migration_20261028_152827.down,
+    name: '20261028_152827',
+  },
+  {
+    up: migration_20261028_154800.up,
+    down: migration_20261028_154800.down,
+    name: '20261028_154800',
+  },
+  {
+    up: migration_20261029_043438.up,
+    down: migration_20261029_043438.down,
+    name: '20261029_043438',
+  },
+  {
+    up: migration_20261029_045241.up,
+    down: migration_20261029_045241.down,
+    name: '20261029_045241'
   },
 ];

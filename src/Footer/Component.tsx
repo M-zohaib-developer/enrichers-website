@@ -4,7 +4,17 @@ import NextLink from 'next/link'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { CMSLink } from '@/components/CMSLink'
 import { Logo } from '@/components/Logo'
-import { DocumentIcon, MailIcon, PhoneIcon, WhatsAppIcon } from '@/components/Icon'
+import {
+  DocumentIcon,
+  FacebookIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  MailIcon,
+  PhoneIcon,
+  ThreadsIcon,
+  WhatsAppIcon,
+  YouTubeIcon,
+} from '@/components/Icon'
 import type { Footer as FooterType, Media } from '@/payload-types'
 
 /* -----------------------------------------------------------------------------
@@ -19,7 +29,7 @@ import type { Footer as FooterType, Media } from '@/payload-types'
  * two-up below 768px and four-up at and above.
  * -------------------------------------------------------------------------- */
 
-import type { LinkField } from './defaults'
+import type { LinkField, SocialPlatform } from './defaults'
 import {
   FALLBACK_BOTTOM,
   FALLBACK_CONTACT,
@@ -28,10 +38,52 @@ import {
   FALLBACK_OFFICES_LINE,
   FALLBACK_REGULATION,
   FALLBACK_REGULATION_TITLE,
+  FALLBACK_SOCIAL,
   fallbackCopyright,
 } from './defaults'
 
 type LinkGroup = { label?: string | null; links?: ({ link: LinkField } | null)[] | null }
+
+type SocialEntry = { platform?: string | null; url?: string | null }
+
+/** Keyed by the `platform` select, so an unrecognised value renders nothing
+ *  rather than an empty box. */
+const SOCIAL_ICONS: Record<SocialPlatform, { Icon: React.FC<{ size?: number; className?: string }>; label: string }> = {
+  facebook: { Icon: FacebookIcon, label: 'Facebook' },
+  linkedin: { Icon: LinkedInIcon, label: 'LinkedIn' },
+  instagram: { Icon: InstagramIcon, label: 'Instagram' },
+  threads: { Icon: ThreadsIcon, label: 'Threads' },
+  youtube: { Icon: YouTubeIcon, label: 'YouTube' },
+}
+
+function SocialRow({ items }: { items: SocialEntry[] }) {
+  const usable = items.filter(
+    (item): item is { platform: SocialPlatform; url: string } =>
+      Boolean(item?.url) && Boolean(item?.platform) && item.platform! in SOCIAL_ICONS,
+  )
+  if (usable.length === 0) return null
+
+  return (
+    <ul className="mt-6 flex flex-wrap items-center gap-2">
+      {usable.map(({ platform, url }) => {
+        const { Icon, label } = SOCIAL_ICONS[platform]
+        return (
+          <li key={platform}>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Enrichers on ${label}`}
+              className="grid h-9 w-9 place-items-center rounded-full border border-chrome-rule text-chrome-muted transition-colors hover:border-chrome-strong hover:text-chrome-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-chrome-strong"
+            >
+              <Icon size={16} />
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
 
 function isMedia(logo: FooterType['logo']): logo is Media {
   return Boolean(logo && typeof logo === 'object')
@@ -113,6 +165,7 @@ export async function Footer() {
     legalParagraphs?: ({ lead?: string | null; body?: string | null } | null)[] | null
     officesLine?: string | null
     bottomLinks?: ({ link: LinkField } | null)[] | null
+    socialLinks?: (SocialEntry | null)[] | null
   }
 
   const description = data.description ?? FALLBACK_DESCRIPTION
@@ -122,6 +175,11 @@ export async function Footer() {
   const whatsappUrl = d.whatsappUrl ?? FALLBACK_CONTACT.whatsappUrl
   const whatsappLabel = d.whatsappLabel ?? 'WhatsApp'
   const regulationTitle = d.regulationTitle ?? FALLBACK_REGULATION_TITLE
+
+  // Same fallback reasoning as the other fields: the global predates
+  // `socialLinks`, so an un-seeded document would render no social row at all.
+  const cmsSocial = (d.socialLinks ?? []).filter((s): s is SocialEntry => Boolean(s?.url && s?.platform))
+  const socialLinks = cmsSocial.length ? cmsSocial : FALLBACK_SOCIAL
 
   const cmsRegulation = (d.regulationLinks ?? []).filter((l): l is { link: LinkField } =>
     usable(l?.link),
@@ -177,6 +235,8 @@ export async function Footer() {
                 </ContactRow>
               )}
             </ul>
+
+            <SocialRow items={socialLinks} />
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:grid-cols-4">

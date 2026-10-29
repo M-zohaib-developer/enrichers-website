@@ -20,14 +20,14 @@ export function ProcessSteps({ data }: { data: BlockData }) {
           </div>
         </div>
 
-        <ol className="relative mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <ol className="relative mt-12 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
           {steps.map((step: any, index: number) => (
-            <li key={index} className="relative rounded-sm border border-border bg-surface p-6">
-              <span className="absolute -top-3 left-6 inline-flex h-6 items-center rounded-full bg-action px-2.5 text-caption font-semibold tabular-nums text-on-action">
-                Step {index + 1}
-              </span>
-              <h3 className="font-display text-h5 mt-3 font-semibold text-text">{step.title}</h3>
-              <p className="text-body-sm mt-2 text-text-secondary">{step.body}</p>
+            <li key={index} className="flex gap-5 bg-surface p-6 md:p-8">
+              <span className="font-display text-h3 font-light tabular-nums text-text-muted">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="font-display text-h5 font-semibold text-text">{step.title}</h3>
+                {step.body && <p className="text-body-sm mt-2 text-text-secondary">{step.body}</p>}
+              </div>
             </li>
           ))}
         </ol>

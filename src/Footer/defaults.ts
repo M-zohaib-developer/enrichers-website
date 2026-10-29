@@ -11,6 +11,12 @@ export type LinkField = {
   label?: string | null
   url?: string | null
   newTab?: boolean | null
+  /** Set when an editor uploaded a document (PDF) instead of typing a URL. */
+  file?:
+    | { url?: string | null; filename?: string | null; mimeType?: string | null }
+    | number
+    | string
+    | null
 }
 
 export const FALLBACK_DESCRIPTION = 'Enrichers, your trusted partner in financial success.'
@@ -18,9 +24,21 @@ export const FALLBACK_DESCRIPTION = 'Enrichers, your trusted partner in financia
 export const FALLBACK_CONTACT = {
   phone: '(042) 111 111 333',
   phoneHref: 'tel:+9242111111333',
-  email: 'info@enrichers.com.pk',
+  // The address the live site publishes. `info@` was a guess and is not in use.
+  email: 'connect@enrichers.com.pk',
   whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
 }
+
+export type SocialPlatform = 'facebook' | 'linkedin' | 'instagram' | 'threads' | 'youtube'
+
+/** The five profiles the live site links from its footer. */
+export const FALLBACK_SOCIAL: { platform: SocialPlatform; url: string }[] = [
+  { platform: 'facebook', url: 'https://www.facebook.com/EnrichersInvestmentGroup/' },
+  { platform: 'linkedin', url: 'https://pk.linkedin.com/company/enrichersinvestmentgroup' },
+  { platform: 'instagram', url: 'https://www.instagram.com/enrichers_investment_group/?hl=en' },
+  { platform: 'threads', url: 'https://www.threads.com/@enrichers_investment_group' },
+  { platform: 'youtube', url: 'https://www.youtube.com/@enrichersinvestmentgroup' },
+]
 
 export const FALLBACK_GROUPS = {
   tradeInvest: {

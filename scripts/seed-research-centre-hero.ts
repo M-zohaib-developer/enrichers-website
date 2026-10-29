@@ -31,16 +31,20 @@ const run = async () => {
   const layout = Array.isArray(page.layout) ? [...page.layout] : []
   layout[0] = {
     blockType: 'marketHero',
-    eyebrow: '',
+    eyebrow: 'Agriculture research & innovation',
     heading: 'Agriculture Research Center',
     headingLineOne: '',
     headingLineTwo: '',
     headingLineThree: '',
-    body: '',
+    body: 'Baab-ul-Ilm is an agriculture sciences and research centre focused on sustainable development, smart agriculture, efficient farm management, and practical learning for Pakistan’s changing food system.',
     showButtons: false,
     buttons: [],
     heroImage: image.id,
-    badges: [],
+    badges: [
+      { label: 'Smart agriculture' },
+      { label: 'Practical research' },
+      { label: 'Sustainable food systems' },
+    ],
   }
 
   await payload.update({

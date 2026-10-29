@@ -74,6 +74,7 @@ export default buildConfig({
       '!header_about_links',
       '!header_direct_links',
       '!footer_offices',
+      '!pages_blocks_research_library_articles',
     ],
   }),
   sharp,

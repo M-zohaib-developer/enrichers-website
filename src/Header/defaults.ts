@@ -37,6 +37,7 @@ export type NavItem = {
     eyebrow?: string | null
     title?: string | null
     href?: string | null
+    linkLabel?: string | null
   } | null
 }
 
@@ -82,6 +83,7 @@ export const FALLBACK_NAV: NavItem[] = [
       eyebrow: 'Latest research',
       title: "Can Pakistan's bull market enter a fourth year?",
       href: '/latest-insight/',
+      linkLabel: 'Read more',
     },
   },
   {
@@ -89,27 +91,48 @@ export const FALLBACK_NAV: NavItem[] = [
     href: '',
     groups: [
       {
-        heading: 'Businesses',
+        heading: 'Land & agriculture',
         items: [
-          { label: 'Business Brokerage', href: '/business-brokerage/' },
-          { label: 'Arid Land Development', href: '/arid-land-development/' },
-          { label: 'Agriculture', href: '/agriculture/' },
-        ],
-      },
-      {
-        // Headless second column: the reference keeps the list flowing across
-        // two columns without repeating a label.
-        heading: '',
-        items: [
+          {
+            label: 'Arid Land Development',
+            href: '/arid-land-development/',
+            description: 'Barren land into productive farmland',
+          },
+          {
+            label: 'Agriculture',
+            href: '/agriculture/',
+            description: 'Smart farming, seed banking, dairy',
+          },
           {
             label: 'Agriculture Research Centre',
             href: '/school-of-agriculture-research-centre/',
+            description: 'Baab-ul-Ilm, agri sciences & research',
           },
-          { label: 'Tourism & Hospitality', href: '/tourism-hospitality/' },
-          { label: 'Skardu Riverside Hotel', href: '/skardu-riverside-hotel/' },
+        ],
+      },
+      {
+        heading: 'Advisory & hospitality',
+        items: [
+          {
+            label: 'Business Brokerage',
+            href: '/business-brokerage/',
+            description: 'M&A, buying and selling businesses',
+          },
+          {
+            label: 'Tourism & Hospitality',
+            href: '/tourism-hospitality/',
+            description: 'Northern Pakistan, starting in Skardu',
+          },
         ],
       },
     ],
+    feature: {
+      enabled: true,
+      eyebrow: 'Flagship project',
+      title: 'Skardu Riverside Hotel, a 5-star stay in Gilgit-Baltistan',
+      href: '/skardu-riverside-hotel/',
+      linkLabel: 'Explore the project',
+    },
   },
   { label: 'Research', href: '/latest-insight/', groups: [] },
   {
@@ -117,16 +140,48 @@ export const FALLBACK_NAV: NavItem[] = [
     href: '',
     groups: [
       {
-        heading: '',
+        heading: 'Company',
         items: [
-          { label: 'About Enrichers', href: '/about-us/' },
-          { label: 'Leadership', href: '/enrichers-team/' },
-          { label: 'Regulation & disclosures', href: '/regulation/' },
-          { label: 'Careers', href: '/careers/' },
-          { label: 'Strategic partners', href: '/strategicpartner/' },
+          {
+            label: 'About Enrichers',
+            href: '/about-us/',
+            description: 'Our story, Lahore since 2011',
+          },
+          {
+            label: 'Leadership',
+            href: '/enrichers-team/',
+            description: 'The people behind the group',
+          },
+          {
+            label: 'Careers',
+            href: '/careers/',
+            description: 'Work with us',
+          },
+        ],
+      },
+      {
+        heading: 'Trust',
+        items: [
+          {
+            label: 'Regulation & disclosures',
+            href: '/regulation/',
+            description: 'Licences, investor guidance, complaints',
+          },
+          {
+            label: 'Strategic partners',
+            href: '/strategicpartner/',
+            description: 'Who we work with',
+          },
         ],
       },
     ],
+    feature: {
+      enabled: true,
+      eyebrow: 'Talk to us',
+      title: 'Speak with our Lahore team about your goals',
+      href: '/contact-us/#consultation',
+      linkLabel: 'Book a consultation',
+    },
   },
   { label: 'Contact', href: '/contact-us/', groups: [] },
 ]
