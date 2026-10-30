@@ -205,6 +205,12 @@
   --ds-text-muted: var(--e-neutral-500);
 }
 
+/*
+ * Each block owns a compact top and bottom rhythm so themed bands keep their
+ * own breathing room. The values are intentionally smaller than the original
+ * 64/96/128px spacing scale.
+ */
+
 /* The header and footer both run on this one. */
 .theme-inverse {
   background: var(--e-midnight-900);
@@ -299,8 +305,8 @@
      Steps up with the viewport exactly as the reference does (same 768 / 1024
      breakpoints as --gutter): 64px, then 96px, then 128px. A flat value here
      made every band ~25% shorter than the reference on desktop. */
-  --section-y: 64px;
-  --section-y-first: 64px;
+  --section-y: 48px;
+  --section-y-first: 48px;
 
   /* Motion. Tailwind v4 has no duration namespace, so these are used as
      duration-[var(--duration-fast)] exactly like the reference build. */
@@ -326,13 +332,13 @@
 @media (width >= 768px) {
   :root {
     --gutter: 32px;
-    --section-y: 96px;
+    --section-y: 64px;
   }
 }
 @media (width >= 1024px) {
   :root {
     --gutter: 48px;
-    --section-y: 128px;
+    --section-y: 96px;
   }
 }
 

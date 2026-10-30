@@ -9,7 +9,7 @@ export const benefitsGrid: Block = {
     { name: 'heading', type: 'text', required: true, defaultValue: 'Benefits of Working with Enrichers' },
     { name: 'showHeader', type: 'checkbox', defaultValue: true, label: 'Show section heading' },
     { name: 'body', type: 'textarea' },
-    { name: 'background', type: 'select', defaultValue: 'sunken', options: [{ label: 'Sunken', value: 'sunken' }, { label: 'Blue gradient', value: 'gradient' }] },
+    { name: 'background', type: 'select', defaultValue: 'sunken', options: [{ label: 'White', value: 'surface' }, { label: 'Sunken', value: 'sunken' }, { label: 'Blue gradient', value: 'gradient' }] },
     {
       name: 'items', type: 'array', required: true, minRows: 1,
       fields: [

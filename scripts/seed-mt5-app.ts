@@ -99,6 +99,26 @@ const run = async () => {
       buttons: [{ blockType: 'primaryButton', label: 'Open a PMEX account', url: '/open-account/' }],
     },
     {
+      blockType: 'faqAccordion',
+      sectionId: 'faq',
+      eyebrow: 'Questions',
+      heading: 'Trading on PMEX',
+      items: [
+        {
+          question: 'What is the security of deposited funds?',
+          answer: 'Client funds are deposited into designated accounts at the Pakistan Mercantile Exchange (PMEX) — licensed and regulated by the SECP. Investments in PSX are held through the regulated market infrastructure.',
+        },
+        {
+          question: 'Do I need to take physical delivery of gold or oil?',
+          answer: 'No, not unless you want to. Cash-settled futures settle in cash at contract close; deliverable futures suit producers, processors, or anyone who wants physical ownership.',
+        },
+        {
+          question: 'Is currency trading permissible?',
+          answer: "Enrichers' position (from its FAQ): currency trading through PMEX meets the acceptable trade conditions, and no interest is charged on positions.",
+        },
+      ],
+    },
+    {
       blockType: 'readyWhenYouAre',
       heading: 'Ready to start trading?',
       body: 'Open a PMEX account and download MetaTrader 5 to get started.',

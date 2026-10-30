@@ -36,6 +36,35 @@ const run = async () => {
   const form = forms.docs[0]
   if (!form) throw new Error('Investor enquiries form was not found. Run npm run seed:home first.')
 
+  const aboutForms = await payload.find({ collection: 'forms', where: { title: { equals: 'About Enrichers enquiries' } }, limit: 1 })
+  const aboutFormData = {
+    title: 'About Enrichers enquiries',
+    fields: [
+      { blockType: 'text', name: 'name', label: 'Name', required: true },
+      { blockType: 'text', name: 'phone', label: 'Phone', required: true },
+      { blockType: 'email', name: 'email', label: 'Email (optional)' },
+      {
+        blockType: 'select', name: 'topic', label: "I'm interested in", options: [
+          { label: 'Stock broking (PSX)', value: 'stock-broking' },
+          { label: 'Commodity brokerage (PMEX)', value: 'commodity-brokerage' },
+          { label: 'Business brokerage', value: 'business-brokerage' },
+          { label: 'Arid land & agriculture', value: 'arid-land-agriculture' },
+          { label: 'Tourism & hospitality', value: 'tourism-hospitality' },
+          { label: 'Strategic partnership', value: 'strategic-partnership' },
+          { label: 'Something else', value: 'something-else' },
+        ],
+      },
+      { blockType: 'textarea', name: 'message', label: 'Message' },
+    ],
+    submitButtonLabel: 'Send message',
+    confirmationType: 'message',
+    confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', version: 1, text: 'Thank you. We will be in touch shortly.' }] }] } },
+    emails: [],
+  }
+  const aboutForm = aboutForms.docs[0]
+    ? await payload.update({ collection: 'forms', id: aboutForms.docs[0].id, data: aboutFormData as never })
+    : await payload.create({ collection: 'forms', data: aboutFormData as never })
+
   const heroImage = await media('Enrichers Investment Group reception and certificates', 'about-reception.webp')
   const groupImage = await media('Enrichers group MOU ceremony', 'about-group.webp')
   const founder = await media('Syed Abdullah Bukhari, Founder and Chairman', 'about-reference-founder.webp')
@@ -115,7 +144,7 @@ const run = async () => {
     },
     {
       blockType: 'benefitsGrid',
-      sectionId: 'values',
+      sectionId: 'core-values',
       eyebrow: 'Core values',
       heading: 'Integrity, ownership, one team',
       background: 'gradient',
@@ -140,6 +169,36 @@ const run = async () => {
         { name: 'Syed Hassan Abid Zaidi', role: 'CEO – Enrichers Securities Pvt. Ltd.', photo: zaidi.id, profileUrl: '/enrichers-team/syed-hassan-abid-zaidi/' },
       ],
       members: [],
+    },
+    {
+      blockType: 'faqAccordion',
+      sectionId: 'faq',
+      eyebrow: '',
+      heading: 'About Enrichers: FAQs',
+      items: [
+        { question: 'What is the Musharakah investing model, and how does Enrichers use it?', answer: 'Musharakah is a partnership in which everyone shares the rewards and risks. Enrichers uses it to support start-ups and businesses in Pakistan by investing as a partner, sharing both profits and responsibilities.' },
+        { question: 'When was Enrichers Investment Group founded?', answer: 'In 2011, in Lahore. EIG is now a group of companies — Enrichers Private Limited, Enrichers Securities Private Limited, Enrichers Developers Private Limited, Enrichers Business Brokerage and Enri-Farms — spanning stock and commodity brokerage, real estate, agriculture and tourism & hospitality.' },
+        { question: 'Who founded Enrichers Investment Group?', answer: 'Syed Abdullah Bukhari, who serves as Chairman. Under his leadership since 2011, EIG has grown into an SECP-regulated investment group known for financial education, transparency and long-term client relationships.' },
+        { question: 'What is Enrichers\' vision for investors in Pakistan?', answer: "To be a distinctive investment company that contributes to Pakistan's economic development through diversified investment solutions across PSX, PMEX, agriculture and hospitality." },
+        { question: 'What core values define Enrichers?', answer: 'Integrity — honest and transparent dealings with every client; Ownership — every team member accountable for results; and One Team — collaboration across departments for consistent client outcomes.' },
+      ],
+    },
+    {
+      blockType: 'consultationQualifier',
+      sectionId: 'consultation',
+      eyebrow: "Let's connect",
+      heading: 'Get in touch with Enrichers',
+      subheading: 'Tell us what you are interested in and our team will call you back.',
+      phone: '(042) 111 111 333',
+      phoneHref: 'tel:+9242111111333',
+      whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
+      whatsappLabel: 'WhatsApp our client support',
+      hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed',
+      formMode: 'singlePage',
+      formStepLabel: 'Demo form — nothing is submitted from this preview.',
+      formHeading: '',
+      formIntro: '',
+      form: aboutForm.id,
     },
     {
       blockType: 'readyWhenYouAre',

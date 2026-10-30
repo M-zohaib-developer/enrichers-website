@@ -18,8 +18,28 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    meta: {
+      titleSuffix: ' — Enrichers',
+      description: '',
+      icons: {
+        icon: [{ sizes: 'any', url: '/favicon.ico' }],
+      },
+      openGraph: {
+        description: '',
+        siteName: 'Enrichers Investment Group',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    theme: 'light',
+    components: {
+      graphics: {
+        Logo: '@/components/admin/Logo#AdminLogo',
+        Icon: '@/components/admin/Logo#AdminIcon',
+      },
+      beforeLogin: ['@/components/admin/BeforeLogin'],
+      afterLogin: ['@/components/admin/LoginAside', '@/components/admin/LoginPlaceholders'],
     },
     livePreview: {
       breakpoints: [

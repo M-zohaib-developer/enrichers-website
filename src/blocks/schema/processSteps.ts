@@ -16,6 +16,7 @@ export const processSteps: Block = {
       options: [
         { label: 'Grid', value: 'grid' },
         { label: 'Connected timeline', value: 'timeline' },
+        { label: 'Candidate A cards', value: 'editorial' },
       ],
     },
     {

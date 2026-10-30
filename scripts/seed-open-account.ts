@@ -55,6 +55,7 @@ const run = async () => {
       eyebrow: 'What happens next',
       heading: 'From form to first trade',
       intro: '',
+      layoutVariant: 'editorial',
       steps: [
         { title: 'Form submitted', body: 'You submit an account opening form.' },
         { title: 'Documentation', body: 'You submit the necessary documents.' },

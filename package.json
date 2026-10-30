@@ -31,6 +31,7 @@
     "seed:arid-land-development": "tsx scripts/seed-arid-land-development.ts",
     "seed:agriculture": "tsx scripts/seed-agriculture.ts",
     "seed:about-us": "tsx scripts/seed-about-us.ts",
+    "seed:articles": "tsx scripts/seed-articles.ts",
     "seed:enrichers-team": "tsx scripts/seed-enrichers-team.ts",
     "seed:team-member-profile": "tsx scripts/seed-team-member-profile.ts",
     "seed:strategic-partner-hero": "tsx scripts/seed-strategic-partner-hero.ts",
@@ -56,7 +57,9 @@
     "seed:tourism-content": "tsx scripts/seed-tourism-content.ts",
     "seed:skardu-hotel": "tsx scripts/seed-skardu-hotel.ts",
     "seed:tourism-hospitality": "tsx scripts/seed-tourism-hospitality.ts",
-    "seed:careers": "tsx scripts/seed-careers.ts"
+    "seed:careers": "tsx scripts/seed-careers.ts",
+    "publish:pages": "tsx scripts/publish-all-pages.ts",
+    "verify:drafts": "tsx scripts/verify-drafts.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.88.0",

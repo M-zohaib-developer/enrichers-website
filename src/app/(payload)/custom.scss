@@ -1,0 +1,778 @@
+/* ── Enrichers admin branding ─────────────────────────────────────────────────
+   Payload's own markup is restyled rather than the view being replaced — a
+   custom views.login would mean owning the credential POST, error states,
+   rate limiting and the forgot-password flow.
+
+   .login and .template-minimal are the SAME element. The split is built by
+   making .template-minimal__wrap a two-column grid — the wrap auto-places
+   into column 1, and column 2 is left empty so the aside can be pinned
+   over it.
+   ──────────────────────────────────────────────────────────────────────── */
+
+$eig-navy: #081d41;
+$eig-blue: #006fc9;
+$eig-ink: #52627a;
+$eig-line: #e4ebf3;
+$eig-cyan: #0284c7;
+$eig-split: 992px;
+
+/* ── Auth page mixin ── */
+@mixin eig-auth-page {
+  background:
+    linear-gradient(to right, rgba(2, 111, 201, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(to bottom, rgba(2, 111, 201, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(145deg, #ffffff 0%, #f4fafe 55%, #e8f4fd 100%);
+  min-height: 100vh;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  padding: 0;
+
+  .template-minimal__wrap {
+    grid-column: 1;
+    max-width: 512px;
+    padding: 48px 32px;
+    width: 100%;
+  }
+
+  &__brand {
+    background: $eig-navy;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    padding: 0.6rem 0.8rem;
+    width: fit-content;
+  }
+
+  &__form {
+    background: transparent;
+    padding: 0;
+  }
+
+  .field-label {
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  &__form__inputWrap {
+    gap: 18px;
+  }
+
+  input {
+    background: #ffffff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(8, 29, 65, 0.04);
+    color: $eig-navy;
+    font-size: 14px;
+    padding: 13px 14px;
+    width: 100%;
+
+    &::placeholder {
+      color: #9aabbf;
+    }
+
+    &:focus {
+      border-color: $eig-cyan;
+      box-shadow:
+        0 0 0 4px rgba(14, 165, 233, 0.15),
+        inset 0 1px 2px rgba(8, 29, 65, 0.04);
+      outline: none;
+    }
+  }
+
+  input[name='email'],
+  input[name='password'] {
+    background-position: 14px center;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    padding-left: 40px;
+  }
+
+  input[name='email'] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2394a3b8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 8.5a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z'/%3E%3Cpath d='M2.8 13.6a5.4 5.4 0 0 1 10.4 0'/%3E%3C/svg%3E");
+  }
+
+  input[name='password'] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2394a3b8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='7' width='10' height='6.4' rx='1.4'/%3E%3Cpath d='M5.4 7V5.2a2.6 2.6 0 0 1 5.2 0V7'/%3E%3C/svg%3E");
+  }
+
+  .form-submit button {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px -2px rgba(2, 132, 199, 0.45);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    padding-block: 0.85rem;
+    transition:
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+    width: 100%;
+
+    &:hover {
+      box-shadow: 0 6px 26px 0 rgba(14, 165, 233, 0.6);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__form > a {
+    display: block;
+    margin: 10px 0 22px;
+    text-align: right;
+  }
+
+  a {
+    color: $eig-cyan;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login {
+  @include eig-auth-page;
+}
+
+.forgot-password,
+.reset-password,
+.verify,
+.createFirstUser {
+  @include eig-auth-page;
+
+  h1:not(.login-aside *) {
+    color: $eig-navy;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 10px;
+  }
+
+  p:not(.login-aside *) {
+    color: $eig-ink;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .form-submit + a,
+  form + a {
+    display: inline-block;
+    margin-top: 18px;
+  }
+}
+
+/* ── Before-login heading ── */
+.login-intro {
+  border-bottom: 1px solid $eig-line;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+
+  &__eyebrow {
+    background: rgba(224, 242, 254, 0.7);
+    border: 1px solid rgba(186, 230, 253, 0.6);
+    border-radius: 4px;
+    color: $eig-cyan;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding: 4px 8px;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    color: $eig-navy;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 0.5rem;
+  }
+
+  &__accent {
+    background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%);
+    background-clip: text;
+    color: $eig-cyan;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__text {
+    color: $eig-ink;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+/* ── Login panel motion ── */
+@keyframes eig-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes eig-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes eig-fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes eig-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes eig-draw {
+  from {
+    stroke-dashoffset: 420;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes eig-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes eig-pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+    opacity: 0.85;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    opacity: 1;
+  }
+}
+
+/* ── Right-hand photo panel (LoginAside) ── */
+.login-aside {
+  background: #081d41 url('/brand/login-aside.jpg') center / cover no-repeat;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  left: 50%;
+  overflow: hidden;
+  padding: 32px;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  > *:not(.login-aside__scrim) {
+    position: relative;
+  }
+
+  &__scrim {
+    background:
+      linear-gradient(to right, rgba(8, 29, 65, 0.1) 0%, rgba(8, 29, 65, 0.5) 100%),
+      linear-gradient(
+        to bottom,
+        rgba(8, 29, 65, 0.3) 0%,
+        rgba(8, 29, 65, 0.5) 45%,
+        rgba(8, 29, 65, 0.92) 100%
+      );
+    inset: 0;
+    position: absolute;
+  }
+
+  &__hud {
+    animation: eig-fade-down 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    align-items: center;
+    background: rgba(11, 18, 32, 0.42);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+
+  &__markets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  &__market {
+    align-items: center;
+    color: #e2e8f0;
+    display: inline-flex;
+    font-size: 11px;
+    font-weight: 600;
+    gap: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    b {
+      color: #6ee7b7;
+      font-weight: 700;
+    }
+  }
+
+  &__dot {
+    animation: eig-pulse 2.4s ease-out infinite;
+    border-radius: 50%;
+    height: 7px;
+    width: 7px;
+
+    &--green {
+      background: #34d399;
+      color: rgba(52, 211, 153, 0.55);
+    }
+    &--blue {
+      background: #38bdf8;
+      color: rgba(56, 189, 248, 0.55);
+      animation-delay: 0.8s;
+    }
+  }
+
+  &__badge {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 10px;
+    white-space: nowrap;
+  }
+
+  &__card {
+    align-self: center;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 16px;
+    box-shadow: 0 20px 45px -20px rgba(8, 29, 65, 0.65);
+    margin: auto;
+    max-width: 400px;
+    padding: 20px;
+    width: 100%;
+
+    animation:
+      eig-card-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both,
+      eig-float 7s ease-in-out 0.9s infinite;
+  }
+
+  &__cardHead {
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+
+  &__chip {
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    color: #0369a1;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 3px 7px;
+    text-transform: uppercase;
+  }
+
+  &__cardBrand {
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 6px 0 0;
+  }
+
+  &__cardIcon {
+    align-items: center;
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
+    border-radius: 9px;
+    color: #ffffff;
+    display: flex;
+    flex-shrink: 0;
+    height: 34px;
+    justify-content: center;
+    width: 34px;
+  }
+
+  &__cardTitle {
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+  }
+
+  &__cardText {
+    color: #1e293b;
+    font-size: 11.5px;
+    line-height: 1.5;
+    margin: 0 0 14px;
+  }
+
+  &__stat {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  &__statNum {
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  &__trend {
+    background: #d1fae5;
+    border: 1px solid rgba(16, 185, 129, 0.55);
+    border-radius: 999px;
+    color: #044e3c;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: auto;
+    padding: 3px 9px;
+  }
+
+  &__axis {
+    color: #1e293b;
+    display: flex;
+    font-size: 9.5px;
+    font-weight: 700;
+    justify-content: space-between;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  &__axisMid {
+    color: #075985;
+  }
+
+  &__spark {
+    display: block;
+    height: 48px;
+    width: 100%;
+
+    path[stroke] {
+      animation: eig-draw 1.5s ease-out 0.6s both;
+      stroke-dasharray: 420;
+    }
+
+    path[fill] {
+      animation: eig-fade-in 1s ease-out 1s both;
+    }
+  }
+
+  &__desks {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  &__desk {
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 6px;
+    padding: 6px 4px;
+    text-align: center;
+  }
+
+  &__deskTitle {
+    color: #334155;
+    display: block;
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  &__deskValue {
+    color: #0f172a;
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  &__quote {
+    animation: eig-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    margin: 0;
+  }
+
+  &__slogan {
+    border-left: 3px solid #38bdf8;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin: 0;
+    padding-left: 16px;
+  }
+
+  &__brand {
+    color: #bae6fd;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-top: 12px;
+    padding-left: 19px;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-aside {
+    &__hud,
+    &__card,
+    &__quote,
+    &__dot {
+      animation: none;
+    }
+
+    &__spark path[stroke],
+    &__spark path[fill] {
+      animation: none;
+    }
+
+    &__spark path[stroke] {
+      stroke-dasharray: none;
+    }
+  }
+}
+
+@media (max-width: $eig-split) {
+  .login,
+  .forgot-password,
+  .reset-password,
+  .verify,
+  .createFirstUser {
+    grid-template-columns: 1fr;
+  }
+
+  .login-aside {
+    display: none;
+  }
+}
+
+/* ── Brand marks shared by login and nav ── */
+.admin-brand__logo {
+  display: block;
+  height: auto;
+  max-width: 150px;
+  width: 100%;
+}
+
+.admin-brand__icon {
+  display: block;
+  height: auto;
+  max-width: 34px;
+  width: 100%;
+}
+
+.admin-brand__wordmark {
+  color: $eig-navy;
+  font-size: 20px;
+  font-weight: 700;
+
+  &--sm { font-size: 14px; }
+}
+
+.login__brand .admin-brand__wordmark {
+  color: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Admin shell — navy sidebar, light body.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+$eig-nav-bg: #081d41;
+$eig-nav-text: #e8f1fb;
+
+html {
+  --theme-bg: #f2f7fc;
+}
+
+.nav {
+  background: $eig-nav-bg;
+  border-right: 0;
+  color: $eig-nav-text;
+
+  --theme-bg: #{$eig-nav-bg};
+  --theme-elevation-0: #{$eig-nav-bg};
+  --theme-elevation-50: rgba(255, 255, 255, 0.06);
+  --theme-elevation-100: rgba(255, 255, 255, 0.1);
+  --theme-elevation-150: rgba(255, 255, 255, 0.14);
+  --theme-elevation-400: rgba(214, 231, 248, 0.62);
+  --theme-elevation-800: #{$eig-nav-text};
+  --theme-elevation-1000: #ffffff;
+  --theme-text: #{$eig-nav-text};
+
+  &__label,
+  .nav-group__toggle {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__link {
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 26px;
+    margin-inline: -8px;
+    padding-inline-start: 8px;
+    transition: background-color 0.12s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    &.active {
+      background: rgba(56, 189, 248, 0.14);
+      color: #ffffff;
+    }
+  }
+
+  &__link-indicator {
+    background: #38bdf8;
+  }
+}
+
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2ebf5;
+}
+
+.step-nav {
+  font-size: 12px;
+
+  a {
+    color: #0369a1;
+  }
+}
+
+/* ── Primary buttons ── */
+.btn--style-primary {
+  --bg-color: #0369a1;
+  --color: #ffffff;
+  --hover-bg: #075985;
+  --hover-color: #ffffff;
+}
+
+/* ── Content surfaces ── */
+$eig-line-soft: #e2ebf5;
+
+.card {
+  background: #ffffff;
+  border: 1px solid $eig-line-soft;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(8, 29, 65, 0.04);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.card--has-onclick:hover {
+  background: #ffffff;
+  border-color: #7dd3fc;
+  box-shadow: 0 8px 20px -8px rgba(8, 29, 65, 0.18);
+  transform: translateY(-2px);
+}
+
+.card__title {
+  color: $eig-navy;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.collections__label,
+.template-default__wrap h1 {
+  color: $eig-navy;
+  letter-spacing: -0.01em;
+}
+
+.table {
+  thead {
+    color: #52627a;
+
+    th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #f7fafd;
+  }
+
+  tbody tr:hover {
+    background: #eaf4fd;
+  }
+}

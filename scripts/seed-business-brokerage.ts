@@ -18,6 +18,30 @@ const run = async () => {
   const existingForms = await payload.find({ collection: 'forms', where: { title: { equals: 'Investor enquiries' } }, limit: 1 })
   const consultationForm = existingForms.docs[0]
   if (!consultationForm) throw new Error('Investor enquiries form was not found. Run npm run seed:home first.')
+  const businessForms = await payload.find({ collection: 'forms', where: { title: { equals: 'Business brokerage enquiries' } }, limit: 1 })
+  const businessForm = businessForms.docs[0] ?? await payload.create({
+    collection: 'forms',
+    data: {
+      title: 'Business brokerage enquiries',
+      fields: [
+        { blockType: 'text', name: 'name', label: 'Name', required: true },
+        { blockType: 'text', name: 'phone', label: 'Phone', required: true },
+        { blockType: 'email', name: 'email', label: 'Email (optional)' },
+        { blockType: 'select', name: 'topic', label: "I'm interested in", options: [
+          { label: 'Business brokerage', value: 'business-brokerage' },
+          { label: 'Stock broking (PSX)', value: 'stock-broking' },
+          { label: 'Commodity brokerage (PMEX)', value: 'commodity-brokerage' },
+          { label: 'Arid land & agriculture', value: 'arid-land-agriculture' },
+          { label: 'Tourism & hospitality', value: 'tourism-hospitality' },
+          { label: 'Strategic partnership', value: 'strategic-partnership' },
+          { label: 'Something else', value: 'something-else' },
+        ] },
+        { blockType: 'textarea', name: 'message', label: 'Message' },
+      ],
+      submitButtonLabel: 'Send message', confirmationType: 'message',
+      confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', version: 1, text: 'Thank you. We will be in touch shortly.' }] }] } }, emails: [],
+    } as never,
+  })
   const getMedia = async (alt: string, filename: string) => {
     const existing = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
     return existing.docs[0] ?? await payload.create({ collection: 'media', data: { alt }, filePath: path.resolve(dirname, `../public/brand/${filename}`) })
@@ -158,7 +182,55 @@ const run = async () => {
   ]
 
   const existing = await payload.find({ collection: 'pages', where: { slug: { equals: 'business-brokerage' } }, limit: 1 })
-  const data = { title: 'Business Brokerage', slug: 'business-brokerage', layout } as never
+  const liveLayout = [
+    {
+      blockType: 'serviceHero', theme: 'dark', heroVariant: 'standard',
+      breadcrumbs: [{ label: 'Home', url: '/' }, { label: 'Business Brokerage' }],
+      eyebrow: 'Advisory · Enrichers Business Brokerage',
+      heading: 'Business brokerage There is always a bid for an ask.', headingAccent: 'There is always a bid for an ask.',
+      body: 'Trusted business brokerage that makes it easy to buy, sell, or invest with confidence. From accurate valuations to seamless transactions, we handle every step with professionalism and care.',
+      primary: { blockType: 'primaryButton', label: 'Book a confidential consultation', url: '#consultation', variant: 'primary' },
+      secondary: { blockType: 'secondaryButton', label: 'Our services', url: '#services', variant: 'secondary' }, badges: [],
+    },
+    { blockType: 'sectionNavigation', ariaLabel: 'On this page', links: [
+      { label: 'Services', anchor: 'services', active: true }, { label: 'Consultation', anchor: 'consultation' }, { label: 'Guide', anchor: 'guide' }, { label: 'FAQ', anchor: 'faq' },
+    ], cta: { label: 'Book a consultation', url: '#consultation' } },
+    { blockType: 'benefitsGrid', sectionId: 'feature-grid', eyebrow: 'How we work', heading: 'Every step handled, in confidence', background: 'surface', items: [
+      { title: 'Seamless transactions', body: 'We handle the entire process, from prescreening businesses to paperwork.' },
+      { title: 'Reduced risk', body: 'Due diligence that vets potential partners and uncovers red flags.' },
+      { title: 'Confidentiality guaranteed', body: 'Discretion throughout, safeguarding sensitive information and ensuring legal compliance.' },
+    ] },
+    { blockType: 'serviceOfferings', sectionId: 'services', eyebrow: 'Services', heading: 'Buy, sell, merge or raise funding', body: 'From an accurate valuation to a completed transaction.', columns: '3', background: 'light', items: [
+      { title: 'Mergers & acquisitions', body: 'Dedicated support through mergers (creating a new entity) and acquisitions (one company buying another), tailored to your goals.' },
+      { title: 'Buy & sell businesses', body: 'Buy or sell your company with confidence — we help you find the right match and maximise your return.' },
+      { title: 'Franchise brokerage', body: 'Explore franchising with reduced risk; we guide you to the franchise that fits your goals and regulations.' },
+      { title: 'Business valuation', body: "An accurate picture of your company's worth, considering location, operational strength and financial history." },
+      { title: 'Equity stake & start-up funding', body: 'Access a network of private equity firms and funds to acquire stakes or secure funding.' },
+      { title: 'Investment brokerage', body: 'A trusted intermediary connecting you with financial deals across Pakistan.' },
+    ] },
+    { blockType: 'consultationQualifier', sectionId: 'consultation', eyebrow: 'Confidential consultation', heading: 'Thinking of buying or selling?', subheading: 'Tell us what you have in mind. Every conversation is kept confidential.', phone: '(042) 111 111 333', phoneHref: 'tel:+9242111111333', whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333', whatsappLabel: 'WhatsApp our client support', hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed', formMode: 'singlePage', formStepLabel: 'Demo form — nothing is submitted from this preview.', formHeading: '', formIntro: '', form: businessForm.id },
+    { blockType: 'guideAccordion', sectionId: 'guide', eyebrow: 'Business brokerage guide', heading: 'Buying or selling a business in Pakistan', intro: 'A business has no standard price and few easy comparables, which is where an experienced broker earns their place. The guide from our current site.', items: [
+      { question: 'What a business broker does', answer: 'A business broker values the business, vets potential parties, structures the deal and manages confidentiality through the transaction.' },
+      { question: 'Buying an existing business vs. starting from scratch', answer: 'An established business can offer existing cash flow, customers and operational history, while a new venture starts with more uncertainty.' },
+      { question: 'Mergers and acquisitions at every scale', answer: 'Mergers and acquisitions require careful due diligence, legal compliance and a deal structure that supports the long-term outcome.' },
+      { question: 'Franchise opportunities', answer: 'Franchising can offer a proven operating model and support systems. We help match opportunities to your goals, capital and experience.' },
+      { question: 'Timing the market', answer: 'The right time depends on the business, industry, numbers and reason for the transaction. A data-backed valuation supports an evidence-led decision.' },
+    ] },
+    { blockType: 'faqAccordion', sectionId: 'faq', eyebrow: '', heading: 'Business brokerage FAQs', items: [
+      { question: 'What is business brokerage, and how does Enrichers help?', answer: 'Enrichers supports clients with valuations, risk management, paperwork, mergers and acquisitions, franchise opportunities and equity investments.' },
+      { question: 'How does Enrichers value a business?', answer: 'We consider the industry, operational strength, financial history, location, assets, liabilities, revenue, growth potential and market conditions.' },
+      { question: 'What support do you give on mergers and acquisitions?', answer: 'We support due diligence, legal compliance, confidentiality and deal structuring from the first conversation to completion.' },
+      { question: 'Do you help with franchises and start-up funding?', answer: 'Yes. We match franchise opportunities to your goals and connect suitable ventures with private equity firms, funds and strategic investors.' },
+      { question: 'Why choose Enrichers?', answer: 'We combine industry experience, financial knowledge, market insight and end-to-end support with discretion.' },
+    ] },
+    { blockType: 'businessGroupCards', eyebrow: 'Enrichers Investment Group', heading: 'The rest of the group', body: 'Brokerage, real assets, agriculture and hospitality under one group.', items: [
+      { eyebrow: 'Real assets', title: 'Arid Land Development', subtitle: 'Enrichers Developers (Pvt.) Ltd.', body: 'Turning arid land into productive farmland through a sweat-equity partnership model.', url: '/arid-land-development', icon: 'development' },
+      { eyebrow: 'Agriculture', title: 'Agriculture', subtitle: 'Enri-Farms', body: 'Smart agriculture, seed banking, export cultivation, dairy and Mudarabah corporate farming.', url: '/agriculture', icon: 'agriculture' },
+      { eyebrow: 'Agriculture', title: 'Agriculture Research Centre', subtitle: 'Baab-ul-Ilm', body: 'An institute of agriculture sciences and research tackling challenges in the agri-food system.', url: '/school-of-agriculture-research-centre', icon: 'agriculture' },
+      { eyebrow: 'Hospitality', title: 'Tourism & Hospitality', body: "Unlocking Northern Pakistan's tourism potential, starting with a 5-star hotel in Skardu.", url: '/tourism-hospitality', icon: 'hospitality' },
+    ] },
+  ]
+  const data = { title: 'Business Brokerage', slug: 'business-brokerage', layout: liveLayout } as never
   const context = { context: { skipRevalidate: true } }
   if (existing.docs[0]) await payload.update({ collection: 'pages', id: existing.docs[0].id, data, ...context })
   else await payload.create({ collection: 'pages', data, ...context })

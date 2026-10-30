@@ -47,6 +47,32 @@ const run = async () => {
   const forms = await payload.find({ collection: 'forms', where: { title: { equals: 'Investor enquiries' } }, limit: 1 })
   const form = forms.docs[0]
   if (!form) throw new Error('Investor enquiries form was not found. Run npm run seed:home first.')
+  const researchForms = await payload.find({ collection: 'forms', where: { title: { equals: 'Agriculture Research Centre enquiries' } }, limit: 1 })
+  const researchForm = researchForms.docs[0] ?? await payload.create({
+    collection: 'forms',
+    data: {
+      title: 'Agriculture Research Centre enquiries',
+      fields: [
+        { blockType: 'text', name: 'name', label: 'Name', required: true },
+        { blockType: 'text', name: 'phone', label: 'Phone', required: true },
+        { blockType: 'email', name: 'email', label: 'Email (optional)' },
+        { blockType: 'select', name: 'topic', label: "I'm interested in", options: [
+          { label: 'Arid land & agriculture', value: 'arid-land-agriculture' },
+          { label: 'Stock broking (PSX)', value: 'stock-broking' },
+          { label: 'Commodity brokerage (PMEX)', value: 'commodity-brokerage' },
+          { label: 'Business brokerage', value: 'business-brokerage' },
+          { label: 'Tourism & hospitality', value: 'tourism-hospitality' },
+          { label: 'Strategic partnership', value: 'strategic-partnership' },
+          { label: 'Something else', value: 'something-else' },
+        ] },
+        { blockType: 'textarea', name: 'message', label: 'Message' },
+      ],
+      submitButtonLabel: 'Send message',
+      confirmationType: 'message',
+      confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', version: 1, text: 'Thank you. We will be in touch shortly.' }] }] } },
+      emails: [],
+    } as never,
+  })
 
   const existing = await payload.find({
     collection: 'pages',
@@ -203,10 +229,115 @@ const run = async () => {
     ],
   }
 
+  // Candidate A's live reference uses the shared service-page blocks below.
+  // Keep the older blocks above available in the editor for other pages, but
+  // replace this page's rendered layout with the live structure.
+  const liveLayout = [
+    {
+      blockType: 'serviceHero',
+      theme: 'dark',
+      heroVariant: 'standard',
+      breadcrumbs: [
+        { label: 'Home', url: '/' },
+        { label: 'Agriculture', url: '/agriculture' },
+        { label: 'Agriculture Research Centre' },
+      ],
+      eyebrow: 'Agriculture · Baab-ul-Ilm',
+      heading: 'Agriculture Research Centre Bridging research and practice.',
+      headingAccent: 'Bridging research and practice.',
+      body: 'Baab-ul-Ilm is an institute of agriculture sciences and research centre that aims to tackle challenges in the agri-food system — bridging fundamental research and agricultural practice. The centre also trains learners in practical agronomy.',
+      primary: { blockType: 'primaryButton', label: 'Get in touch', url: '#consultation', variant: 'primary' },
+      secondary: { blockType: 'secondaryButton', label: 'Focus areas', url: '#focus', variant: 'secondary' },
+      badges: [],
+    },
+    {
+      blockType: 'imageTextFeature',
+      eyebrow: 'Our mission',
+      heading: 'A resilient, sustainable food system',
+      body: 'We work with farmers, researchers and stakeholders to build a food system that can withstand what is coming.\n\nContinuous innovation through rigorous research keeps our practice current.',
+      image: missionImage.id,
+      imageAlt: 'Agriculture research centre and field trials',
+      imagePosition: 'right',
+      background: 'surface',
+    },
+    {
+      blockType: 'focusAreasGrid',
+      sectionId: 'focus',
+      eyebrow: 'Key focus areas',
+      heading: 'Seven areas of work',
+      body: '',
+      background: 'surface',
+      items: [
+        { image: focusImages[0].id, imageAlt: 'Farm Management', title: 'Farm management', body: 'Strategies that optimise farm operations.' },
+        { image: focusImages[1].id, imageAlt: 'Smart Farming Platforms', title: 'Smart farming platforms', body: 'Technology that improves practice and productivity.' },
+        { image: focusImages[2].id, imageAlt: 'Farm-to-Market Solutions', title: 'Farm-to-market solutions', body: 'Connecting producers with consumers efficiently and profitably.' },
+        { image: focusImages[3].id, imageAlt: 'Food Security', title: 'Food security', body: 'Sustainable practices and new solutions for food security.' },
+        { image: focusImages[4].id, imageAlt: 'Best Farm Management Practice', title: 'Best farm management practice', body: 'A working model that sets the standard for the industry.' },
+        { image: focusImages[5].id, imageAlt: 'Actionable Field Data', title: 'Actionable field data', body: 'Data-driven insight that guides decisions on the farm.' },
+        { image: focusImages[6].id, imageAlt: 'Research and Training', title: 'Research and training', body: 'Continuous learning that prepares people for the future of agriculture.' },
+      ],
+    },
+    {
+      blockType: 'guideAccordion',
+      sectionId: 'guide',
+      eyebrow: 'Agriculture research guide',
+      heading: 'From research to real farms',
+      intro: 'The centre turns agricultural science into practical knowledge for farmers. The guide from our current site.',
+      items: [
+        { question: 'Why agricultural research matters', answer: 'Research helps farmers respond to climate variability, soil degradation and water scarcity with practical, tested methods.' },
+        { question: 'What makes smart farming smart', answer: 'Smart farming uses field data, sensors and efficient tools to improve decisions while keeping farmers at the centre of the work.' },
+        { question: 'From research to real farms', answer: 'The centre translates rigorous research into training, tools and practices that farmers can apply in the field.' },
+        { question: 'Training the next generation', answer: 'Learners gain practical, hands-on knowledge across agronomical disciplines and the realities of Pakistani farming.' },
+        { question: 'Who benefits', answer: 'Farmers, investors, researchers, learners and the wider agricultural value chain benefit from a stronger evidence-led food system.' },
+      ],
+    },
+    {
+      blockType: 'consultationQualifier',
+      sectionId: 'consultation',
+      eyebrow: 'Research & training',
+      heading: 'Work or train with the centre',
+      subheading: 'Farmers, researchers and learners: tell us what you are looking for.',
+      phone: '(042) 111 111 333',
+      phoneHref: 'tel:+9242111111333',
+      whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
+      whatsappLabel: 'WhatsApp our client support',
+      hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed',
+      formMode: 'singlePage',
+      formStepLabel: 'Demo form — nothing is submitted from this preview.',
+      formHeading: '',
+      formIntro: '',
+      form: researchForm.id,
+    },
+    {
+      blockType: 'faqAccordion',
+      sectionId: 'faq',
+      eyebrow: '',
+      heading: 'Research centre FAQs',
+      items: [
+        { question: 'Why is soil health vital for smart farming?', answer: 'Healthy soil supports reliable crop growth, efficient water use and long-term farm productivity.' },
+        { question: 'What technology does the centre use?', answer: 'The centre explores data-led farming, sensors, precision agriculture and practical tools that improve farm decisions.' },
+        { question: 'How does the centre support water conservation?', answer: 'Research and training focus on efficient irrigation, soil-moisture awareness and farming practices that use water responsibly.' },
+        { question: 'How do livestock and dairy fit into the research?', answer: 'Livestock and dairy are part of a resilient food system, with research focused on productivity, animal health and better market outcomes.' },
+      ],
+    },
+    {
+      blockType: 'businessGroupCards',
+      eyebrow: 'Enrichers Investment Group',
+      heading: 'The rest of the group',
+      body: 'Brokerage, real assets, agriculture and hospitality under one group.',
+      items: [
+        { eyebrow: 'Advisory', title: 'Business Brokerage', subtitle: 'Enrichers Business Brokerage', body: 'Mergers & acquisitions, buying and selling businesses, franchise brokerage and valuation.', url: '/business-brokerage', icon: 'document' },
+        { eyebrow: 'Real assets', title: 'Arid Land Development', subtitle: 'Enrichers Developers (Pvt.) Ltd.', body: 'Turning arid land into productive farmland through a sweat-equity partnership model.', url: '/arid-land-development', icon: 'development' },
+        { eyebrow: 'Agriculture', title: 'Agriculture', subtitle: 'Enri-Farms', body: 'Smart agriculture, seed banking, export cultivation, dairy and Mudarabah corporate farming.', url: '/agriculture', icon: 'agriculture' },
+        { eyebrow: 'Hospitality', title: 'Tourism & Hospitality', body: "Unlocking Northern Pakistan's tourism potential, starting with a 5-star hotel in Skardu.", url: '/tourism-hospitality', icon: 'hospitality' },
+      ],
+    },
+  ]
+
   await payload.update({
     collection: 'pages',
     id: page.id,
-    data: { layout } as never,
+    data: { layout: liveLayout } as never,
     context: { skipRevalidate: true },
   })
   payload.logger.info('Added the Agriculture Research Centre consultation section')

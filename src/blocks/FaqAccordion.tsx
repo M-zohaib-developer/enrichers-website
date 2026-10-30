@@ -13,6 +13,7 @@ export function FaqAccordion({ data }: { data: BlockData }) {
   const sectionId = data.sectionId || 'faq'
   const headingId = `${sectionId}-h`
   const allExpanded = items.length > 0 && expanded.length === items.length
+  const guideLayout = sectionId === 'guide'
 
   const toggle = (index: number) => {
     setExpanded((current) => current.includes(index) ? current.filter((item) => item !== index) : [...current, index])
@@ -20,17 +21,18 @@ export function FaqAccordion({ data }: { data: BlockData }) {
 
   return (
     <section id={sectionId} aria-labelledby={headingId} className="relative py-(--section-y)">
-      <div className="container-x max-w-[960px]">
-        <div className="max-w-[760px]">
+      <div className={`container-x ${guideLayout ? 'grid gap-10 lg:grid-cols-12 lg:gap-16' : 'max-w-[960px]'}`}>
+        <div className={guideLayout ? 'lg:col-span-4' : 'max-w-[760px]'}>
           {data.eyebrow && <Eyebrow>{data.eyebrow}</Eyebrow>}
           <h2 id={headingId} className="font-display text-h2 mt-3 font-normal tracking-[-0.015em] text-text">{data.heading}</h2>
+          {data.body && <p className="mt-4 text-text-secondary">{data.body}</p>}
         </div>
-        <div className="mt-10">
-          <div className="mb-3 flex justify-end">
+        <div className={guideLayout ? 'lg:col-span-8' : 'mt-10'}>
+          {!guideLayout && <div className="mb-3 flex justify-end">
             <button type="button" onClick={() => setExpanded(allExpanded ? [] : items.map((_: any, index: number) => index))} className="text-body-sm font-semibold text-text-link hover:underline underline-offset-4">
               {allExpanded ? 'Collapse all' : 'Expand all'}
             </button>
-          </div>
+          </div>}
           <div className="divide-y divide-border border-y border-border">
             {items.map((item: any, index: number) => {
               const open = expanded.includes(index)

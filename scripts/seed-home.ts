@@ -17,7 +17,9 @@ const run = async () => {
   }
 
   const image = await mediaFor('The Enrichers client-services floor in Lahore', 'trading-floor.webp')
-  const logo = await mediaFor('Enrichers Investment Group logo', 'enrichers-logo.webp')
+  // enrichers-logo-enhanced.webp is the single copy of the mark; the old
+  // enrichers-logo.webp was a byte-identical duplicate and has been removed.
+  const logo = await mediaFor('Enrichers Investment Group logo', 'enrichers-logo-enhanced.webp')
   const researchImages = await Promise.all([
     mediaFor('Fed Holds Rates For A 5th Straight Meeting', 'research-1.webp'),
     mediaFor("Can Pakistan's Bull Market Enter a Fourth Year?", 'research-2.webp'),

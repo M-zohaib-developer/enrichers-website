@@ -333,7 +333,7 @@ export interface Page {
         eyebrow?: string | null;
         heading: string;
         intro?: string | null;
-        layoutVariant?: ('grid' | 'timeline') | null;
+        layoutVariant?: ('grid' | 'timeline' | 'editorial') | null;
         steps: {
           title: string;
           body?: string | null;
@@ -730,6 +730,23 @@ export interface Page {
       }
     | {
         eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        items: {
+          eyebrow?: string | null;
+          title: string;
+          subtitle?: string | null;
+          body: string;
+          url: string;
+          icon?: ('document' | 'development' | 'agriculture' | 'hospitality') | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'businessGroupCards';
+      }
+    | {
+        eyebrow?: string | null;
         heading?: string | null;
         body?: string | null;
         image?: (number | null) | Media;
@@ -992,7 +1009,7 @@ export interface Page {
         heading: string;
         showHeader?: boolean | null;
         body?: string | null;
-        background?: ('sunken' | 'gradient') | null;
+        background?: ('surface' | 'sunken' | 'gradient') | null;
         items: {
           title: string;
           body: string;
@@ -1474,9 +1491,48 @@ export interface Page {
         blockName?: string | null;
         blockType: 'founderStatement';
       }
+    | {
+        heading: string;
+        category: string;
+        summary: string;
+        published: string;
+        author: string;
+        topic: string;
+        readingTime: string;
+        featuredImage?: (number | null) | Media;
+        body: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        related?:
+          | {
+              title: string;
+              url: string;
+              summary?: string | null;
+              category?: string | null;
+              published?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'articleDetail';
+      }
   )[];
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Images used in blocks, and PDF documents such as licences and disclosures.
@@ -2382,6 +2438,26 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        businessGroupCards?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              items?:
+                | T
+                | {
+                    eyebrow?: T;
+                    title?: T;
+                    subtitle?: T;
+                    body?: T;
+                    url?: T;
+                    icon?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         skarduHotelFeature?:
           | T
           | {
@@ -3048,9 +3124,35 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        articleDetail?:
+          | T
+          | {
+              heading?: T;
+              category?: T;
+              summary?: T;
+              published?: T;
+              author?: T;
+              topic?: T;
+              readingTime?: T;
+              featuredImage?: T;
+              body?: T;
+              related?:
+                | T
+                | {
+                    title?: T;
+                    url?: T;
+                    summary?: T;
+                    category?: T;
+                    published?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

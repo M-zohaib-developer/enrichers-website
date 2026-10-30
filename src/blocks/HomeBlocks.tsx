@@ -3,6 +3,7 @@ import { AccountOpeningSteps } from './AccountOpeningSteps'
 import { ClientServices } from './ClientServices'
 import { ConsultationQualifier } from './ConsultationQualifier'
 import { GroupBusinessExplorer } from './GroupBusinessExplorer'
+import { BusinessGroupCards } from './BusinessGroupCards'
 import { InvestmentPathCards } from './InvestmentPathCards'
 import { LicensingCredentials } from './LicensingCredentials'
 import { MarketHero } from './MarketHero'
@@ -40,6 +41,7 @@ import { ResearchLibrary } from './ResearchLibrary'
 import { ArticleList } from './ArticleList'
 import { TeamMemberProfile } from './TeamMemberProfile'
 import { FounderStatement } from './FounderStatement'
+import { ArticleDetail } from './ArticleDetail'
 import type { BlockData } from './shared'
 
 const components = {
@@ -59,6 +61,7 @@ const components = {
   consultationQualifier: ConsultationQualifier,
   marketResearchCards: MarketResearchCards,
   groupBusinessExplorer: GroupBusinessExplorer,
+  businessGroupCards: BusinessGroupCards,
   skarduHotelFeature: SkarduHotelFeature,
   accountFaq: AccountFaq,
   readyWhenYouAre: ReadyWhenYouAre,
@@ -85,14 +88,29 @@ const components = {
   articleList: ArticleList,
   teamMemberProfile: TeamMemberProfile,
   founderStatement: FounderStatement,
+  articleDetail: ArticleDetail,
 } as const
 
-export function RenderHomeBlocks({ blocks }: { blocks: BlockData[] }) {
+function MissingBlockPreview({ blockType }: { blockType?: string }) {
+  return (
+    <section className="border-y border-dashed border-action bg-surface-sunken px-6 py-10 text-center text-text-muted">
+      <p className="text-overline font-semibold uppercase tracking-overline text-action">Block template unavailable</p>
+      <p className="mt-2 text-body-sm">The saved block <code className="font-mono text-action">{blockType || 'unknown'}</code> has no frontend renderer.</p>
+      <p className="mt-1 text-caption">Add its renderer back or replace this block in the editor.</p>
+    </section>
+  )
+}
+
+export function RenderHomeBlocks({ blocks, preview = false }: { blocks: BlockData[]; preview?: boolean }) {
   return (
     <>
       {blocks.map((block, index) => {
         const Component = components[block.blockType as keyof typeof components]
-        return Component ? <Component key={`${block.blockType}-${index}`} data={block} /> : null
+        return Component
+          ? <Component key={`${block.blockType}-${index}`} data={block} />
+          : preview
+            ? <MissingBlockPreview key={`${block.blockType || 'unknown'}-${index}`} blockType={block.blockType} />
+            : null
       })}
     </>
   )

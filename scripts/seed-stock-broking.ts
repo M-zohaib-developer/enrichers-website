@@ -53,6 +53,7 @@ const run = async () => {
     {
       blockType: 'processSteps',
       sectionId: 'process',
+      layoutVariant: 'editorial',
       eyebrow: 'Account opening',
       heading: 'Step-by-step account opening',
       intro: 'From form to first investment, with a dedicated agent assigned to you.',
@@ -121,11 +122,27 @@ const run = async () => {
     {
       blockType: 'faqAccordion',
       sectionId: 'faq',
-      heading: 'Commodity brokerage FAQs',
+      heading: 'Stock broking FAQs',
       items: [
-        { question: 'What is the security of deposited funds?', answer: 'Client funds are deposited into designated accounts at the Pakistan Mercantile Exchange (PMEX) — licensed and regulated by the SECP. Investments in PSX are held through the regulated market infrastructure.' },
-        { question: 'Do I need to take physical delivery of gold or oil?', answer: 'No, not unless you want to. Cash-settled futures settle in cash at contract close; deliverable futures suit producers, processors, or anyone who wants physical ownership.' },
-        { question: 'Is currency trading permissible?', answer: "Enrichers' position (from its FAQ): currency trading through PMEX meets the acceptable trade conditions, and no interest is charged on positions." },
+        { question: 'How do I open a stock trading account with Enrichers?', answer: 'Open your trading account online or by visiting our office. Provide your CNIC, proof of income, and bank account details; our team guides you through KYC and account opening step by step.' },
+        { question: 'Can beginners start investing through Enrichers?', answer: 'Yes. Our specialists guide beginners with personalised support, educational resources, and risk-controlled strategies suitable for all experience levels.' },
+        { question: 'What trading products are offered?', answer: 'Equity trading, IPO subscriptions, and portfolio management with access to instruments listed on the PSX.' },
+        { question: 'Do you provide research and market insights?', answer: 'Yes. Our research team publishes market insights, technical analysis, fundamental reports, and trading ideas.' },
+        { question: 'What is stock broking?', answer: "A service that lets investors buy and sell shares listed on the Pakistan Stock Exchange (PSX). A licensed broker executes trades on the investor's behalf and may also provide research, advisory and portfolio management." },
+        { question: 'What does market research add for investors?', answer: 'Our analysis covers economic trends, company performance and PSX share-price dynamics, giving clients the information they need to make informed choices and shape their portfolio strategy.' },
+        { question: 'What is risk management, and why does it matter?', answer: 'Risk management means identifying, assessing and limiting potential losses. Our team at ESPL applies it alongside portfolio management so you can invest with a clearer view of the risks you are taking.' },
+        { question: 'Is my investment safe with Enrichers?', answer: 'Enrichers Securities is a TREC holder of the Pakistan Stock Exchange, regulated by the SECP, and client holdings are kept through the regulated market infrastructure. Market prices still move: investing carries risk and returns are not guaranteed.' },
+        { question: 'Why choose Enrichers for stock broking?', answer: 'A PSX-registered brokerage house with professional execution, research from our in-house team and dedicated client support, focused on secure and compliant trading.' },
+      ],
+    },
+    {
+      blockType: 'readyWhenYouAre',
+      variant: 'compact',
+      heading: 'Open your PSX account online',
+      body: 'Or visit us at High Q Tower, Gulberg 5, Lahore.',
+      buttons: [
+        { blockType: 'primaryButton', label: 'Open a PSX account', url: '/open-account' },
+        { blockType: 'secondaryButton', label: 'Contact us', url: '/contact-us' },
       ],
     },
   ]

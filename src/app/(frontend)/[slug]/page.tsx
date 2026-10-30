@@ -27,7 +27,7 @@ export default async function ContentPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       {draft && <LivePreviewListener />}
-      <RenderHomeBlocks blocks={(page.layout ?? []) as any} />
+      <RenderHomeBlocks blocks={(page.layout ?? []) as any} preview={draft} />
     </>
   )
 }

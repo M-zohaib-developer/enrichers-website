@@ -4,6 +4,7 @@ import { accountOpeningSteps } from './schema/accountOpeningSteps'
 import { clientServices } from './schema/clientServices'
 import { consultationQualifier } from './schema/consultationQualifier'
 import { groupBusinessExplorer } from './schema/groupBusinessExplorer'
+import { businessGroupCards } from './schema/businessGroupCards'
 import { investmentPathCards } from './schema/investmentPathCards'
 import { licensingCredentials } from './schema/licensingCredentials'
 import { marketHero } from './schema/marketHero'
@@ -41,6 +42,7 @@ import { researchLibrary } from './schema/researchLibrary'
 import { articleList } from './schema/articleList'
 import { teamMemberProfile } from './schema/teamMemberProfile'
 import { founderStatement } from './schema/founderStatement'
+import { articleDetail } from './schema/articleDetail'
 
 /** Payload registry for the editable homepage. Each block schema lives beside its own definition. */
 export const HomeBlocks: Block[] = [
@@ -60,6 +62,7 @@ export const HomeBlocks: Block[] = [
   consultationQualifier,
   marketResearchCards,
   groupBusinessExplorer,
+  businessGroupCards,
   skarduHotelFeature,
   accountFaq,
   readyWhenYouAre,
@@ -86,4 +89,5 @@ export const HomeBlocks: Block[] = [
   articleList,
   teamMemberProfile,
   founderStatement,
+  articleDetail,
 ]

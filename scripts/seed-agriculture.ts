@@ -34,13 +34,6 @@ const run = async () => {
     const existing = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
     if (!existing.docs[0]) await payload.create({ collection: 'media', data: { alt }, filePath: path.resolve(dirname, `../public/brand/${filename}`) })
   }
-  const carouselImages = [
-    { image: image.id, alt: 'Agriculture' },
-    ...await Promise.all(localAssets.map(async ([alt]) => {
-      const result = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
-      return { image: result.docs[0].id, alt }
-    })),
-  ]
   const mediaFor = async (alt: string) => {
     const result = await payload.find({ collection: 'media', where: { alt: { equals: alt } }, limit: 1 })
     return result.docs[0]?.id
@@ -66,31 +59,22 @@ const run = async () => {
     buttons: [{ blockType: 'primaryButton', label: 'Get started', url: 'https://api.whatsapp.com/send?phone=9242111111333' }],
   })))
   const investmentGuide = {
-    blockType: 'richTextBlock',
-    sectionId: 'agriculture-investment-guide',
-    heading: 'Agriculture Investment Guide',
-    background: 'white',
-    showAccentBar: true,
-    body: rich(
-      paragraph(text('Pakistan’s agriculture sector employs nearly 40% of the national workforce, yet it remains one of the most underinvested areas of the economy relative to its actual economic potential. That gap is exactly where '), text('agriculture investment in Pakistan', 1), text(' becomes interesting — not as a nostalgic or purely social cause, but as a genuine, underexplored opportunity.')),
-      paragraph(text('EIG’s agriculture initiatives, led through Enri-Farms, focus on exactly this: bringing modern technology, sustainable practices, and structured investment models to a sector that badly needs both capital and better methods.')),
-      { type: 'heading', tag: 'h3', version: 1, children: [text('Why Smart Agriculture Is Gaining Investor Attention in Pakistan')], direction: 'ltr', format: '', indent: 0 },
-      paragraph(text('A few forces are converging to make '), text('smart agriculture in Pakistan', 1), text(' a genuinely growing space:')),
-      list(['Rising food security concerns as population growth outpaces traditional farming yields', 'Increasing adoption of drone, sensor, and AI-based monitoring tools that were previously only viable in large commercial farming markets abroad', 'Growing export demand for high-quality Pakistani agricultural products, provided grading and quality standards keep improving', 'Government and private-sector interest in reducing dependency on imported food staples']),
-      { type: 'heading', tag: 'h3', version: 1, children: [text('Corporate Farming and Mudarabah — An Islamic Approach to Agricultural Investment')], direction: 'ltr', format: '', indent: 0 },
-      paragraph(text('One of the more distinctive aspects of EIG’s agriculture strategy is its use of '), text('Mudarabah', 1), text(', an Islamic partnership-based financing structure where capital investors (Rabb-ul-mal) and working partners (Mudarib) share both effort and profit fairly. For investors specifically looking for Shariah-compliant ways to participate in Pakistan’s agricultural growth, this model offers a structured, transparent alternative to conventional lending-based farm financing.')),
-      { type: 'heading', tag: 'h3', version: 1, children: [text('From Seed Banking to Export: The Full Agricultural Value Chain')], direction: 'ltr', format: '', indent: 0 },
-      paragraph(text('Agriculture investment isn’t just about growing more — it’s about growing '), text('better', 2), text(' and getting produce to market efficiently. That’s why initiatives like seed banking (preserving resilient crop varieties for long-term food security), produce grading (ensuring farmers get fairly compensated for quality), and export-oriented cultivation (connecting Pakistani farmers to international demand) all matter as part of one connected strategy, not isolated projects.')),
-      { type: 'heading', tag: 'h3', version: 1, children: [text('Dairy, Livestock, and the Road to Meat Export')], direction: 'ltr', format: '', indent: 0 },
-      paragraph(text('Beyond crops, corporate dairy farming and improved livestock practices represent a significant, often overlooked opportunity in Pakistani agriculture. With rising domestic demand for quality dairy and a genuine long-term opportunity in international meat export markets, this is an area where structured investment and better infrastructure can meaningfully shift outcomes for farmers and investors alike.')),
-      { type: 'heading', tag: 'h3', version: 1, children: [text('Is Agricultural Investment Right for You?')], direction: 'ltr', format: '', indent: 0 },
-      paragraph(text('Agriculture investment tends to suit investors thinking in longer time horizons rather than quick returns — this is a sector where infrastructure, technology adoption, and market access take time to compound into real results. If you’re looking to diversify away from purely financial-market investments and want exposure to a sector with genuine national importance, it’s worth a serious look.')),
-      paragraph(text('Interested in learning more about EIG’s agriculture investment opportunities? '), link('Reach out to our team', 'https://enrichers.com.pk/contact-us/'), text(' to discuss how Enri-Farms’ initiatives align with your investment goals.')),
-    ),
+    blockType: 'faqAccordion',
+    sectionId: 'guide',
+    eyebrow: 'Agriculture investment guide',
+    heading: 'Investing in Pakistani agriculture',
+    body: 'Why smart agriculture is drawing investors, how Mudarabah partnerships work, and who agricultural investment suits. The guide from our current site.',
+    items: [
+      { question: 'Why smart agriculture is gaining investor attention', answer: 'Food security concerns, affordable monitoring technology, export demand and the need to rely less on imported staples are all drawing capital to the sector.' },
+      { question: 'Corporate farming and Mudarabah', answer: 'Mudarabah is an Islamic partnership in which capital and labour share the profit. It offers Shariah-conscious investors a transparent alternative to conventional lending.' },
+      { question: 'From seed banking to export', answer: 'Seed banking, produce grading and export cultivation form one connected value chain: better seed, fairer prices for quality, and access to global markets.' },
+      { question: 'Dairy, livestock and the road to meat export', answer: 'Structured investment and infrastructure improve outcomes for both farmers and investors, from milk supply today to meat export in future.' },
+      { question: 'Is agricultural investment right for you?', answer: 'It suits investors with a longer time horizon who want diversification and exposure to an industry of national importance. Talk to our team before you decide.' },
+    ],
   }
   const agricultureFaq = {
     blockType: 'faqAccordion',
-    sectionId: 'agriculture-faq',
+    sectionId: 'faq',
     eyebrow: 'Frequently asked questions',
     heading: 'Agriculture investment FAQs',
     items: [
@@ -105,55 +89,112 @@ const run = async () => {
       { question: 'How does Enrichers support dairy, livestock and allied agriculture in Pakistan?', answer: 'Through corporate dairy farming and enhanced livestock productivity practices, Enrichers helps improve the supply of high-quality milk, supports farmer up-skilling and strengthens the livestock sector.' },
     ],
   }
-  const forms = await payload.find({ collection: 'forms', where: { title: { equals: 'Investor enquiries' } }, limit: 1 })
-  const form = forms.docs[0]
-  if (!form) throw new Error('Investor enquiries form was not found. Run npm run seed:home first.')
+  const agricultureFormFields = [
+    { blockType: 'text', name: 'name', label: 'Name', required: true },
+    { blockType: 'text', name: 'phone', label: 'Phone', required: true },
+    { blockType: 'email', name: 'email', label: 'Email (optional)' },
+    { blockType: 'select', name: 'topic', label: "I'm interested in", required: true, options: [
+      { label: 'Arid land & agriculture', value: 'arid-land-agriculture' },
+      { label: 'Stock broking (PSX)', value: 'stock-broking' },
+      { label: 'Commodity brokerage (PMEX)', value: 'commodity-brokerage' },
+      { label: 'Business brokerage', value: 'business-brokerage' },
+      { label: 'Tourism & hospitality', value: 'tourism-hospitality' },
+      { label: 'Strategic partnership', value: 'strategic-partnership' },
+      { label: 'Something else', value: 'something-else' },
+    ] },
+    { blockType: 'textarea', name: 'message', label: 'Message' },
+  ]
+  const agricultureForms = await payload.find({ collection: 'forms', where: { title: { equals: 'Agriculture investment enquiries' } }, limit: 1 })
+  const agricultureForm = agricultureForms.docs[0]
+    ? await payload.update({ collection: 'forms', id: agricultureForms.docs[0].id, data: { title: 'Agriculture investment enquiries', fields: agricultureFormFields, submitButtonLabel: 'Send message', confirmationType: 'message', confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', version: 1, text: 'Thank you. We will be in touch shortly.' }] }] } }, emails: [] } as any })
+    : await payload.create({ collection: 'forms', data: { title: 'Agriculture investment enquiries', fields: agricultureFormFields, submitButtonLabel: 'Send message', confirmationType: 'message', confirmationMessage: { root: { type: 'root', version: 1, children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', version: 1, text: 'Thank you. We will be in touch shortly.' }] }] } }, emails: [] } as any })
 
+  const mudarabahImage = await mediaFor('Corporate Farming') ?? image.id
   const layout = [{
-    blockType: 'marketHero',
-    eyebrow: 'Agriculture',
-    heading: 'Agriculture',
-    headingLineOne: 'Agriculture',
-    headingLineTwo: '',
-    headingLineThree: '',
-    body: 'Sustainable agriculture initiatives designed to strengthen productivity, food security and long-term growth in Pakistan.',
-    showButtons: false,
-    buttons: [],
-    heroImage: image.id,
+    blockType: 'serviceHero',
+    theme: 'dark',
+    heroVariant: 'standard',
+    breadcrumbs: [{ label: 'Home', url: '/' }, { label: 'Agriculture' }],
+    eyebrow: 'Agriculture · Enri-Farms',
+    heading: 'Agriculture Sustainable by design.',
+    headingAccent: 'Sustainable by design.',
+    body: "EIG recognizes the crucial role of sustainable practices in ensuring the long-term viability of Pakistan's agricultural sector — enhancing productivity while protecting the environment and conserving resources for future generations.",
+    primary: { blockType: 'primaryButton', label: 'Book a consultation', url: '#consultation', variant: 'primary' },
+    secondary: { blockType: 'secondaryButton', label: 'Our initiatives', url: '#initiatives', variant: 'secondary' },
     badges: [],
   }, {
-    blockType: 'consultationShowcase',
-    sectionId: 'consultation',
-    eyebrow: 'Free consultation',
-    heading: 'Get free consultation today',
-    subheading: 'Tell us what you want to build in agriculture and our team will call you.',
-    phone: '(042) 111 111 333',
-    phoneHref: 'tel:+9242111111333',
-    whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
-    whatsappLabel: 'WhatsApp our client support',
-    hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed',
-    formStepLabel: 'Step 1 of 4 · Demo — nothing is submitted',
-    formHeading: 'Let’s understand your agriculture goal',
-    formIntro: 'A few quick questions help us prepare the right conversation.',
-    form: form.id,
-    images: carouselImages,
-    intervalSeconds: 3,
+    blockType: 'sectionNavigation',
+    ariaLabel: 'On this page',
+    links: [
+      { label: 'Sustainability', anchor: 'sustainability', active: true },
+      { label: 'Initiatives', anchor: 'initiatives' },
+      { label: 'Mudarabah', anchor: 'mudarabah' },
+      { label: 'Guide', anchor: 'guide' },
+      { label: 'FAQ', anchor: 'faq' },
+    ],
+    cta: { label: 'Book a consultation', url: '#consultation' },
   }, {
     blockType: 'businessIntro',
-    heading: 'Sustainability in Pakistani Agriculture',
-    body: 'EIG recognizes the crucial role of sustainable practices in ensuring the long-term viability of Pakistan’s agricultural sector. Our initiatives are designed to not only enhance productivity and economic gain but also to protect the environment and conserve precious resources for future generations.',
-    buttons: [{ blockType: 'primaryButton', label: 'Get started', url: 'https://api.whatsapp.com/send?phone=9242111111333' }],
+    heading: 'Sustainability in Pakistani agriculture',
+    body: 'Raising productivity while protecting the resources it depends on.',
   }, {
     blockType: 'benefitsGrid',
-    sectionId: 'sustainability-practices',
-    heading: 'Sustainability practices',
-    showHeader: false,
-    background: 'sunken',
+    sectionId: 'sustainability',
+    eyebrow: 'Sustainability',
+    heading: 'Sustainability in Pakistani agriculture',
+    body: 'Raising productivity while protecting the resources it depends on.',
+    showHeader: true,
+    background: 'surface',
     items: [
-      { title: 'Water Conservation', body: 'Smart irrigation techniques promoted through our smart agriculture initiatives like center pivot irrigation systems aim to optimize water usage, minimizing waste and ensuring long-term water security.' },
-      { title: 'Soil Health', body: 'Encouraging practices like crop rotation and organic farming helps maintain soil fertility and reduce dependence on chemical fertilizers, leading to healthier crops and a more balanced ecosystem.' },
+      { title: 'Water conservation', body: 'Smart irrigation, such as centre-pivot systems, reduces waste and supports long-term water security.' },
+      { title: 'Soil health', body: 'Crop rotation and organic farming maintain fertility and reduce reliance on chemical fertilisers.' },
     ],
-  }, ...featureBlocks, investmentGuide, agricultureFaq]
+  }, {
+    blockType: 'serviceOfferings',
+    sectionId: 'initiatives',
+    eyebrow: 'Initiatives',
+    heading: 'From seed to export',
+    body: 'Seven connected initiatives across the agricultural value chain. Meat export is a future plan.',
+    columns: '3',
+    background: 'light',
+    items: [
+      { title: 'Smart agriculture', body: 'Drones, sensors and AI monitor crop health and optimise irrigation, with methods tailored to each soil.' },
+      { title: 'Seed banking', body: 'Storing crop seeds for long-term food security, giving farmers resilient, adaptable varieties.' },
+      { title: 'Export-oriented cultivation', body: 'Growing high-demand crops for global markets, earning foreign exchange and creating jobs.' },
+      { title: 'Grading in produce', body: 'Grading raises market value so farmers are paid fairly for quality.' },
+      { title: 'Corporate dairy farming', body: 'Large-scale dairy using best practice for a steady supply of high-quality milk.' },
+      { title: 'Livestock', body: 'Better breeding, feed, welfare and healthcare to raise productivity for food and livelihoods.' },
+      { title: 'Meat export · future plan', body: 'Infrastructure and capacity for a competitive presence in the global halal meat market.' },
+    ],
+  }, {
+    blockType: 'agricultureFeature',
+    sectionId: 'mudarabah',
+    eyebrow: 'Corporate farming',
+    heading: 'Mudarabah: partnership in place of lending',
+    body: rich(paragraph(text('Enrichers is exploring corporate farming on the Mudarabah model, a Shariah-compliant partnership that encourages technology adoption and sustainable growth.'))),
+    image: mudarabahImage,
+    imageAlt: 'Corporate farming partnership',
+    imagePosition: 'right',
+  }, {
+    blockType: 'consultationQualifier',
+    sectionId: 'consultation',
+    eyebrow: 'Free consultation',
+    heading: 'Talk to us about agricultural investment',
+    subheading: 'Agriculture suits a longer time horizon. Our team will walk you through the options.',
+    phone: '(042) 111 111 333', phoneHref: 'tel:+9242111111333',
+    whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333', whatsappLabel: 'WhatsApp our client support',
+    hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed',
+    formMode: 'singlePage', form: agricultureForm.id,
+  }, investmentGuide, agricultureFaq, {
+    blockType: 'businessGroupCards',
+    eyebrow: 'Enrichers Investment Group', heading: 'The rest of the group', body: 'Brokerage, real assets, agriculture and hospitality under one group.',
+    items: [
+      { eyebrow: 'Advisory', title: 'Business Brokerage', subtitle: 'Enrichers Business Brokerage', body: 'Mergers & acquisitions, buying and selling businesses, franchise brokerage and valuation.', url: '/business-brokerage', icon: 'document' },
+      { eyebrow: 'Real assets', title: 'Arid Land Development', subtitle: 'Enrichers Developers (Pvt.) Ltd.', body: 'Turning arid land into productive farmland.', url: '/arid-land-development', icon: 'development' },
+      { eyebrow: 'Agriculture', title: 'Agriculture Research Centre', subtitle: 'Baab-ul-Ilm', body: 'Research and training for a more productive agricultural future.', url: '/school-of-agriculture-research-centre', icon: 'agriculture' },
+      { eyebrow: 'Hospitality', title: 'Tourism & Hospitality', body: 'Unlocking Northern Pakistan’s tourism potential.', url: '/tourism-hospitality', icon: 'hospitality' },
+    ],
+  }]
 
   const existing = await payload.find({ collection: 'pages', where: { slug: { equals: 'agriculture' } }, limit: 1 })
   const data = { title: 'Agriculture', slug: 'agriculture', layout } as never

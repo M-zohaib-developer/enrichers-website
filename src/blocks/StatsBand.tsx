@@ -22,6 +22,21 @@ export function StatsBand({ data }: { data: BlockData }) {
   const theme = THEMES[data.background as string] || THEMES.inverse
   const columns = stats.length >= 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : stats.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'
 
+  if (data.sectionId === 'facts') {
+    return (
+      <section className="relative theme-surface py-[calc(var(--section-y)*0.5)]">
+        <div className="container-x">
+          <dl className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+            {stats.map((stat, index) => <div key={`${stat.value || 'stat'}-${index}`} className="border-t-2 border-[var(--color-text)] pt-4">
+              <dd className="font-display text-h1 font-light tabular-nums text-text">{stat.value}</dd>
+              <dt className="text-body-sm mt-1 text-text-secondary">{stat.label}</dt>
+            </div>)}
+          </dl>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section id={data.sectionId || undefined} className={`${theme} py-(--section-y)`}>
       <div className="container-x">
