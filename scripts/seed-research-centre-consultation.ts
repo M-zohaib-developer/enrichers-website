@@ -261,20 +261,23 @@ const run = async () => {
       background: 'surface',
     },
     {
-      blockType: 'focusAreasGrid',
+      // The research centre uses the icon-led focus grid rather than the
+      // photo-card variation.  Keep the image media above in the CMS for
+      // reuse, but render this live section with the seven supplied icons.
+      blockType: 'benefitsGrid',
       sectionId: 'focus',
       eyebrow: 'Key focus areas',
       heading: 'Seven areas of work',
       body: '',
       background: 'surface',
       items: [
-        { image: focusImages[0].id, imageAlt: 'Farm Management', title: 'Farm management', body: 'Strategies that optimise farm operations.' },
-        { image: focusImages[1].id, imageAlt: 'Smart Farming Platforms', title: 'Smart farming platforms', body: 'Technology that improves practice and productivity.' },
-        { image: focusImages[2].id, imageAlt: 'Farm-to-Market Solutions', title: 'Farm-to-market solutions', body: 'Connecting producers with consumers efficiently and profitably.' },
-        { image: focusImages[3].id, imageAlt: 'Food Security', title: 'Food security', body: 'Sustainable practices and new solutions for food security.' },
-        { image: focusImages[4].id, imageAlt: 'Best Farm Management Practice', title: 'Best farm management practice', body: 'A working model that sets the standard for the industry.' },
-        { image: focusImages[5].id, imageAlt: 'Actionable Field Data', title: 'Actionable field data', body: 'Data-driven insight that guides decisions on the farm.' },
-        { image: focusImages[6].id, imageAlt: 'Research and Training', title: 'Research and training', body: 'Continuous learning that prepares people for the future of agriculture.' },
+        { title: 'Farm management', body: 'Strategies that optimise farm operations.' },
+        { title: 'Smart farming platforms', body: 'Technology that improves practice and productivity.' },
+        { title: 'Farm-to-market solutions', body: 'Connecting producers with consumers efficiently and profitably.' },
+        { title: 'Food security', body: 'Sustainable practices and new solutions for food security.' },
+        { title: 'Best farm management practice', body: 'A working model that sets the standard for the industry.' },
+        { title: 'Actionable field data', body: 'Data-driven insight that guides decisions on the farm.' },
+        { title: 'Research and training', body: 'Continuous learning that prepares people for the future of agriculture.' },
       ],
     },
     {

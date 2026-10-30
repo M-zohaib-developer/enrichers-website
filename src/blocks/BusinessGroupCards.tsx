@@ -6,6 +6,7 @@ function CardIcon({ kind }: { kind?: string }) {
   const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'square' as const, strokeLinejoin: 'miter' as const }
   if (kind === 'development') return <svg viewBox="0 0 24 24" width="32" height="32" {...common} aria-hidden="true"><polygon points="12,6 21,11 12,16 3,11" /><path d="M7.5 8.5L16.5 13.5M16.5 8.5L7.5 13.5M3 11V14L12 19L21 14V11" /></svg>
   if (kind === 'agriculture') return <svg viewBox="0 0 24 24" width="32" height="32" {...common} aria-hidden="true"><path d="M5 19C5 10 11 5 20 4C19 13 14 19 5 19Z" /><path d="M5 19L13 11" /></svg>
+  if (kind === 'research') return <svg viewBox="0 0 24 24" width="32" height="32" {...common} aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r=".8" /></svg>
   if (kind === 'hospitality') return <svg viewBox="0 0 24 24" width="32" height="32" {...common} aria-hidden="true"><path d="M12 21C12 21 6 15 6 10A6 6 0 0 1 18 10C18 15 12 21 12 21Z" /><circle cx="12" cy="10" r="2" /></svg>
   return <svg viewBox="0 0 24 24" width="32" height="32" {...common} aria-hidden="true"><path d="M6 3H15L19 7V21H6Z" /><path d="M15 3V7H19M9 12H16M9 16H14" /></svg>
 }

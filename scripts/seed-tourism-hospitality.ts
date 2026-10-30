@@ -26,12 +26,10 @@ const run = async () => {
     })
   }
 
-  const [skarduHotelImg, consultImg1, consultImg2, consultImg3] = await Promise.all([
-    getMedia('Architectural visualisation: aerial view of the Skardu Riverside Hotel above the river', 'skardu-hotel.webp'),
-    getMedia('Tourism and hospitality consultation image 1', 'tourism-hospitality1.webp'),
-    getMedia('Tourism and hospitality consultation image 2', 'tourism-hospitality2.webp'),
-    getMedia('Tourism and hospitality consultation image 3', 'tourism-hospitality3.webp'),
-  ])
+  const skarduHotelImg = await getMedia(
+    'Architectural visualisation: aerial view of the Skardu Riverside Hotel above the river',
+    'skardu-hotel.webp',
+  )
 
   const existingForms = await payload.find({ collection: 'forms', where: { title: { equals: 'Tourism consultation' } }, limit: 1 })
   const formData = {
@@ -41,7 +39,7 @@ const run = async () => {
       { blockType: 'text', name: 'phone', label: 'Phone', required: true },
       { blockType: 'email', name: 'email', label: 'Email (optional)', required: false },
       {
-        blockType: 'select', name: 'interest', label: 'Interest',
+        blockType: 'select', name: 'topic', label: "I'm interested in",
         options: [
           { label: 'Tourism & hospitality', value: 'tourism' },
           { label: 'Stock broking (PSX)', value: 'stock' },
@@ -130,9 +128,10 @@ const run = async () => {
       buttons: [{ blockType: 'primaryButton', label: 'Explore Skardu Riverside Hotel', url: '/skardu-riverside-hotel/' }],
     },
 
-    // 4. Consultation / investor enquiries
+    // 4. Consultation / investor enquiries. This uses the shared two-column
+    // qualifier layout (contact details on the left, simple form on the right).
     {
-      blockType: 'consultationShowcase',
+      blockType: 'consultationQualifier',
       sectionId: 'consultation',
       eyebrow: 'Investor enquiries',
       heading: "Invest in Northern Pakistan's hospitality",
@@ -142,15 +141,11 @@ const run = async () => {
       whatsappUrl: 'https://api.whatsapp.com/send?phone=9242111111333',
       whatsappLabel: 'WhatsApp our client support',
       hours: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed',
-      formStepLabel: 'Demo — nothing is submitted',
-      formHeading: 'Tell us what interests you',
+      formMode: 'singlePage',
+      formStepLabel: 'Demo form — nothing is submitted from this preview.',
+      formHeading: '',
       formIntro: '',
       form: form.id,
-      images: [
-        { image: consultImg1.id, alt: 'Northern Pakistan mountain landscape' },
-        { image: consultImg2.id, alt: 'Luxury hotel interior' },
-        { image: consultImg3.id, alt: 'Skardu valley aerial view' },
-      ],
     },
 
     // 5. Tourism guide accordion
@@ -206,48 +201,43 @@ const run = async () => {
       ],
     },
 
-    // 7. Related services — the rest of the group
+    // 7. Related services — the four-card group explorer.
     {
-      blockType: 'groupBusinessExplorer',
-      eyebrow: '',
+      blockType: 'businessGroupCards',
+      eyebrow: 'Enrichers Investment Group',
       heading: 'The rest of the group',
       body: 'Brokerage, real assets, agriculture and hospitality under one group.',
-      buttons: [],
       items: [
         {
           eyebrow: 'Advisory',
-          label: 'Advisory',
           title: 'Business Brokerage',
-          quote: 'Enrichers Business Brokerage',
+          subtitle: 'Enrichers Business Brokerage',
           body: 'Mergers & acquisitions, buying and selling businesses, franchise brokerage and valuation.',
-          url: '/business-brokerage/',
+          url: '/business-brokerage',
           icon: 'document',
         },
         {
           eyebrow: 'Real assets',
-          label: 'Real assets',
           title: 'Arid Land Development',
-          quote: 'Enrichers Developers (Pvt.) Ltd.',
+          subtitle: 'Enrichers Developers (Pvt.) Ltd.',
           body: 'Turning arid land into productive farmland through a sweat-equity partnership model.',
-          url: '/arid-land-development/',
+          url: '/arid-land-development',
           icon: 'development',
         },
         {
           eyebrow: 'Agriculture',
-          label: 'Agriculture',
           title: 'Agriculture',
-          quote: 'Enri-Farms',
+          subtitle: 'Enri-Farms',
           body: 'Smart agriculture, seed banking, export cultivation, dairy and Mudarabah corporate farming.',
-          url: '/agriculture/',
+          url: '/agriculture',
           icon: 'agriculture',
         },
         {
           eyebrow: 'Agriculture',
-          label: 'Agriculture',
           title: 'Agriculture Research Centre',
-          quote: 'Baab-ul-Ilm',
+          subtitle: 'Baab-ul-Ilm',
           body: 'An institute of agriculture sciences and research tackling challenges in the agri-food system.',
-          url: '/school-of-agriculture-research-centre/',
+          url: '/school-of-agriculture-research-centre',
           icon: 'research',
         },
       ],

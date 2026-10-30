@@ -58,8 +58,7 @@ Rather than hand-patch a chain whose snapshots had already drifted, the set was
 regenerated as one baseline from the current config, then verified against a
 clean database.
 
-`src/migrations-broken-backup/` is kept only so the old history is recoverable.
-Nothing reads it — it can be deleted once you are happy.
+The old broken migration set has been deleted.
 
 ## Adding a migration
 

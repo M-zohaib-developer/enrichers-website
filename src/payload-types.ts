@@ -738,7 +738,7 @@ export interface Page {
           subtitle?: string | null;
           body: string;
           url: string;
-          icon?: ('document' | 'development' | 'agriculture' | 'hospitality') | null;
+          icon?: ('document' | 'development' | 'agriculture' | 'research' | 'hospitality') | null;
           id?: string | null;
         }[];
         id?: string | null;

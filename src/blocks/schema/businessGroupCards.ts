@@ -19,6 +19,7 @@ export const businessGroupCards: Block = {
           { label: 'Document', value: 'document' },
           { label: 'Development', value: 'development' },
           { label: 'Agriculture', value: 'agriculture' },
+          { label: 'Research', value: 'research' },
           { label: 'Hospitality', value: 'hospitality' },
         ] },
       ],

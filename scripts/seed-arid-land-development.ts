@@ -276,15 +276,17 @@ const run = async () => {
   ]
 
   const explorer = {
-    blockType: 'groupBusinessExplorer',
+    // Replace the older tabbed group explorer with the shared four-card
+    // reference block used across the updated service pages.
+    blockType: 'businessGroupCards',
     eyebrow: 'Enrichers Investment Group',
     heading: 'The rest of the group',
     body: 'Brokerage, real assets, agriculture and hospitality under one group.',
     items: [
-      { label: 'Business brokerage', eyebrow: 'Advisory Business Brokerage', title: 'Enrichers Business Brokerage', body: 'Mergers & acquisitions, buying and selling businesses, franchise brokerage and valuation.', url: '/business-brokerage', icon: 'development' },
-      { label: 'Agriculture', eyebrow: 'Agriculture', title: 'Enri-Farms', body: 'Smart agriculture, seed banking, export cultivation, dairy and Mudarabah corporate farming.', url: '/agriculture', icon: 'agriculture' },
-      { label: 'Research centre', eyebrow: 'Agriculture', title: 'Baab-ul-Ilm', body: 'An institute of agriculture sciences and research tackling challenges in the agri-food system.', url: '/school-of-agriculture-research-centre', icon: 'research' },
-      { label: 'Hospitality', eyebrow: 'Hospitality', title: 'Tourism & Hospitality', body: "Unlocking Northern Pakistan's tourism potential, starting with a 5-star hotel in Skardu.", url: '/tourism-hospitality', icon: 'hospitality' },
+      { eyebrow: 'Advisory', title: 'Business Brokerage', subtitle: 'Enrichers Business Brokerage', body: 'Mergers & acquisitions, buying and selling businesses, franchise brokerage and valuation.', url: '/business-brokerage', icon: 'document' },
+      { eyebrow: 'Agriculture', title: 'Agriculture', subtitle: 'Enri-Farms', body: 'Smart agriculture, seed banking, export cultivation, dairy and Mudarabah corporate farming.', url: '/agriculture', icon: 'agriculture' },
+      { eyebrow: 'Agriculture', title: 'Agriculture Research Centre', subtitle: 'Baab-ul-Ilm', body: 'An institute of agriculture sciences and research tackling challenges in the agri-food system.', url: '/school-of-agriculture-research-centre', icon: 'research' },
+      { eyebrow: 'Hospitality', title: 'Tourism & Hospitality', body: "Unlocking Northern Pakistan's tourism potential, starting with a 5-star hotel in Skardu.", url: '/tourism-hospitality', icon: 'hospitality' },
     ],
   }
   const liveLayout = [hero, navigation, mediaContent, values, deliverables, crops, consultationForm, faq, explorer]

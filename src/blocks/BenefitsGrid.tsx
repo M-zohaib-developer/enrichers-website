@@ -51,13 +51,13 @@ export function BenefitsGrid({ data }: { data: BlockData }) {
   }
   if (data.sectionId === 'focus') {
     return (
-      <section id="focus" className="relative theme-surface py-(--section-y)">
+      <section id="focus" aria-labelledby="focus-h" className="relative theme-surface py-(--section-y)">
         <div className="container-x">
           <div className="max-w-[760px]">
             {data.eyebrow && <p className="text-overline mb-4 inline-flex items-center gap-2 font-semibold tracking-overline text-text-muted uppercase"><JunctionMark size={12} className="text-accent" />{data.eyebrow}</p>}
-            <h2 className="font-display text-h2 font-normal tracking-[-0.015em] text-text">{data.heading}</h2>
+            <h2 id="focus-h" className="font-display text-h2 font-normal tracking-[-0.015em] text-text">{data.heading}</h2>
           </div>
-          <ul className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((item: any, index: number) => (
               <li key={`${item.title || 'focus-area'}-${index}`}>
                 <FocusIcon index={index} />
