@@ -20,7 +20,17 @@ export const agricultureFeature: Block = {
     { name: 'sectionId', type: 'text', label: 'Section ID' },
     { name: 'eyebrow', type: 'text', label: 'Eyebrow (optional)' },
     { name: 'heading', type: 'text', required: true },
-    { name: 'image', type: 'upload', relationTo: 'media', required: true },
+    {
+      name: 'image', type: 'upload', relationTo: 'media', required: true,
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1200 × 800', ratio: 1.5, hint: '3:2 landscape — field, farm, or project photography' },
+          },
+        },
+      },
+    },
     { name: 'imageAlt', type: 'text', label: 'Image alt text' },
     { name: 'imagePosition', type: 'select', defaultValue: 'right', options: [{ label: 'Image right', value: 'right' }, { label: 'Image left', value: 'left' }] },
     {

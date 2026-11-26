@@ -18,7 +18,17 @@ export const videoTextFeature: Block = {
       admin: { description: 'Use paragraphs, bold text, italics, and links.' },
     },
     { name: 'videoUrl', type: 'text', required: true, label: 'Video URL' },
-    { name: 'thumbnail', type: 'upload', relationTo: 'media', required: true, label: 'Video thumbnail' },
+    {
+      name: 'thumbnail', type: 'upload', relationTo: 'media', required: true, label: 'Video thumbnail',
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1280 × 800', ratio: 1.6, hint: 'A play button is overlaid at centre' },
+          },
+        },
+      },
+    },
     { name: 'thumbnailAlt', type: 'text', label: 'Video thumbnail alt text' },
     { name: 'videoLabel', type: 'text', label: 'Video label', defaultValue: 'Watch project video' },
   ],

@@ -13,6 +13,7 @@ export const Pages: CollectionConfig = {
    */
   access: { read: authenticatedOrPublished },
   admin: {
+    group: 'Content',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     /**
@@ -38,7 +39,12 @@ export const Pages: CollectionConfig = {
       type: 'blocks',
       required: true,
       blocks: HomeBlocks,
-      admin: { initCollapsed: true },
+      admin: {
+        initCollapsed: true,
+        components: {
+          Field: '@/fields/LayoutBlocksField#LayoutBlocksField',
+        },
+      },
     },
   ],
   /**

@@ -756,6 +756,219 @@ $eig-line-soft: #e2ebf5;
   letter-spacing: -0.01em;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Blocks overview — dashboard section showing all available blocks.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.blocks-overview {
+  margin-top: calc(var(--base) * 2);
+
+  &__title {
+    margin-bottom: calc(var(--base) / 2);
+  }
+
+  &__intro {
+    color: var(--theme-elevation-500);
+    margin-bottom: var(--base);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: calc(var(--base) / 2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__card {
+    background: var(--theme-elevation-50);
+    border: 1px solid var(--theme-elevation-100);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: #1c95d0;
+      box-shadow: 0 4px 16px -4px rgba(10, 31, 61, 0.14);
+    }
+  }
+
+  &__preview {
+    background: #ffffff;
+    border-bottom: 1px solid var(--theme-elevation-100);
+    width: 100%;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    padding: calc(var(--base) / 2);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Block preview shared — shimmer used by both dashboard cards and picker.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Shimmer sweep across a template card — reads as "skeleton" not "broken". */
+@keyframes bp-shimmer {
+  0%   { background-position: -300px 0; }
+  100% { background-position: 300px 0; }
+}
+
+.bp-shimmer {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    animation: bp-shimmer 1.8s linear infinite;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.18) 50%,
+      transparent 100%
+    );
+    background-size: 300px 100%;
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+}
+
+/* Hide Payload's native blocks drawer toggler — our icon replaces it. */
+.layout-blocks-field .blocks-field__drawer-toggler {
+  display: none !important;
+}
+
+/* Icon-only add button — sits below the existing blocks list. */
+.layout-blocks-field__add {
+  align-items: center;
+  background: #0369a1;
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 0;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+  width: 36px;
+
+  &:hover {
+    background: #075985;
+    transform: scale(1.08);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(28, 149, 208, 0.35);
+    outline: none;
+  }
+}
+
+/* Search input inside the drawer. */
+.layout-blocks-field__search {
+  background: #ffffff;
+  border: 1px solid #c9d2dc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #0a1f3d;
+  display: block;
+  font-size: 14px;
+  margin: 0 0 20px;
+  padding: 10px 14px;
+  width: 100%;
+
+  &:focus {
+    border-color: #1c95d0;
+    box-shadow: 0 0 0 3px rgba(28, 149, 208, 0.18);
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #9aabbf;
+  }
+}
+
+/* Empty state. */
+.layout-blocks-field__empty {
+  color: #5e6b7d;
+  font-size: 14px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* Card grid — responsive columns. */
+.layout-blocks-field__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Individual block card. */
+.layout-blocks-field__card {
+  background: #ffffff;
+  border: 1.5px solid #e3e8ee;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+  width: 100%;
+
+  &:hover {
+    border-color: #1c95d0;
+    box-shadow: 0 4px 16px -4px rgba(10, 31, 61, 0.18);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1c95d0;
+    outline-offset: 2px;
+  }
+}
+
+/* The miniature preview — fills the card's upper region. */
+.layout-blocks-field__preview {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+
+  > * {
+    display: block;
+  }
+}
+
+/* Block name label below the preview. */
+.layout-blocks-field__label {
+  border-top: 1px solid #e3e8ee;
+  color: #0a1f3d;
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  padding: 7px 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .table {
   thead {
     color: #52627a;
@@ -776,3 +989,298 @@ $eig-line-soft: #e2ebf5;
     background: #eaf4fd;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Block picker — card-wrap, eye icon, used/unused badge.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Wraps the clickable card and the eye button so they sit atop each other. */
+.layout-blocks-field__card-wrap {
+  position: relative;
+}
+
+/* Eye icon — appears in the top-right corner of each picker card. */
+.layout-blocks-field__eye {
+  align-items: center;
+  background: rgba(10, 31, 61, 0.65);
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  height: 26px;
+  justify-content: center;
+  opacity: 0;
+  padding: 0;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.15s ease;
+  width: 26px;
+  z-index: 2;
+
+  &:hover {
+    background: #0369a1;
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(28, 149, 208, 0.45);
+    opacity: 1;
+    outline: none;
+  }
+}
+
+/* Show eye on card hover. */
+.layout-blocks-field__card-wrap:hover .layout-blocks-field__eye {
+  opacity: 1;
+}
+
+/* Used/unused badge — bottom-left corner of preview area. */
+.layout-blocks-field__badge {
+  align-items: center;
+  background: rgba(10, 31, 61, 0.55);
+  border-radius: 999px;
+  bottom: 30px; /* above the label bar */
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  font-size: 9px;
+  font-weight: 700;
+  height: 16px;
+  justify-content: center;
+  left: 6px;
+  min-width: 16px;
+  opacity: 0;
+  padding: 0 4px;
+  position: absolute;
+  transition: opacity 0.15s ease;
+  z-index: 2;
+
+  &--used {
+    background: rgba(7, 89, 133, 0.8);
+    color: #bae6fd;
+  }
+}
+
+.layout-blocks-field__card-wrap:hover .layout-blocks-field__badge {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Fullscreen block preview modal.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes bp-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.bp-fullscreen {
+  /* Flex wrapper — centres the panel without relying on transform or absolute
+     positioning, which breaks when any Payload admin ancestor has its own
+     stacking context (transform, filter, will-change). */
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 9999;
+
+  /* Backdrop */
+  &__backdrop {
+    background: rgba(8, 29, 65, 0.72);
+    backdrop-filter: blur(4px);
+    inset: 0;
+    position: fixed;
+    z-index: -1;
+  }
+
+  /* Main panel — sized, not positioned; centred by parent flex */
+  &__panel {
+    animation: bp-modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 32px 80px -16px rgba(8, 29, 65, 0.55);
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    max-height: 900px;
+    max-width: 1280px;
+    overflow: hidden;
+    position: relative;
+    width: 92vw;
+    z-index: 1;
+  }
+
+  /* Header bar */
+  &__header {
+    align-items: center;
+    background: #0a1f3d;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-shrink: 0;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__label {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__source {
+    color: rgba(169, 221, 248, 0.85);
+    font-size: 11px;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--sample {
+      color: rgba(255, 255, 255, 0.45);
+      font-style: italic;
+    }
+  }
+
+  &__slug {
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+    font-size: 10px;
+    opacity: 0.8;
+  }
+
+  &__count {
+    opacity: 0.7;
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  /* Prev/next and close buttons */
+  &__nav,
+  &__close {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+    width: 32px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba(28, 149, 208, 0.5);
+      outline: none;
+    }
+  }
+
+  &__close {
+    background: rgba(255, 255, 255, 0.08);
+
+    &:hover {
+      background: rgba(220, 50, 50, 0.3);
+      border-color: rgba(220, 50, 50, 0.5);
+    }
+  }
+
+  /* Iframe container */
+  &__viewport {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__loading {
+    align-items: center;
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    position: absolute;
+  }
+
+  &__spinner {
+    animation: bp-spin 0.8s linear infinite;
+    border: 2px solid #e3e8ee;
+    border-radius: 50%;
+    border-top-color: #0369a1;
+    height: 32px;
+    width: 32px;
+  }
+
+  &__iframe {
+    border: 0;
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    &--hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  /* Footer read-only bar */
+  &__footer {
+    background: #f5f7fa;
+    border-top: 1px solid #e3e8ee;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    padding: 6px 16px;
+  }
+
+  &__readonly {
+    color: #5e6b7d;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Blog Articles nav entry — injected via beforeNavLinks.
+   Matches Payload's own nav link visual style.
+   ═══════════════════════════════════════════════════════════════════════ */
+

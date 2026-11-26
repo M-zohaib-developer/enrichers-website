@@ -12,7 +12,17 @@ export const articleDetail: Block = {
     { name: 'author', type: 'text', defaultValue: 'Enrichers', required: true },
     { name: 'topic', type: 'text', defaultValue: 'Trading', required: true },
     { name: 'readingTime', type: 'text', defaultValue: '4 min', required: true },
-    { name: 'featuredImage', type: 'upload', relationTo: 'media' },
+    {
+      name: 'featuredImage', type: 'upload', relationTo: 'media',
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '800 × 600', ratio: 1.33, hint: 'Shown in the article sidebar on desktop' },
+          },
+        },
+      },
+    },
     {
       name: 'body', type: 'richText', required: true, label: 'Article content',
       editor: lexicalEditor({ features: ({ rootFeatures }) => [

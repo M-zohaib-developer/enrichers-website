@@ -17,7 +17,17 @@ export const researchLibrary: Block = {
         { name: 'date', type: 'text', required: true },
         { name: 'title', type: 'text', required: true },
         { name: 'summary', type: 'textarea', required: true },
-        { name: 'image', type: 'upload', relationTo: 'media', label: 'Cover image (optional)' },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', label: 'Cover image (optional)',
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '800 × 600', ratio: 1.33, hint: 'Research note cover thumbnail' },
+              },
+            },
+          },
+        },
         {
           name: 'file',
           type: 'upload',

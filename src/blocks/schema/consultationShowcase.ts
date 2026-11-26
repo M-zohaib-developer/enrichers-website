@@ -40,7 +40,17 @@ export const consultationShowcase: Block = {
       name: 'images', type: 'array', required: true, minRows: 1, label: 'Carousel images',
       admin: { description: 'Add 2–4 images. The carousel changes automatically every 3 seconds.' },
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true,
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '1200 × 800', ratio: 1.5, hint: 'Fills a tall panel beside the consultation form' },
+              },
+            },
+          },
+        },
         { name: 'alt', type: 'text', required: true },
         {
           name: 'caption',

@@ -620,3 +620,21 @@
     }
   }
 }
+
+/* ── Block preview isolated page — read-only enforcement ─────────────────────
+   The /block-preview page is embedded in an iframe by the admin preview modal.
+   Prevent navigation away and form submission so the preview is strictly
+   read-only. The sandbox="allow-same-origin allow-scripts" attribute on the
+   iframe already blocks form submissions — this CSS layer reinforces it
+   visually and prevents click-away on internal links.                       */
+.block-preview-isolated a[href],
+.block-preview-isolated button[type="submit"],
+.block-preview-isolated form {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Keep the page scrollable so editors can see tall blocks in full. */
+.block-preview-isolated {
+  overflow-y: auto;
+}

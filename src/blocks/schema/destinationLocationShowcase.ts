@@ -22,7 +22,17 @@ export const destinationLocationShowcase: Block = {
     },
     { name: 'supportingText', type: 'textarea', label: 'Supporting text (optional)' },
     { ...buttonsField, label: 'Call to action' },
-    { name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Feature image' },
+    {
+      name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Feature image',
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1200 × 900', ratio: 1.33, hint: 'Main feature photo — shown at half-width on desktop' },
+          },
+        },
+      },
+    },
     { name: 'imageAlt', type: 'text', label: 'Feature image alt text' },
     { name: 'imageCaption', type: 'text', label: 'Feature image caption (optional)' },
     { name: 'imageCaptionDetail', type: 'text', label: 'Feature image caption detail (optional)' },
@@ -31,7 +41,17 @@ export const destinationLocationShowcase: Block = {
       name: 'attractions',
       type: 'array',
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true,
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '800 × 500', ratio: 1.6, hint: 'Attraction card photo' },
+              },
+            },
+          },
+        },
         { name: 'imageAlt', type: 'text', label: 'Image alt text' },
         { name: 'title', type: 'text', required: true },
         { name: 'body', type: 'textarea', label: 'Description (optional)' },

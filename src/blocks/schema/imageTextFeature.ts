@@ -15,7 +15,17 @@ export const imageTextFeature: Block = {
       admin: { description: 'Short check-mark points shown below the body copy.' },
       fields: [{ name: 'label', type: 'text', required: true }],
     },
-    { name: 'image', type: 'upload', relationTo: 'media', required: true },
+    {
+      name: 'image', type: 'upload', relationTo: 'media', required: true,
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1200 × 675', ratio: 1.78, hint: 'Landscape 16:9 · enable Portrait toggle below for 4:5 crop' },
+          },
+        },
+      },
+    },
     { name: 'imageAlt', type: 'text', label: 'Image alt text' },
     {
       name: 'imagePosition',

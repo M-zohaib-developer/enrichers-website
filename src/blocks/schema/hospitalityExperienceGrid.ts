@@ -15,7 +15,17 @@ export const hospitalityExperienceGrid: Block = {
       required: true,
       minRows: 1,
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true,
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '700 × 400', ratio: 1.75, hint: 'Wide card image' },
+              },
+            },
+          },
+        },
         { name: 'imageAlt', type: 'text', label: 'Image alt text' },
         { name: 'title', type: 'text', required: true },
         { name: 'body', type: 'textarea', required: true },

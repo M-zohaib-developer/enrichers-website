@@ -26,7 +26,17 @@ export const immersiveMediaGallery: Block = {
       required: true,
       minRows: 2,
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true,
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '1920 × 960', ratio: 2, hint: 'Wide gallery slide — also shown as 96px thumbnail' },
+              },
+            },
+          },
+        },
         { name: 'imageAlt', type: 'text', label: 'Image alt text' },
         { name: 'caption', type: 'text', label: 'Caption (optional)' },
       ],

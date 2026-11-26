@@ -17,7 +17,17 @@ export const teamMemberProfile: Block = {
     { name: 'sectionId', type: 'text', defaultValue: 'profile', label: 'Section ID' },
     { name: 'eyebrow', type: 'text', defaultValue: 'Team details' },
     { name: 'heading', type: 'text', required: true, label: 'Full name' },
-    { name: 'photo', type: 'upload', relationTo: 'media', required: true, label: 'Portrait' },
+    {
+      name: 'photo', type: 'upload', relationTo: 'media', required: true, label: 'Portrait',
+      admin: {
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '800 × 1000', ratio: 0.8, hint: 'Portrait — keep face in upper third' },
+          },
+        },
+      },
+    },
     { name: 'role', type: 'text', required: true },
     { name: 'companyLabel', type: 'text', label: 'Company name (optional)' },
     { name: 'companyUrl', type: 'text', label: 'Company link (optional)' },

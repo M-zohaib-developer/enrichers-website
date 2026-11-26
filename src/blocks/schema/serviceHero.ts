@@ -92,7 +92,15 @@ export const serviceHero: Block = {
       type: 'upload',
       relationTo: 'media',
       label: 'Right-side hero image (optional)',
-      admin: { description: 'Adds a responsive image beside the light hero content.' },
+      admin: {
+        description: 'Adds a responsive image beside the light hero content.',
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1200 × 1110', ratio: 1.08, hint: 'Right-side image beside hero content' },
+          },
+        },
+      },
     },
     {
       name: 'primary',

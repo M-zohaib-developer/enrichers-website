@@ -32,7 +32,15 @@ export const marketHero: Block = {
       label: 'Hero image',
       type: 'upload',
       relationTo: 'media',
-      admin: { description: 'Trading-floor image shown beside the hero content.' },
+      admin: {
+        description: 'Trading-floor image shown beside the hero content.',
+        components: {
+          Description: {
+            path: '@/fields/ImageGuide#ImageGuide',
+            clientProps: { size: '1600 × 1200', ratio: 1.33, hint: 'Trading-floor or market photo beside hero' },
+          },
+        },
+      },
     },
     {
       name: 'badges',

@@ -9,7 +9,12 @@ import { extname, join } from 'path'
 const SRC_DIR = join(process.cwd(), 'src')
 const SCAN_EXTENSIONS = new Set(['.ts', '.tsx'])
 const EXCLUDE_FILES = new Set(['payload-types.ts'])
-const EXCLUDE_DIR_NAMES = new Set(['node_modules', '.next', 'admin', 'migrations', 'migrations-broken-backup'])
+// blockPreviews, LayoutBlocksField, ImageGuide, and ImagePlaceholder use inline
+// styles intentionally — Tailwind is not available in the Payload admin bundle,
+// so inline styles are the only way to style admin miniatures and upload guides.
+// CLAUDE.md documents this exception.
+const EXCLUDE_DIR_NAMES = new Set(['node_modules', '.next', 'admin', 'migrations', 'migrations-broken-backup', 'blockPreviews'])
+const EXCLUDE_FILE_NAMES = new Set(['payload-types.ts', 'LayoutBlocksField.tsx', 'ImageGuide.tsx', 'ImagePlaceholder.tsx'])
 
 const HEX_LITERAL = /#[0-9a-fA-F]{3,8}\b/g
 const ARBITRARY_HEX_UTILITY = /\b[a-z-]+-\[#[0-9a-fA-F]{3,8}\]/g
@@ -22,7 +27,7 @@ function walk(dir, files = []) {
     const stat = statSync(fullPath)
     if (stat.isDirectory()) {
       walk(fullPath, files)
-    } else if (SCAN_EXTENSIONS.has(extname(entry)) && !EXCLUDE_FILES.has(entry)) {
+    } else if (SCAN_EXTENSIONS.has(extname(entry)) && !EXCLUDE_FILES.has(entry) && !EXCLUDE_FILE_NAMES.has(entry)) {
       files.push(fullPath)
     }
   }

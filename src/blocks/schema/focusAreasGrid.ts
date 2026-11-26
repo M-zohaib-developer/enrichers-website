@@ -14,7 +14,17 @@ export const focusAreasGrid: Block = {
       required: true,
       minRows: 1,
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true,
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '800 × 450', ratio: 1.78, hint: '16:9 card image' },
+              },
+            },
+          },
+        },
         { name: 'imageAlt', type: 'text', label: 'Image alt text' },
         { name: 'title', type: 'text', required: true },
         { name: 'body', type: 'textarea', required: true },

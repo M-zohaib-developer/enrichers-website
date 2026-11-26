@@ -3,7 +3,17 @@ import type { Block } from 'payload'
 const person = (withBio: boolean) => [
   { name: 'name', type: 'text' as const, required: true },
   { name: 'role', type: 'text' as const, required: true },
-  { name: 'photo', type: 'upload' as const, relationTo: 'media' as const },
+  {
+    name: 'photo', type: 'upload' as const, relationTo: 'media' as const,
+    admin: {
+      components: {
+        Description: {
+          path: '@/fields/ImageGuide#ImageGuide',
+          clientProps: { size: '600 × 750', ratio: 0.8, hint: 'Portrait — keep face in upper third' },
+        },
+      },
+    },
+  },
   { name: 'profileUrl', type: 'text' as const, label: 'Profile URL (optional)' },
   ...(withBio
     ? [{ name: 'bio', type: 'textarea' as const, label: 'Short bio (optional)' }]

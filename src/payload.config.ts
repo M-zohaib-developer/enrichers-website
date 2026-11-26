@@ -11,6 +11,7 @@ import { Media } from './collections/Media'
 import { Header } from './Header/config'
 import { Footer } from './Footer/config'
 import { Pages } from './collections/Pages'
+import { BlogArticles } from './collections/BlogArticles'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -40,6 +41,7 @@ export default buildConfig({
       },
       beforeLogin: ['@/components/admin/BeforeLogin'],
       afterLogin: ['@/components/admin/LoginAside', '@/components/admin/LoginPlaceholders'],
+      afterDashboard: ['@/components/BlocksOverview'],
     },
     livePreview: {
       breakpoints: [
@@ -49,7 +51,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Users, Media],
+  collections: [Pages, BlogArticles, Users, Media],
   globals: [Header, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

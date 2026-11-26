@@ -21,7 +21,17 @@ export const marketResearchCards: Block = {
         { name: 'date', type: 'text' },
         { name: 'title', type: 'text' },
         { name: 'url', type: 'text' },
-        { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'image', type: 'upload', relationTo: 'media',
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '600 × 750', ratio: 0.8, hint: 'Research card cover — portrait orientation' },
+              },
+            },
+          },
+        },
       ],
     },
   ],

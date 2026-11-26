@@ -18,7 +18,17 @@ export const platformDownloads: Block = {
         { name: 'platform', type: 'text', required: true, label: 'Platform label' },
         { name: 'title', type: 'text', required: true },
         { name: 'description', type: 'textarea', required: true },
-        { name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Screenshot' },
+        {
+          name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Screenshot',
+          admin: {
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '800 × 600', ratio: 1.33, hint: 'MetaTrader 5 platform screenshot' },
+              },
+            },
+          },
+        },
         { ...buttonsField, label: 'Download buttons' },
       ],
     },
