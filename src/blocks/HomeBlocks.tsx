@@ -42,6 +42,7 @@ import { ArticleList } from './ArticleList'
 import { TeamMemberProfile } from './TeamMemberProfile'
 import { FounderStatement } from './FounderStatement'
 import { ArticleDetail } from './ArticleDetail'
+import { VideoGallery } from './VideoGallery'
 import type { BlockData } from './shared'
 
 const components = {
@@ -89,6 +90,7 @@ const components = {
   teamMemberProfile: TeamMemberProfile,
   founderStatement: FounderStatement,
   articleDetail: ArticleDetail,
+  videoGallery: VideoGallery,
 } as const
 
 function MissingBlockPreview({ blockType }: { blockType?: string }) {

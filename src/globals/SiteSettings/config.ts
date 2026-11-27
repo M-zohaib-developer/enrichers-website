@@ -54,6 +54,149 @@ export const SiteSettings: GlobalConfig = {
             },
           ],
         },
+        {
+          label: 'Email (SMTP)',
+          description:
+            'SMTP credentials used to email form enquiries. Entered here, not in .env. The host/username/password are only readable by logged-in admins — they are never exposed on the public API.',
+          fields: [
+            {
+              name: 'smtpEnabled',
+              type: 'checkbox',
+              label: 'Email form enquiries',
+              defaultValue: false,
+              admin: { description: 'Turn on once the SMTP details below are filled in.' },
+            },
+            {
+              name: 'notificationsTo',
+              type: 'text',
+              label: 'Send enquiries to',
+              defaultValue: 'connect@enrichers.com.pk',
+              admin: {
+                description: 'The address that receives every form enquiry.',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
+              name: 'fromName',
+              type: 'text',
+              label: 'From name',
+              defaultValue: 'Enrichers Investment Group',
+              admin: { condition: (data) => Boolean(data?.smtpEnabled) },
+            },
+            {
+              name: 'fromAddress',
+              type: 'text',
+              label: 'From address',
+              defaultValue: 'connect@enrichers.com.pk',
+              admin: {
+                description: 'Must be an address your SMTP server is allowed to send as.',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
+              name: 'smtpHost',
+              type: 'text',
+              label: 'SMTP host',
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: {
+                description: 'e.g. mail.enrichers.com.pk',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
+              name: 'smtpPort',
+              type: 'number',
+              label: 'SMTP port',
+              defaultValue: 587,
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: {
+                description: '587 for STARTTLS, or 465 for SSL.',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
+              name: 'smtpSecure',
+              type: 'checkbox',
+              label: 'Use SSL (port 465)',
+              defaultValue: false,
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: {
+                description: 'Leave off for port 587 (STARTTLS); turn on for port 465.',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
+              name: 'smtpUser',
+              type: 'text',
+              label: 'SMTP username',
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: { condition: (data) => Boolean(data?.smtpEnabled) },
+            },
+            {
+              name: 'smtpPass',
+              type: 'text',
+              label: 'SMTP password',
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: {
+                description: 'Stored in the database. Use a mail app-password where possible.',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+          ],
+        },
+        {
+          label: 'YouTube',
+          description:
+            'YouTube Data API v3 credentials for the Video Gallery block. The API key is only readable by logged-in admins — it is never exposed on the public API or in frontend JavaScript.',
+          fields: [
+            {
+              name: 'youtubeEnabled',
+              type: 'checkbox',
+              label: 'Enable YouTube sync',
+              defaultValue: false,
+              admin: {
+                description:
+                  'Turn on once the API key below is filled in. Video Gallery blocks set to "Using YouTube API" will then auto-fetch all channel videos.',
+              },
+            },
+            {
+              name: 'youtubeChannelId',
+              type: 'text',
+              label: 'YouTube Channel ID',
+              defaultValue: 'UC6sWRZs7xmIFmfldEZ_JB5Q',
+              admin: {
+                description:
+                  'The channel ID starting with UC. For @enrichersinvestmentgroup this is UC6sWRZs7xmIFmfldEZ_JB5Q.',
+                condition: (data) => Boolean(data?.youtubeEnabled),
+              },
+            },
+            {
+              name: 'youtubeCacheMinutes',
+              type: 'number',
+              label: 'Cache duration (minutes)',
+              defaultValue: 1440,
+              admin: {
+                description:
+                  'How long fetched videos are cached before the server re-syncs. 1440 = 24 hours. New uploads appear automatically after this window.',
+                condition: (data) => Boolean(data?.youtubeEnabled),
+              },
+            },
+            {
+              name: 'youtubeApiKey',
+              type: 'text',
+              label: 'YouTube API key',
+              access: { read: ({ req }) => Boolean(req?.user) },
+              admin: {
+                description:
+                  'Create a key at console.cloud.google.com → enable "YouTube Data API v3" → Credentials → API key. Restrict the key to YouTube Data API v3. Stored in the database, admin-only.',
+                condition: (data) => Boolean(data?.youtubeEnabled),
+                components: {
+                  afterInput: ['@/components/admin/YouTubeHelp#YouTubeHelp'],
+                },
+              },
+            },
+          ],
+        },
       ],
     },
   ],

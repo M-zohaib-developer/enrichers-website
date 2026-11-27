@@ -1,6 +1,7 @@
 import * as migration_20261030_044615_baseline_schema from './20261030_044615_baseline_schema';
 import * as migration_20261030_115220_enable_page_drafts from './20261030_115220_enable_page_drafts';
 import * as migration_20261127_053046_add_landing_page_fields from './20261127_053046_add_landing_page_fields';
+import * as migration_20261127_075101_add_email_settings from './20261127_075101_add_email_settings';
 
 export const migrations = [
   {
@@ -16,6 +17,11 @@ export const migrations = [
   {
     up: migration_20261127_053046_add_landing_page_fields.up,
     down: migration_20261127_053046_add_landing_page_fields.down,
-    name: '20261127_053046_add_landing_page_fields'
+    name: '20261127_053046_add_landing_page_fields',
+  },
+  {
+    up: migration_20261127_075101_add_email_settings.up,
+    down: migration_20261127_075101_add_email_settings.down,
+    name: '20261127_075101_add_email_settings'
   },
 ];

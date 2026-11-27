@@ -6,6 +6,8 @@ import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
+import { sendFormNotification } from './utilities/sendFormNotification'
+
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Header } from './Header/config'
@@ -103,6 +105,23 @@ export default buildConfig({
   sharp,
   plugins: [
     formBuilderPlugin({
+      // SMTP credentials live in the admin (Settings → Email), not in .env — so
+      // the real notification is sent at submission time by this hook, which
+      // reads the current settings from the database and mails them through the
+      // Enrichers branded template. (Payload's own console-log adapter stays the
+      // default for system emails; it is never used for form notifications.)
+      formSubmissionOverrides: {
+        hooks: {
+          afterChange: [
+            async ({ doc, operation, req: { payload } }) => {
+              if (operation === 'create') {
+                await sendFormNotification({ payload, submission: doc })
+              }
+              return doc
+            },
+          ],
+        },
+      },
       formOverrides: {
         fields: ({ defaultFields }) => ([
           ...defaultFields,

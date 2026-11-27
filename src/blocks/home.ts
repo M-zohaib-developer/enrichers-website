@@ -33,6 +33,7 @@ import { agricultureFeature } from './schema/agricultureFeature'
 import { richIntro } from './schema/richIntro'
 import { focusAreasGrid } from './schema/focusAreasGrid'
 import { hospitalityExperienceGrid } from './schema/hospitalityExperienceGrid'
+import { videoGallery } from './schema/videoGallery'
 import { destinationLocationShowcase } from './schema/destinationLocationShowcase'
 import { videoTextFeature } from './schema/videoTextFeature'
 import { immersiveMediaGallery } from './schema/immersiveMediaGallery'
@@ -90,4 +91,5 @@ export const HomeBlocks: Block[] = [
   teamMemberProfile,
   founderStatement,
   articleDetail,
+  videoGallery,
 ]

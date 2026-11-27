@@ -23,10 +23,12 @@ import { ChecklistFeatureClient as ChecklistFeatureClient_e70f5e05f09f93e00b997e
 import { RelationshipFeatureClient as RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { YouTubeApiModeHelp as YouTubeApiModeHelp_2ae14a74dac7febaee4edf1d642fc1d6 } from '@/components/admin/YouTubeApiModeHelp'
 import { LayoutBlocksField as LayoutBlocksField_3ff057502d463b09165512273908390e } from '@/fields/LayoutBlocksField'
 import { default as default_4d086557e1341adb82bbbac559eefdbc } from '@/components/admin/BlogArticlesList'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
+import { YouTubeHelp as YouTubeHelp_36ca1b95878981178bc5dc273d81c48d } from '@/components/admin/YouTubeHelp'
 import { AdminIcon as AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
 import { AdminLogo as AdminLogo_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
 import { default as default_c45ccfa73bc8a799386bf04a966f4219 } from '@/components/BlocksOverview'
@@ -62,10 +64,12 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#RelationshipFeatureClient": RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/admin/YouTubeApiModeHelp#YouTubeApiModeHelp": YouTubeApiModeHelp_2ae14a74dac7febaee4edf1d642fc1d6,
   "@/fields/LayoutBlocksField#LayoutBlocksField": LayoutBlocksField_3ff057502d463b09165512273908390e,
   "@/components/admin/BlogArticlesList#default": default_4d086557e1341adb82bbbac559eefdbc,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
+  "@/components/admin/YouTubeHelp#YouTubeHelp": YouTubeHelp_36ca1b95878981178bc5dc273d81c48d,
   "@/components/admin/Logo#AdminIcon": AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd,
   "@/components/admin/Logo#AdminLogo": AdminLogo_a44df17d0fc3dcd873dae43dc3bf66bd,
   "@/components/BlocksOverview#default": default_c45ccfa73bc8a799386bf04a966f4219,

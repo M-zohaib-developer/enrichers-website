@@ -134,7 +134,49 @@ export const FALLBACK_NAV: NavItem[] = [
       linkLabel: 'Explore the project',
     },
   },
-  { label: 'Knowledge Hub', href: '/latest-insight/', groups: [] },
+  {
+    label: 'Knowledge Hub',
+    href: '',
+    groups: [
+      {
+        heading: 'Research & insights',
+        items: [
+          {
+            label: 'Market research & insights',
+            href: '/latest-insight/',
+            description: 'Weekly notes on PSX, commodities and global macro',
+          },
+          {
+            label: 'Financial glossary',
+            href: '/financial-glossary/',
+            description: 'Key investing terms, explained simply',
+          },
+        ],
+      },
+      {
+        heading: 'Learn',
+        items: [
+          {
+            label: 'Educational videos',
+            href: '/video-gallery/',
+            description: 'Market updates, explainers and the Enrichers story',
+          },
+          {
+            label: 'Articles',
+            href: '/blogs/',
+            description: 'Long-reads from our research team',
+          },
+        ],
+      },
+    ],
+    feature: {
+      enabled: true,
+      eyebrow: 'Watch',
+      title: 'Market updates and educational videos, all in one place',
+      href: '/video-gallery/',
+      linkLabel: 'Open the video gallery',
+    },
+  },
   {
     label: 'About',
     href: '',

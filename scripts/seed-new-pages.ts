@@ -326,6 +326,54 @@ const run = async () => {
         },
       ],
     },
+
+    // ───────────────────────── VIDEO GALLERY ─────────────────────────
+    {
+      title: 'Video Gallery',
+      slug: 'video-gallery',
+      layout: [
+        {
+          blockType: 'serviceHero',
+          theme: 'dark',
+          heroVariant: 'standard',
+          breadcrumbs: [ { label: 'Home', url: '/' }, { label: 'Video Gallery', url: '' } ],
+          eyebrow: 'Knowledge Hub · Videos',
+          heading: 'Watch, learn and stay ahead of the markets.',
+          headingAccent: 'stay ahead of the markets.',
+          body: 'Market updates, educational explainers and the Enrichers story — all in one place.',
+          primary: { blockType: 'primaryButton', label: 'Book a consultation', url: '/contact-us/#consultation', variant: 'primary' },
+          secondary: { blockType: 'secondaryButton', label: 'Read our research', url: '/latest-insight/', variant: 'secondary' },
+          badges: [],
+        },
+        {
+          blockType: 'videoGallery',
+          sectionId: 'videos',
+          eyebrow: 'Knowledge Hub',
+          heading: 'Video gallery',
+          body: 'Market updates, educational explainers and the Enrichers story — straight from our YouTube channel.',
+          channelName: 'Enrichers Investment Group',
+          channelUrl: 'https://www.youtube.com/@enrichersinvestmentgroup',
+          channelStats: '484 videos · 5M views',
+          // Each playlist embeds the whole YouTube playlist (every video shows
+          // automatically). "All videos" is the channel's uploads playlist.
+          playlists: [
+            { title: 'All videos', playlistId: 'UU6sWRZs7xmIFmfldEZ_JB5Q' },
+            { title: 'A Decade of Enrichers', playlistId: 'PLYagOOyOHG7Jqd4Nsuamp_JTQS6PyL58l' },
+            { title: 'Daily Market Analytics', playlistId: 'PLYagOOyOHG7LQGjrta6FaD8ktkki_daLi' },
+          ],
+        },
+        {
+          blockType: 'readyWhenYouAre',
+          heading: 'Ready when you are.',
+          body: 'Open a PSX or PMEX account online, or speak with our team first.',
+          buttons: [
+            { blockType: 'primaryButton', label: 'Open an Account', url: '/open-account/' },
+            { blockType: 'secondaryButton', label: 'Talk to our Experts', url: '/contact-us/#consultation' },
+          ],
+          riskNotice: 'Content is for information and education only and is not personalised investment advice.',
+        },
+      ],
+    },
   ]
 
   const ctx = { context: { skipRevalidate: true } }

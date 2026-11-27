@@ -1572,6 +1572,86 @@ export interface Page {
         blockName?: string | null;
         blockType: 'articleDetail';
       }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
+        heading: string;
+        body?: string | null;
+        channelName?: string | null;
+        channelUrl?: string | null;
+        /**
+         * e.g. 484 videos · 5M views
+         */
+        channelStats?: string | null;
+        /**
+         * Leave blank to use the Enrichers logo.
+         */
+        channelLogo?: (number | null) | Media;
+        /**
+         * API mode needs a key in Settings → YouTube. Manual mode uses only the videos you paste below — no key required. Switching modes does not delete the other mode's data.
+         */
+        sourceMode: 'api' | 'manual';
+        /**
+         * Paste any YouTube video URL — watch, youtu.be, shorts or embed shapes all work. Thumbnails are pulled from YouTube automatically.
+         */
+        manualVideos?:
+          | {
+              youtubeUrl: string;
+              customTitle?: string | null;
+              /**
+               * A video can belong to multiple categories.
+               */
+              categories?: ('PSX' | 'PMEX' | 'Market Updates' | 'Educational Videos' | 'Company Updates')[] | null;
+              /**
+               * Leave blank to use the YouTube thumbnail.
+               */
+              customThumbnail?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Pinned playlists appear on the Playlists tab. Leave empty in API mode to show all channel playlists automatically.
+         */
+        manualPlaylists?:
+          | {
+              title: string;
+              playlistUrl: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * A video is assigned to a category when its title or description contains any of the keywords. Edit to tune auto-categorisation — no redeploy needed.
+         */
+        categoryRules?:
+          | {
+              category: 'PSX' | 'PMEX' | 'Market Updates' | 'Educational Videos' | 'Company Updates';
+              keywords: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Kept for installs seeded with the earlier gallery shape. Used only when API mode is off AND no manual videos are set.
+         */
+        playlists?:
+          | {
+              title?: string | null;
+              playlistId?: string | null;
+              videos?:
+                | {
+                    title?: string | null;
+                    videoUrl?: string | null;
+                    duration?: string | null;
+                    thumbnail?: (number | null) | Media;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'videoGallery';
+      }
   )[];
   updatedAt: string;
   createdAt: string;
@@ -3289,6 +3369,60 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        videoGallery?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              channelName?: T;
+              channelUrl?: T;
+              channelStats?: T;
+              channelLogo?: T;
+              sourceMode?: T;
+              manualVideos?:
+                | T
+                | {
+                    youtubeUrl?: T;
+                    customTitle?: T;
+                    categories?: T;
+                    customThumbnail?: T;
+                    id?: T;
+                  };
+              manualPlaylists?:
+                | T
+                | {
+                    title?: T;
+                    playlistUrl?: T;
+                    id?: T;
+                  };
+              categoryRules?:
+                | T
+                | {
+                    category?: T;
+                    keywords?: T;
+                    id?: T;
+                  };
+              playlists?:
+                | T
+                | {
+                    title?: T;
+                    playlistId?: T;
+                    videos?:
+                      | T
+                      | {
+                          title?: T;
+                          videoUrl?: T;
+                          duration?: T;
+                          thumbnail?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
@@ -3895,6 +4029,52 @@ export interface SiteSetting {
    */
   whatsappUrl?: string | null;
   whatsappTooltip?: string | null;
+  /**
+   * Turn on once the SMTP details below are filled in.
+   */
+  smtpEnabled?: boolean | null;
+  /**
+   * The address that receives every form enquiry.
+   */
+  notificationsTo?: string | null;
+  fromName?: string | null;
+  /**
+   * Must be an address your SMTP server is allowed to send as.
+   */
+  fromAddress?: string | null;
+  /**
+   * e.g. mail.enrichers.com.pk
+   */
+  smtpHost?: string | null;
+  /**
+   * 587 for STARTTLS, or 465 for SSL.
+   */
+  smtpPort?: number | null;
+  /**
+   * Leave off for port 587 (STARTTLS); turn on for port 465.
+   */
+  smtpSecure?: boolean | null;
+  smtpUser?: string | null;
+  /**
+   * Stored in the database. Use a mail app-password where possible.
+   */
+  smtpPass?: string | null;
+  /**
+   * Turn on once the API key below is filled in. Video Gallery blocks set to "Using YouTube API" will then auto-fetch all channel videos.
+   */
+  youtubeEnabled?: boolean | null;
+  /**
+   * The channel ID starting with UC. For @enrichersinvestmentgroup this is UC6sWRZs7xmIFmfldEZ_JB5Q.
+   */
+  youtubeChannelId?: string | null;
+  /**
+   * How long fetched videos are cached before the server re-syncs. 1440 = 24 hours. New uploads appear automatically after this window.
+   */
+  youtubeCacheMinutes?: number | null;
+  /**
+   * Create a key at console.cloud.google.com → enable "YouTube Data API v3" → Credentials → API key. Restrict the key to YouTube Data API v3. Stored in the database, admin-only.
+   */
+  youtubeApiKey?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4147,6 +4327,19 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   whatsappEnabled?: T;
   whatsappUrl?: T;
   whatsappTooltip?: T;
+  smtpEnabled?: T;
+  notificationsTo?: T;
+  fromName?: T;
+  fromAddress?: T;
+  smtpHost?: T;
+  smtpPort?: T;
+  smtpSecure?: T;
+  smtpUser?: T;
+  smtpPass?: T;
+  youtubeEnabled?: T;
+  youtubeChannelId?: T;
+  youtubeCacheMinutes?: T;
+  youtubeApiKey?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
