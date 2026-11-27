@@ -4,6 +4,7 @@ import { Albert_Sans, Source_Sans_3 } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/Header/Component'
 import { Footer } from '@/Footer/Component'
+import { WhatsAppFloat } from '@/components/WhatsAppFloat'
 
 // Weights match the reference build exactly: it ships Albert Sans 300/400/600/700
 // and Source Sans 3 400/600/700. Dropping 700 here would make `font-bold` render
@@ -80,6 +81,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <Header />
         <main className="page-blocks">{children}</main>
         <Footer />
+        <WhatsAppFloat />
       </body>
     </html>
   )

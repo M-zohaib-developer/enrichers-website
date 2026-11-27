@@ -9,25 +9,27 @@ export async function GET(req: NextRequest): Promise<Response> {
   const path = searchParams.get('path')
   const previewSecret = searchParams.get('previewSecret')
 
-  if (previewSecret !== process.env.PREVIEW_SECRET) {
-    return new Response('Forbidden', { status: 403 })
-  }
-
   if (!path || !path.startsWith('/')) {
     return new Response('Invalid path', { status: 400 })
   }
 
-  const payload = await getPayload({ config: configPromise })
+  // Two ways in, either is enough:
+  //  1. A configured PREVIEW_SECRET that matches (external / token preview).
+  //  2. A logged-in admin user — live preview always runs inside the
+  //     authenticated admin, so this keeps it working even if PREVIEW_SECRET
+  //     is missing or misconfigured on the server (the previous cause of the
+  //     "Forbidden" iframe: '' from the URL never equals an undefined env var).
+  const secretOk = Boolean(process.env.PREVIEW_SECRET) && previewSecret === process.env.PREVIEW_SECRET
 
+  const payload = await getPayload({ config: configPromise })
   let user
   try {
-    const auth = await payload.auth({ req: req as unknown as PayloadRequest, headers: req.headers })
-    user = auth.user
+    user = (await payload.auth({ req: req as unknown as PayloadRequest, headers: req.headers })).user
   } catch {
-    return new Response('Forbidden', { status: 403 })
+    user = undefined
   }
 
-  if (!user) {
+  if (!user && !secretOk) {
     return new Response('Forbidden', { status: 403 })
   }
 

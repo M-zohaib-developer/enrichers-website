@@ -98,10 +98,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -3748,6 +3750,23 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Site-wide settings, such as the floating WhatsApp button.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  whatsappEnabled?: boolean | null;
+  /**
+   * Opened when a visitor clicks the button. Use a wa.me or api.whatsapp.com link.
+   */
+  whatsappUrl?: string | null;
+  whatsappTooltip?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -3984,6 +4003,18 @@ export interface FooterSelect<T extends boolean = true> {
       };
   entityNames?: T;
   disclaimer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  whatsappEnabled?: T;
+  whatsappUrl?: T;
+  whatsappTooltip?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

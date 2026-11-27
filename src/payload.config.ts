@@ -10,6 +10,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Header } from './Header/config'
 import { Footer } from './Footer/config'
+import { SiteSettings } from './globals/SiteSettings/config'
 import { Pages } from './collections/Pages'
 import { BlogArticles } from './collections/BlogArticles'
 
@@ -52,7 +53,7 @@ export default buildConfig({
     },
   },
   collections: [Pages, BlogArticles, Users, Media],
-  globals: [Header, Footer],
+  globals: [Header, Footer, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

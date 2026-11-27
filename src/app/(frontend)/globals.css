@@ -402,6 +402,10 @@
   --color-white: #ffffff;
   --color-transparent: transparent;
   --color-current: currentColor;
+
+  /* WhatsApp brand green for the admin-toggled floating contact button. */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #1ebe57;
 }
 
 @theme {
