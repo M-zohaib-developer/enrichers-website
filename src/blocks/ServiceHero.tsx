@@ -115,10 +115,10 @@ export function ServiceHero({ data }: { data: BlockData }) {
               {(linkOk(data.primary) || linkOk(data.secondary)) && <div className="mt-9 flex flex-wrap items-center gap-4"><HeroButton data={data.primary} isLight /><HeroButton data={data.secondary} isLight /></div>}
               {breadcrumbPosition === 'bottom' && breadcrumbNav}
             </div>
-            {data.heroImage && imageSrc(data.heroImage) ? (
+            {data.heroImage && imageSrc(data.heroImage, '', 'xlarge') ? (
               <div className="relative order-last mx-auto w-full max-w-[680px] lg:order-none lg:col-span-6">
                 <div className="absolute inset-8 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
-                <div className="relative aspect-[1.08] w-full"><Image src={imageSrc(data.heroImage)} alt={imageAlt(data.heroImage, data.heading)} fill className="object-contain drop-shadow-[0_24px_40px_var(--e-neutral-200)]" sizes="(min-width: 1024px) 50vw, 94vw" priority /></div>
+                <div className="relative aspect-[1.08] w-full"><Image src={imageSrc(data.heroImage, '', 'xlarge')} alt={imageAlt(data.heroImage, data.heading)} fill className="object-contain drop-shadow-[0_24px_40px_var(--e-neutral-200)]" sizes="(min-width: 1024px) 50vw, 94vw" priority /></div>
               </div>
             ) : (
               <div className="relative order-last mx-auto w-full max-w-[620px] lg:order-none lg:col-span-6" aria-label="Regulatory documents and investor protection">
@@ -151,7 +151,7 @@ export function ServiceHero({ data }: { data: BlockData }) {
               {data.body && <p className="mt-5 max-w-[62ch] text-body-lg text-text-secondary">{data.body}</p>}
               {(linkOk(data.primary) || linkOk(data.secondary)) && <div className="mt-8 flex flex-wrap gap-3"><HeroButton data={data.primary} isLight /><HeroButton data={data.secondary} isLight /></div>}
             </div>
-            {data.heroImage && imageSrc(data.heroImage) && <div className="relative mx-auto aspect-square w-full max-w-[520px]"><Image src={imageSrc(data.heroImage)} alt={imageAlt(data.heroImage, data.heading)} fill className="object-contain" sizes="(min-width: 1024px) 42vw, 90vw" priority /></div>}
+            {data.heroImage && imageSrc(data.heroImage, '', 'xlarge') && <div className="relative mx-auto aspect-square w-full max-w-[520px]"><Image src={imageSrc(data.heroImage, '', 'xlarge')} alt={imageAlt(data.heroImage, data.heading)} fill className="object-contain" sizes="(min-width: 1024px) 42vw, 90vw" priority /></div>}
           </div>
         </div>
       </section>

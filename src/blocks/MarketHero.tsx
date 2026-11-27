@@ -113,7 +113,7 @@ export function MarketHero({ data }: { data: BlockData }) {
         <div className="min-w-0 lg:col-span-7">
           <figure className="relative aspect-[4/3] min-h-[16rem] overflow-hidden rounded-sm bg-transparent sm:min-h-[22rem] md:min-h-[28rem] lg:aspect-[5/4] lg:min-h-[34rem]">
             <Image
-              src={imageSrc(data.heroImage, '/brand/trading-floor.webp')}
+              src={imageSrc(data.heroImage, '/brand/trading-floor.webp', 'xlarge')}
               alt={imageAlt(data.heroImage, 'Hero image')}
               fill
               className="object-cover"

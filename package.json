@@ -60,7 +60,8 @@
     "seed:careers": "tsx scripts/seed-careers.ts",
     "publish:pages": "tsx scripts/publish-all-pages.ts",
     "verify:drafts": "tsx scripts/verify-drafts.ts",
-    "seed:new-pages": "tsx scripts/seed-new-pages.ts"
+    "seed:new-pages": "tsx scripts/seed-new-pages.ts",
+    "regenerate:media": "tsx scripts/regenerate-media.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.88.0",

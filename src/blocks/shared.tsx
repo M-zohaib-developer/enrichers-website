@@ -1,11 +1,27 @@
 import NextLink from 'next/link'
 import type React from 'react'
 import { ArrowRightIcon, ExternalLinkIcon } from '@/components/Icon'
-export type MediaValue = number | { url?: string | null; alt?: string | null } | null | undefined
+type MediaSize = { url?: string | null } | null | undefined
+export type MediaValue =
+  | number
+  | { url?: string | null; alt?: string | null; sizes?: Record<string, MediaSize> | null }
+  | null
+  | undefined
 export type LinkValue = { label?: string | null; url?: string | null } | null | undefined
 export type BlockData = { blockType: string; [key: string]: any }
-export const imageSrc = (media: MediaValue, fallback = '') =>
-  media && typeof media === 'object' && media.url ? media.url : fallback
+export type ImageSizeName = 'thumbnail' | 'square' | 'small' | 'medium' | 'large' | 'xlarge'
+
+/**
+ * Best display URL for an image. Prefers the resized WebP variant (default
+ * `large` = 1400px) so next/image optimises a small source instead of the full
+ * original, then falls back to the original URL, then the fallback string. An
+ * image smaller than the requested size has no such variant (uploads use
+ * `withoutEnlargement`), so the fallback to `.url` covers that cleanly.
+ */
+export const imageSrc = (media: MediaValue, fallback = '', size: ImageSizeName = 'large') =>
+  media && typeof media === 'object'
+    ? media.sizes?.[size]?.url || media.url || fallback
+    : fallback
 export const imageAlt = (media: MediaValue, fallback = '') =>
   media && typeof media === 'object' && media.alt ? media.alt : fallback
 export const linkOk = (link: LinkValue): link is { label: string; url: string } =>
