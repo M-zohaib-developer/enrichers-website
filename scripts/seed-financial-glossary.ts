@@ -190,12 +190,23 @@ async function run() {
       ],
       showBottomBorder: true,
     },
+yes
+    {
+      blockType: 'sectionNavigation',
+      ariaLabel: 'Jump to letter',
+      links: grouped.map((g, i) => ({
+        label: g.letter,
+        anchor: `letter-${g.letter.toLowerCase()}`,
+        active: i === 0,
+      })),
+    },
     ...grouped.map((g) => ({
       blockType: 'guideAccordion',
       sectionId: `letter-${g.letter.toLowerCase()}`,
       eyebrow: `Letter ${g.letter}`,
       heading: g.letter,
       intro: '',
+      columns: '2',
       items: g.items,
     })),
   ]

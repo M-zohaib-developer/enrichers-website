@@ -8,19 +8,23 @@ export function GuideAccordion({ data }: { data: BlockData }) {
   const items = Array.isArray(data.items) ? data.items : []
   const sectionId = data.sectionId || 'guide'
   const headingId = `${sectionId}-h`
+  const twoCol = data.columns === '2' || data.columns === 2
 
   return (
     <section id={sectionId} aria-labelledby={headingId} className="relative py-(--section-y)">
-      <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-4">
+      <div className={`container-x grid gap-10 ${twoCol ? 'lg:gap-8' : 'lg:grid-cols-12 lg:gap-16'}`}>
+        <div className={twoCol ? '' : 'lg:col-span-4'}>
           <Eyebrow>{data.eyebrow}</Eyebrow>
           <h2 id={headingId} className="font-display text-h3 mt-3 font-semibold text-text">{data.heading}</h2>
           {data.intro && <p className="mt-4 text-text-secondary">{data.intro}</p>}
         </div>
-        <div className="lg:col-span-8">
-          <div className="divide-y divide-border border-y border-border">
+        <div className={twoCol ? '' : 'lg:col-span-8'}>
+          <div className={`border-y border-border ${twoCol ? 'grid grid-cols-1 gap-x-10 md:grid-cols-2' : ''}`}>
             {items.map((item: any, index: number) => (
-              <details key={index} className="group">
+              <details
+                key={index}
+                className={`group border-b border-border last:border-b-0 ${twoCol ? 'md:even:border-b md:last:border-b-0' : ''}`}
+              >
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 font-display text-h5 text-text [&::-webkit-details-marker]:hidden">
                   <span>{item.question}</span>
                   <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border transition-transform duration-(--duration-normal) group-open:rotate-45"><Plus /></span>

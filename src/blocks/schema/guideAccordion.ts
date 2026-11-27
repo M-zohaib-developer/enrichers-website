@@ -9,6 +9,16 @@ export const guideAccordion: Block = {
     { name: 'heading', type: 'text', required: true },
     { name: 'intro', type: 'textarea', label: 'Intro text' },
     {
+      name: 'columns',
+      type: 'select',
+      defaultValue: '1',
+      options: [
+        { label: '1 column (default)', value: '1' },
+        { label: '2 columns', value: '2' },
+      ],
+      admin: { description: 'Render accordion items in 2 columns on wide screens — useful for long lists like a glossary.' },
+    },
+    {
       name: 'items',
       type: 'array',
       required: true,

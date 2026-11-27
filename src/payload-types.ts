@@ -410,6 +410,10 @@ export interface Page {
         eyebrow?: string | null;
         heading: string;
         intro?: string | null;
+        /**
+         * Render accordion items in 2 columns on wide screens — useful for long lists like a glossary.
+         */
+        columns?: ('1' | '2') | null;
         items: {
           question: string;
           answer: string;
@@ -2325,6 +2329,7 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               intro?: T;
+              columns?: T;
               items?:
                 | T
                 | {
