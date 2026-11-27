@@ -190,7 +190,6 @@ async function run() {
       ],
       showBottomBorder: true,
     },
-yes
     {
       blockType: 'sectionNavigation',
       ariaLabel: 'Jump to letter',
