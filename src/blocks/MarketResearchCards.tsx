@@ -14,6 +14,7 @@ export function MarketResearchCards({ data }: { data: BlockData }) {
             <h2 className="font-display text-h2 mt-4 text-text">{data.heading}</h2>
           </div>
           <div className="lg:col-span-5">
+            {data.subheading && <h3 className="font-display text-h5 mb-3 text-text">{data.subheading}</h3>}
             <p className="text-body-lg text-text-secondary">{data.body}</p>
             <Buttons buttons={data.buttons} fallback={[{ ...data.button, secondary: true }]} />
           </div>
@@ -24,7 +25,7 @@ export function MarketResearchCards({ data }: { data: BlockData }) {
         <div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
           {(data.cards ?? []).map((card: any, i: number) => (
             <NextLink key={i} href={card.url || '#'} className="group">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-surface-sunken">
+              <div className="relative aspect-[5/7] overflow-hidden rounded-sm bg-surface-sunken">
                 <Image
                   src={imageSrc(card.image, `/brand/research-${i + 1}.webp`)}
                   alt={card.title || 'Research note'}

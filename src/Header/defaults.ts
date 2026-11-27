@@ -43,19 +43,19 @@ export type NavItem = {
 
 export const FALLBACK_NAV: NavItem[] = [
   {
-    label: 'Trade & invest',
+    label: 'Markets',
     href: '',
     groups: [
       {
         heading: 'Brokerage',
         items: [
           {
-            label: 'Stock Broking (PSX)',
+            label: 'PSX Stocks',
             href: '/stock-broking/',
             description: 'Equities, IPOs, portfolio management',
           },
           {
-            label: 'Commodity Brokerage (PMEX)',
+            label: 'PMEX Markets',
             href: '/commodity-brokerage/',
             description: 'Gold, oil, currencies, US index futures',
           },
@@ -87,7 +87,7 @@ export const FALLBACK_NAV: NavItem[] = [
     },
   },
   {
-    label: 'The group',
+    label: 'Business Verticals',
     href: '',
     groups: [
       {
@@ -134,7 +134,7 @@ export const FALLBACK_NAV: NavItem[] = [
       linkLabel: 'Explore the project',
     },
   },
-  { label: 'Research', href: '/latest-insight/', groups: [] },
+  { label: 'Knowledge Hub', href: '/latest-insight/', groups: [] },
   {
     label: 'About',
     href: '',
@@ -151,11 +151,6 @@ export const FALLBACK_NAV: NavItem[] = [
             label: 'Leadership',
             href: '/enrichers-team/',
             description: 'The people behind the group',
-          },
-          {
-            label: 'Careers',
-            href: '/careers/',
-            description: 'Work with us',
           },
         ],
       },
@@ -183,13 +178,10 @@ export const FALLBACK_NAV: NavItem[] = [
       linkLabel: 'Book a consultation',
     },
   },
-  { label: 'Contact', href: '/contact-us/', groups: [] },
+  { label: 'Open Account', href: '/open-account/', groups: [] },
+  { label: 'Book a Consultation', href: '/contact-us/#consultation', groups: [] },
+  { label: 'Careers', href: '/careers/', groups: [] },
 ]
-
-export const FALLBACK_CONSULTATION: LinkField = {
-  label: 'Book a consultation',
-  url: '/contact-us/#consultation',
-}
 
 export const FALLBACK_CTA: LinkField = {
   label: 'Open an account',

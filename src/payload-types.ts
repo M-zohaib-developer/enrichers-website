@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     pages: Page;
+    'blog-articles': BlogArticle;
     users: User;
     media: Media;
     forms: Form;
@@ -80,6 +81,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
+    'blog-articles': BlogArticlesSelect<false> | BlogArticlesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -633,7 +635,13 @@ export interface Page {
         phoneHref?: string | null;
         whatsappUrl?: string | null;
         whatsappLabel?: string | null;
+        email?: string | null;
+        emailHref?: string | null;
         hours?: string | null;
+        /**
+         * Shown under the contact details.
+         */
+        address?: string | null;
         formMode?: ('wizard' | 'singlePage') | null;
         formStepLabel?: string | null;
         formHeading?: string | null;
@@ -652,6 +660,10 @@ export interface Page {
         eyebrow?: string | null;
         heading?: string | null;
         body?: string | null;
+        /**
+         * Small heading shown above the intro text, top-right.
+         */
+        subheading?: string | null;
         /**
          * Click + to add a Primary button or Secondary button.
          */
@@ -721,6 +733,31 @@ export interface Page {
               body?: string | null;
               url?: string | null;
               icon?: ('document' | 'development' | 'agriculture' | 'research' | 'hospitality') | null;
+              /**
+               * Fills the square panel for this business. Leave empty to show the icon instead.
+               */
+              image?: (number | null) | Media;
+              /**
+               * Click + to add a Primary button or Secondary button.
+               */
+              buttons?:
+                | (
+                    | {
+                        label: string;
+                        url: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'primaryButton';
+                      }
+                    | {
+                        label: string;
+                        url: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'secondaryButton';
+                      }
+                  )[]
+                | null;
               id?: string | null;
             }[]
           | null;
@@ -749,6 +786,10 @@ export interface Page {
         eyebrow?: string | null;
         heading?: string | null;
         body?: string | null;
+        /**
+         * Shown as "Status: <value>". Leave blank to hide.
+         */
+        status?: string | null;
         image?: (number | null) | Media;
         /**
          * Overlaid on the bottom of the image. Leave blank to hide the caption.
@@ -1738,6 +1779,15 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles".
+ */
+export interface BlogArticle {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1805,6 +1855,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'blog-articles';
+        value: number | BlogArticle;
       } | null)
     | ({
         relationTo: 'users';
@@ -2347,7 +2401,10 @@ export interface PagesSelect<T extends boolean = true> {
               phoneHref?: T;
               whatsappUrl?: T;
               whatsappLabel?: T;
+              email?: T;
+              emailHref?: T;
               hours?: T;
+              address?: T;
               formMode?: T;
               formStepLabel?: T;
               formHeading?: T;
@@ -2364,6 +2421,7 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               body?: T;
+              subheading?: T;
               buttons?:
                 | T
                 | {
@@ -2433,6 +2491,27 @@ export interface PagesSelect<T extends boolean = true> {
                     body?: T;
                     url?: T;
                     icon?: T;
+                    image?: T;
+                    buttons?:
+                      | T
+                      | {
+                          primaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          secondaryButton?:
+                            | T
+                            | {
+                                label?: T;
+                                url?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
                     id?: T;
                   };
               id?: T;
@@ -2464,6 +2543,7 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               body?: T;
+              status?: T;
               image?: T;
               imageCaption?: T;
               facts?:
@@ -3153,6 +3233,14 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles_select".
+ */
+export interface BlogArticlesSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

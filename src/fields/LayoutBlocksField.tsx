@@ -4,7 +4,7 @@ import type { BlocksFieldClientComponent, ClientBlock } from 'payload'
 
 import type { BlockInstance, BlockPreviewContent } from '@/utilities/getBlockPreviewContent'
 
-import { BlocksField, Drawer, useForm, useModal } from '@payloadcms/ui'
+import { BlocksField, Drawer, useForm, useFormFields, useModal } from '@payloadcms/ui'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
@@ -68,18 +68,28 @@ export const LayoutBlocksField: BlocksFieldClientComponent = (props) => {
   const [previewBlock, setPreviewBlock] = useState<{ slug: string; label: string } | null>(null)
   const autoAdded = useRef(false)
 
-  // When opened from "New Blog Article" (?blog=1) on a fresh document,
-  // pre-add the articleDetail block so the editor doesn't start from empty.
+  // Row state of THIS blocks field. Tells us (a) when the form is actually ready
+  // — `rows` becomes an array once the field registers — and (b) whether the
+  // layout is still empty, so we never add on top of existing content.
+  const layoutRows = useFormFields(([fields]) => {
+    const state = fields?.[path] as { rows?: unknown[] } | undefined
+    return state?.rows
+  })
+
+  // When opened from "New Blog Article" (?blog=1) on a fresh document, pre-add
+  // the articleDetail block so the editor never has to hunt for it in the
+  // picker. We wait for the field to register (rather than a fragile fixed
+  // timeout that often fired before the form was ready) and only add when the
+  // layout is still empty.
   useEffect(() => {
     if (autoAdded.current) return
     if (searchParams?.get('blog') !== '1') return
+    if (!Array.isArray(layoutRows)) return // form not ready yet — wait for the next render
     autoAdded.current = true
-    // Small delay so Payload's form state is ready before we insert a row.
-    const t = setTimeout(() => {
+    if (layoutRows.length === 0) {
       addFieldRow({ blockType: 'articleDetail', path, schemaPath: schemaPath as string })
-    }, 300)
-    return () => clearTimeout(t)
-  }, [addFieldRow, path, schemaPath, searchParams])
+    }
+  }, [layoutRows, addFieldRow, path, schemaPath, searchParams])
 
   useEffect(() => {
     if (openCount === 0) return

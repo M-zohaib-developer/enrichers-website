@@ -70,11 +70,31 @@ const run = async () => {
           step1Heading: "Let's find the right investment path for you", step1Intro: "Just a few quick questions, so we don't waste your time.", step2Heading: 'How much are you looking to invest?', step2Intro: 'This helps us recommend the right instruments for your capital.', step3Heading: 'Who gives the green light?', step3Intro: 'This helps our advisors prepare the right conversation for you.', step4Heading: "What's your primary goal right now?", step4Intro: 'PSX equities, PMEX commodities, or both.',
         } as any,
       })
-  const layout = HOME_BLOCKS.map((block, index) => {
-    if (index === 0) return { ...block, heroImage: image.id }
-    if (block.blockType === 'marketResearchCards') return { ...block, cards: (block.cards ?? []).map((card: any, i: number) => ({ ...card, image: researchImages[i].id })) }
-    if (block.blockType === 'skarduHotelFeature') return { ...block, image: hotelImage.id }
-    if (block.blockType === 'consultationQualifier') return { ...block, form: consultationForm.id }
+  // The live home page is these 11 sections, in this order (matches the client
+  // landing-page PDF). HOME_BLOCKS also carries the other ~33 blocks purely as
+  // admin preview samples — they are NOT part of the home page and many lack
+  // required images, so seeding the whole array fails validation. Select the 11
+  // we actually render, by slug, in the intended order.
+  const HOME_ORDER = [
+    'marketHero',
+    'licensingCredentials',
+    'investmentPathCards',
+    'clientServices',
+    'accountOpeningSteps',
+    'consultationQualifier',
+    'marketResearchCards',
+    'groupBusinessExplorer',
+    'skarduHotelFeature',
+    'accountFaq',
+    'readyWhenYouAre',
+  ]
+  const layout = HOME_ORDER.map((slug) => {
+    const block = HOME_BLOCKS.find((b) => b.blockType === slug)
+    if (!block) throw new Error(`Home block not found in HOME_BLOCKS: ${slug}`)
+    if (slug === 'marketHero') return { ...block, heroImage: image.id }
+    if (slug === 'marketResearchCards') return { ...block, cards: (block.cards ?? []).map((card: any, i: number) => ({ ...card, image: researchImages[i].id })) }
+    if (slug === 'skarduHotelFeature') return { ...block, image: hotelImage.id }
+    if (slug === 'consultationQualifier') return { ...block, form: consultationForm.id }
     return block
   })
   const existing = await payload.find({ collection: 'pages', where: { slug: { equals: 'home' } }, limit: 1 })

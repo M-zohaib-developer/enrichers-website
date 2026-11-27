@@ -37,7 +37,7 @@ export const marketHero: Block = {
         components: {
           Description: {
             path: '@/fields/ImageGuide#ImageGuide',
-            clientProps: { size: '1600 × 1200', ratio: 1.33, hint: 'Trading-floor or market photo beside hero' },
+            clientProps: { size: '1600 × 1280', ratio: 1.25, hint: 'Trading-floor or market photo (5:4) — subject centred' },
           },
         },
       },

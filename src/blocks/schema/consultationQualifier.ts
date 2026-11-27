@@ -22,7 +22,10 @@ export const consultationQualifier: Block = {
             { name: 'phoneHref', type: 'text', defaultValue: 'tel:+9242111111333' },
             { name: 'whatsappUrl', type: 'text', defaultValue: 'https://api.whatsapp.com/send?phone=9242111111333' },
             { name: 'whatsappLabel', type: 'text', defaultValue: 'WhatsApp our client support' },
+            { name: 'email', type: 'text', defaultValue: 'connect@enrichers.com.pk' },
+            { name: 'emailHref', type: 'text', defaultValue: 'mailto:connect@enrichers.com.pk' },
             { name: 'hours', type: 'text', defaultValue: 'Monday – Friday, 24/5 · Saturday, Sunday & public holidays closed' },
+            { name: 'address', type: 'textarea', label: 'Office address (optional)', admin: { description: 'Shown under the contact details.' } },
           ],
         },
         {

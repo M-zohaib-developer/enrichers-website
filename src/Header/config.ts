@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
+import { FALLBACK_NAV } from './defaults'
 import { revalidateHeader } from './hooks/revalidateHeader'
 
 // String-path component reference, not a direct import: the Payload CLI
@@ -46,150 +47,7 @@ export const Header: GlobalConfig = {
         description:
           'Rendered left to right in this order. Add groups to turn an item into a mega menu.',
       },
-      defaultValue: [
-        {
-          label: 'Trade & invest',
-          href: '',
-          groups: [
-            {
-              heading: 'Brokerage',
-              items: [
-                {
-                  label: 'Stock Broking (PSX)',
-                  href: '/stock-broking/',
-                  description: 'Equities, IPOs, portfolio management',
-                },
-                {
-                  label: 'Commodity Brokerage (PMEX)',
-                  href: '/commodity-brokerage/',
-                  description: 'Gold, oil, currencies, US index futures',
-                },
-              ],
-            },
-            {
-              heading: 'Get started',
-              items: [
-                {
-                  label: 'Open an account',
-                  href: '/open-account/',
-                  description: 'PSX or PMEX, step by step',
-                },
-                {
-                  label: 'MT5 platform',
-                  href: '/download-metatrader-5-for-your-device/',
-                  description: 'Android, Windows, macOS',
-                },
-                { label: 'FAQs', href: '/faqs/' },
-              ],
-            },
-          ],
-          feature: {
-            enabled: true,
-            eyebrow: 'Latest research',
-            title: "Can Pakistan's bull market enter a fourth year?",
-            href: '/latest-insight/',
-            linkLabel: 'Read more',
-          },
-        },
-        {
-          label: 'The group',
-          href: '',
-          groups: [
-            {
-              heading: 'Land & agriculture',
-              items: [
-                {
-                  label: 'Arid Land Development',
-                  href: '/arid-land-development/',
-                  description: 'Barren land into productive farmland',
-                },
-                {
-                  label: 'Agriculture',
-                  href: '/agriculture/',
-                  description: 'Smart farming, seed banking, dairy',
-                },
-                {
-                  label: 'Agriculture Research Centre',
-                  href: '/school-of-agriculture-research-centre/',
-                  description: 'Baab-ul-Ilm, agri sciences & research',
-                },
-              ],
-            },
-            {
-              heading: 'Advisory & hospitality',
-              items: [
-                {
-                  label: 'Business Brokerage',
-                  href: '/business-brokerage/',
-                  description: 'M&A, buying and selling businesses',
-                },
-                {
-                  label: 'Tourism & Hospitality',
-                  href: '/tourism-hospitality/',
-                  description: 'Northern Pakistan, starting in Skardu',
-                },
-              ],
-            },
-          ],
-          feature: {
-            enabled: true,
-            eyebrow: 'Flagship project',
-            title: 'Skardu Riverside Hotel, a 5-star stay in Gilgit-Baltistan',
-            href: '/skardu-riverside-hotel/',
-            linkLabel: 'Explore the project',
-          },
-        },
-        { label: 'Research', href: '/latest-insight/', groups: [] },
-        {
-          label: 'About',
-          href: '',
-          groups: [
-            {
-              heading: 'Company',
-              items: [
-                {
-                  label: 'About Enrichers',
-                  href: '/about-us/',
-                  description: 'Our story, Lahore since 2011',
-                },
-                {
-                  label: 'Leadership',
-                  href: '/enrichers-team/',
-                  description: 'The people behind the group',
-                },
-                {
-                  label: 'Careers',
-                  href: '/careers/',
-                  description: 'Work with us',
-                },
-              ],
-            },
-            {
-              heading: 'Trust',
-              items: [
-                {
-                  label: 'Regulation & disclosures',
-                  href: '/regulation/',
-                  description: 'Licences, investor guidance, complaints',
-                },
-                {
-                  label: 'Strategic partners',
-                  href: '/strategicpartner/',
-                  description: 'Who we work with',
-                },
-              ],
-            },
-          ],
-          feature: {
-            enabled: true,
-            eyebrow: 'Talk to us',
-            title: 'Speak with our Lahore team about your goals',
-            href: '/contact-us/#consultation',
-            linkLabel: 'Book a consultation',
-          },
-        },
-        { label: 'Contact', href: '/contact-us/', groups: [] },
-      ],
+      defaultValue: FALLBACK_NAV,
       fields: [
         { name: 'label', type: 'text', required: true },
         {
@@ -239,13 +97,14 @@ export const Header: GlobalConfig = {
       ],
     },
     {
+      // Deprecated: "Book a Consultation" is now a primary nav tab, so this
+      // right-side text CTA is no longer rendered. Kept (hidden) rather than
+      // deleted so a dev schema push doesn't prompt to drop the columns.
       name: 'consultationLink',
       type: 'group',
-      label: 'Text CTA — appears at 1280px and above',
+      label: 'Text CTA — deprecated (now a nav tab)',
+      admin: { hidden: true },
       fields: [link({ labelRequired: false })],
-      defaultValue: {
-        link: { label: 'Book a consultation', url: '/contact-us/#consultation' },
-      },
     },
     {
       name: 'ctaButton',

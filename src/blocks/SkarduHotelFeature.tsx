@@ -30,6 +30,11 @@ export function SkarduHotelFeature({ data }: { data: BlockData }) {
               {data.heading}
             </h2>
             <p className="mt-4 text-text-secondary">{data.body}</p>
+            {data.status ? (
+              <p className="text-caption mt-4 inline-flex w-fit items-center gap-2 rounded-sm bg-surface-sunken px-3 py-1 font-semibold text-text-secondary">
+                Status: {data.status}
+              </p>
+            ) : null}
             {/* mt-auto pins the stats to the bottom of the taller column. */}
             <dl className="mt-auto grid grid-cols-2 gap-4 pt-8">
               {(data.facts ?? []).map((fact: any, i: number) => (

@@ -38,6 +38,22 @@ export const groupBusinessExplorer: Block = {
             { label: 'Hospitality', value: 'hospitality' },
           ],
         },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Panel image (LP:2) — optional',
+          admin: {
+            description: 'Fills the square panel for this business. Leave empty to show the icon instead.',
+            components: {
+              Description: {
+                path: '@/fields/ImageGuide#ImageGuide',
+                clientProps: { size: '1000 × 1000', ratio: 1, hint: 'Square business photo (LP:2) — falls back to the icon' },
+              },
+            },
+          },
+        },
+        { ...buttonsField },
       ],
     },
   ],

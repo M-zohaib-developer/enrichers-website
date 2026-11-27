@@ -13,7 +13,6 @@ export const Pages: CollectionConfig = {
    */
   access: { read: authenticatedOrPublished },
   admin: {
-    group: 'Content',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     /**

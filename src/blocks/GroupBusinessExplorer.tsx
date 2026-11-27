@@ -1,7 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { useId, useState } from 'react'
-import { Buttons, Eyebrow, type BlockData } from './shared'
+import { Buttons, Eyebrow, imageAlt, imageSrc, type BlockData } from './shared'
 
 function PanelIcon({ kind }: { kind?: string }) {
   const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'square' as const, strokeLinejoin: 'miter' as const }
@@ -19,7 +20,8 @@ export function GroupBusinessExplorer({ data }: { data: BlockData }) {
   const uid = useId()
   const tabId = (i: number) => `${uid}-group-tab-${i}`
   const panelId = (i: number) => `${uid}-group-panel-${i}`
-  const buttons = (data.buttons ?? []).map((button: any) => button.blockType === 'primaryButton' ? { ...button, label: button.label || `Explore ${item.title}`, url: item.url } : button)
+  // Per-card buttons when the item defines them; otherwise the shared block buttons.
+  const buttons = (item.buttons?.length ? item.buttons : data.buttons) ?? []
 
   return <section aria-labelledby="businessExplorer-h" className="relative theme-surface py-(--section-y)">
     <div className="container-x">
@@ -42,8 +44,14 @@ export function GroupBusinessExplorer({ data }: { data: BlockData }) {
               <Buttons buttons={buttons} fallback={[{ label: `Explore ${item.title}`, url: item.url }, { label: 'Book a consultation', url: '/contact-us/', secondary: true }]} />
             </div>
             <div className="theme-inverse relative hidden aspect-square place-items-center overflow-hidden rounded-sm md:grid">
-              <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id={`${uid}-lattice`} width="34.64" height="20" patternUnits="userSpaceOnUse"><path d="M0 0L34.64 20M0 20L34.64 0M0 0V20M17.32 0V20" stroke="var(--ds-chrome-strong)" strokeOpacity="0.08" strokeWidth=".8" fill="none" /></pattern></defs><rect width="100%" height="100%" fill={`url(#${uid}-lattice)`} /></svg>
-              <span className="relative text-[var(--ds-chrome-mark)]"><PanelIcon kind={item.icon} /></span>
+              {imageSrc(item.image) ? (
+                <Image src={imageSrc(item.image, '')} alt={imageAlt(item.image, item.title || 'Business')} fill className="object-cover" sizes="220px" />
+              ) : (
+                <>
+                  <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id={`${uid}-lattice`} width="34.64" height="20" patternUnits="userSpaceOnUse"><path d="M0 0L34.64 20M0 20L34.64 0M0 0V20M17.32 0V20" stroke="var(--ds-chrome-strong)" strokeOpacity="0.08" strokeWidth=".8" fill="none" /></pattern></defs><rect width="100%" height="100%" fill={`url(#${uid}-lattice)`} /></svg>
+                  <span className="relative text-[var(--ds-chrome-mark)]"><PanelIcon kind={item.icon} /></span>
+                </>
+              )}
             </div>
           </div>
         </div>

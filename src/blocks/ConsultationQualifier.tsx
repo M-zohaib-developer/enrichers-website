@@ -29,6 +29,7 @@ function Warning() {
 function SinglePageForm({ form, data }: { form: PayloadForm; data: ConsultationData }) {
   const fields = (form.fields || []) as FormField[]
   const { register, handleSubmit, formState: { errors } } = useForm<Record<string, string>>({ mode: 'onTouched' })
+  const [cc, setCc] = useState('+92')
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -37,7 +38,7 @@ function SinglePageForm({ form, data }: { form: PayloadForm; data: ConsultationD
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`${window.location.origin}/api/form-submissions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ form: form.id, submissionData: Object.entries(values).map(([field, value]) => ({ field, value })) }) })
+      const response = await fetch(`${window.location.origin}/api/form-submissions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ form: form.id, submissionData: Object.entries(withDialCode(values, cc)).map(([field, value]) => ({ field, value })) }) })
       if (!response.ok) throw new Error('Something went wrong.')
       setSubmitted(true)
     } catch (submissionError) {
@@ -55,6 +56,7 @@ function SinglePageForm({ form, data }: { form: PayloadForm; data: ConsultationD
       if (field.blockType === 'checkbox') return <div key={name} className="sm:col-span-2"><label className="flex items-start gap-3 text-body-sm text-text"><input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-action" aria-invalid={fieldError ? true : undefined} {...register(name, { required: Boolean(field.required) && 'Please accept the terms to continue.' })} /><span>{field.label || 'I agree'}{data.termsUrl && <> <a href={data.termsUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-text-link underline underline-offset-4">{data.termsLabel || 'Terms & Conditions'}</a>.</>}</span></label>{fieldError && <p id={errorId} role="alert" className="mt-2 text-body-sm text-negative">{String(fieldError.message)}</p>}</div>
       if (field.blockType === 'select') return <div key={name} className={wide ? 'sm:col-span-2' : undefined}><label className="text-body-sm font-semibold text-text" htmlFor={`${uid}-${name}`}>{field.label || name}<select id={`${uid}-${name}`} className={`${common} h-12 px-3.5`} aria-invalid={fieldError ? true : undefined} {...register(name, { required: Boolean(field.required) && 'Choose an option.' })}>{(field.options || []).map((option: any) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label></div>
       if (field.blockType === 'textarea') return <div key={name} className="sm:col-span-2"><label className="text-body-sm font-semibold text-text" htmlFor={`${uid}-${name}`}>{field.label || name}<textarea id={`${uid}-${name}`} rows={4} className={`${common} p-3.5`} {...register(name, rulesFor(field, name))} /></label></div>
+      if (isPhoneField(name)) return <div key={name}><label className="text-body-sm font-semibold text-text" htmlFor={`${uid}-${name}`}>{field.label || name}<span className="mt-1.5 flex gap-2"><CountryCodeSelect value={cc} onChange={setCc} /><input id={`${uid}-${name}`} type="tel" inputMode="tel" placeholder="03XX XXXXXXX" className={`h-12 flex-1 rounded-sm border bg-surface px-3.5 text-body text-text outline-none focus:border-focus focus:ring-2 focus:ring-focus/25 ${fieldError ? 'border-negative' : 'border-border-strong'}`} {...register(name, rulesFor(field, name))} /></span></label>{fieldError && <p id={errorId} role="alert" className="mt-1 text-body-sm text-negative">{String(fieldError.message)}</p>}</div>
       return <div key={name}><label className="text-body-sm font-semibold text-text" htmlFor={`${uid}-${name}`}>{field.label || name}<input id={`${uid}-${name}`} type={field.blockType === 'email' ? 'email' : isPhoneField(name) ? 'tel' : 'text'} className={`${common} h-12 px-3.5`} {...register(name, rulesFor(field, name))} /></label>{fieldError && <p id={errorId} role="alert" className="mt-1 text-body-sm text-negative">{String(fieldError.message)}</p>}</div>
     })}
     {error && <p className="sm:col-span-2 text-body-sm text-negative" role="alert">{error}</p>}
@@ -95,6 +97,39 @@ function rulesFor(field: FormField, fieldName: string) {
     validate: (value: string) => !value || value.trim().length >= 2 || 'Enter at least 2 characters.',
   }
 }
+
+// Country dial codes — Pakistan first (the default), then the GCC/common markets
+// where overseas Pakistani investors live, so a foreign number is never lost.
+const COUNTRY_CODES = ['+92', '+971', '+966', '+44', '+1', '+91', '+61', '+968', '+974', '+973', '+965', '+880']
+
+function CountryCodeSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <select
+      aria-label="Country code"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      className="h-12 shrink-0 rounded-md border border-border-strong bg-surface px-2 text-body text-text outline-none focus:border-focus focus:ring-2 focus:ring-focus/25"
+    >
+      {COUNTRY_CODES.map((code) => (
+        <option key={code} value={code}>
+          {code}
+        </option>
+      ))}
+    </select>
+  )
+}
+
+/**
+ * Prepend the chosen dial code to every phone field's value before submit.
+ * Strips a leading trunk zero first: people type the local format `0300 1234567`,
+ * and `+92 0300…` would be an undialable number (country code + trunk zero).
+ */
+const withDialCode = (values: Record<string, string>, dialCode: string) =>
+  Object.fromEntries(
+    Object.entries(values).map(([field, value]) =>
+      isPhoneField(field) && value ? [field, `${dialCode} ${value.trim().replace(/^0+/, '')}`] : [field, value],
+    ),
+  )
 
 /** Numbered progress rail: completed steps tick, the current one is ringed. */
 function Progress({ steps, step, labels }: { steps: unknown[][]; step: number; labels: string[] }) {
@@ -143,6 +178,7 @@ export function ConsultationForm({ form, data }: { form: PayloadForm; data: Cons
   const [loading, setLoading] = useState(false)
   const uid = useId()
   const { register, handleSubmit, trigger, watch, formState: { errors } } = useForm<Record<string, string>>({ mode: 'onTouched' })
+  const [cc, setCc] = useState('+92')
   const values = watch()
   const currentFields = steps[step] || []
   const stepContent = [
@@ -165,7 +201,7 @@ export function ConsultationForm({ form, data }: { form: PayloadForm; data: Cons
       const response = await fetch(`${window.location.origin}/api/form-submissions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ form: form.id, submissionData: Object.entries(submittedValues).map(([field, value]) => ({ field, value })) }),
+        body: JSON.stringify({ form: form.id, submissionData: Object.entries(withDialCode(submittedValues, cc)).map(([field, value]) => ({ field, value })) }),
       })
       if (!response.ok) {
         const result = await response.json().catch(() => null)
@@ -252,21 +288,24 @@ export function ConsultationForm({ form, data }: { form: PayloadForm; data: Cons
                 {field.label || fieldName}
                 {field.required ? <span className="text-negative"> *</span> : null}
               </label>
-              <input
-                id={`${uid}-${fieldName}`}
-                type={field.blockType === 'email' ? 'email' : phone ? 'tel' : 'text'}
-                inputMode={phone ? 'tel' : undefined}
-                autoComplete={field.blockType === 'email' ? 'email' : phone ? 'tel' : 'name'}
-                placeholder={phone ? '03XX XXXXXXX' : undefined}
-                aria-invalid={fieldError ? true : undefined}
-                aria-describedby={fieldError ? errorId : undefined}
-                className={`h-12 w-full rounded-md border bg-surface px-3.5 text-body text-text transition-colors duration-(--duration-normal) outline-none placeholder:text-text-muted focus:ring-2 ${
-                  fieldError
-                    ? 'border-negative focus:border-negative focus:ring-negative/20'
-                    : 'border-border-strong focus:border-focus focus:ring-focus/25'
-                }`}
-                {...register(fieldName, rulesFor(field, fieldName))}
-              />
+              <div className={phone ? 'flex gap-2' : undefined}>
+                {phone && <CountryCodeSelect value={cc} onChange={setCc} />}
+                <input
+                  id={`${uid}-${fieldName}`}
+                  type={field.blockType === 'email' ? 'email' : phone ? 'tel' : 'text'}
+                  inputMode={phone ? 'tel' : undefined}
+                  autoComplete={field.blockType === 'email' ? 'email' : phone ? 'tel' : 'name'}
+                  placeholder={phone ? '03XX XXXXXXX' : undefined}
+                  aria-invalid={fieldError ? true : undefined}
+                  aria-describedby={fieldError ? errorId : undefined}
+                  className={`h-12 ${phone ? 'flex-1' : 'w-full'} rounded-md border bg-surface px-3.5 text-body text-text transition-colors duration-(--duration-normal) outline-none placeholder:text-text-muted focus:ring-2 ${
+                    fieldError
+                      ? 'border-negative focus:border-negative focus:ring-negative/20'
+                      : 'border-border-strong focus:border-focus focus:ring-focus/25'
+                  }`}
+                  {...register(fieldName, rulesFor(field, fieldName))}
+                />
+              </div>
               {fieldError && (
                 <p id={errorId} role="alert" className="flex items-center gap-1.5 text-body-sm text-negative">
                   <Warning />{String(fieldError.message || 'This field is required.')}
@@ -323,7 +362,9 @@ export function ConsultationQualifier({ data }: { data: ConsultationData }) {
         <ul className="mt-8 space-y-3">
           <li><a href={data.phoneHref} className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M5 4H9L10.5 8.5L8 10C9 12.5 11.5 15 14 16L15.5 13.5L20 15V19C20 19.6 19.6 20 19 20C11 20 4 13 4 5C4 4.4 4.4 4 5 4Z" /></Icon>{data.phone}</a></li>
           <li><a href={data.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M4 5H20V16H10L5 20V16H4Z" /><path d="M8 10H16M8 13H13" /></Icon>{data.whatsappLabel}</a></li>
+          {data.email && <li><a href={data.emailHref || `mailto:${data.email}`} className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M4 6H20V18H4Z" /><path d="M4 7L12 13L20 7" /></Icon>{data.email}</a></li>}
           <li className="flex items-center gap-3 text-text-secondary"><Icon><circle cx="12" cy="12" r="8.5" /><path d="M12 7V12L15.5 14" /></Icon>{data.hours}</li>
+          {data.address && <li className="flex items-start gap-3 text-text-secondary"><Icon><path d="M12 21C12 21 19 15 19 10A7 7 0 0 0 5 10C5 15 12 21 12 21Z" /><circle cx="12" cy="10" r="2.5" /></Icon><span>{data.address}</span></li>}
         </ul>
       </div>
       <div className="lg:col-span-7"><div className="rounded-lg border border-border bg-surface p-6 shadow-md md:p-8">{form ? (data.formMode === 'singlePage' ? <SinglePageForm form={form} data={data} /> : <ConsultationForm form={form} data={data} />) : <p className="text-body-sm text-text-secondary">Select a form in the block&rsquo;s Form tab.</p>}</div></div>

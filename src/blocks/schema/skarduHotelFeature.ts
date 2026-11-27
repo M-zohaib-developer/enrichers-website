@@ -13,6 +13,12 @@ export const skarduHotelFeature: Block = {
         'A purpose-built 5-star luxury hotel on 40 kanals of riverside land in Skardu, Gilgit-Baltistan.',
     },
     {
+      name: 'status',
+      type: 'text',
+      defaultValue: 'Design Stage',
+      admin: { description: 'Shown as "Status: <value>". Leave blank to hide.' },
+    },
+    {
       name: 'image', type: 'upload', relationTo: 'media',
       admin: {
         components: {

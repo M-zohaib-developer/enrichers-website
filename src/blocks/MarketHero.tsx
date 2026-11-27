@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { ArrowRightIcon, CheckIcon, JunctionMark } from '@/components/Icon'
+import { ArrowRightIcon, JunctionMark } from '@/components/Icon'
 import { imageAlt, imageSrc, linkOk, type BlockData } from './shared'
 
 type HeroButton = {
@@ -42,8 +42,8 @@ export function MarketHero({ data }: { data: BlockData }) {
   const heading = data.headingLineOne ? (
     <>
       <span className="block text-text">{data.headingLineOne}</span>
-      <span className="block text-text-link">{data.headingLineTwo}</span>
-      <span className="block text-text-link">{data.headingLineThree}</span>
+      {data.headingLineTwo && <span className="block text-text-link">{data.headingLineTwo}</span>}
+      {data.headingLineThree && <span className="block text-text-link">{data.headingLineThree}</span>}
     </>
   ) : (
     data.heading
@@ -81,7 +81,7 @@ export function MarketHero({ data }: { data: BlockData }) {
               {data.eyebrow}
             </p>
           )}
-          <h1 className="font-display text-display max-w-[22ch] font-light tracking-[-0.025em] text-text">
+          <h1 className="font-display text-h2 max-w-[30ch] font-light tracking-[-0.02em] text-text">
             {heading}
           </h1>
           {data.body && <p className="text-body-lg mt-6 max-w-[60ch] text-text-secondary">{data.body}</p>}
@@ -92,12 +92,16 @@ export function MarketHero({ data }: { data: BlockData }) {
               ))}
             </div>
           )}
-          {/* Trust badges — each row carries a tick in the brand accent. */}
+          {/* Business verticals — a dot-separated line, not trust badges. */}
           {(data.badges ?? []).length > 0 && (
-            <ul className="text-body-sm mt-8 flex flex-wrap gap-x-6 gap-y-2 text-text-secondary">
+            <ul className="text-body-sm mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 font-semibold text-text-secondary">
               {(data.badges ?? []).map((badge: any, i: number) => (
-                <li key={i} className="inline-flex items-center gap-2">
-                  <CheckIcon size={16} className="text-accent" />
+                <li key={i} className="inline-flex items-center gap-3">
+                  {i > 0 && (
+                    <span aria-hidden="true" className="text-text-muted">
+                      ·
+                    </span>
+                  )}
                   {badge?.label}
                 </li>
               ))}

@@ -24,6 +24,7 @@ import { RelationshipFeatureClient as RelationshipFeatureClient_e70f5e05f09f93e0
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LayoutBlocksField as LayoutBlocksField_3ff057502d463b09165512273908390e } from '@/fields/LayoutBlocksField'
+import { default as default_4d086557e1341adb82bbbac559eefdbc } from '@/components/admin/BlogArticlesList'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { AdminIcon as AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
@@ -32,7 +33,6 @@ import { default as default_c45ccfa73bc8a799386bf04a966f4219 } from '@/component
 import { default as default_cef62bae5ae2d4b24de869334b800544 } from '@/components/admin/LoginAside'
 import { default as default_2adf456b70e487daa80013486f072145 } from '@/components/admin/LoginPlaceholders'
 import { default as default_89344134860f9bc63867ffefbf33f214 } from '@/components/admin/BeforeLogin'
-import { default as default_b7a3c1f9e2d84a56b0c8f2e7d3a1b4c5 } from '@/components/admin/BlogArticlesList'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -63,6 +63,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/fields/LayoutBlocksField#LayoutBlocksField": LayoutBlocksField_3ff057502d463b09165512273908390e,
+  "@/components/admin/BlogArticlesList#default": default_4d086557e1341adb82bbbac559eefdbc,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/admin/Logo#AdminIcon": AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd,
@@ -71,6 +72,5 @@ export const importMap = {
   "@/components/admin/LoginAside#default": default_cef62bae5ae2d4b24de869334b800544,
   "@/components/admin/LoginPlaceholders#default": default_2adf456b70e487daa80013486f072145,
   "@/components/admin/BeforeLogin#default": default_89344134860f9bc63867ffefbf33f214,
-  "@/components/admin/BlogArticlesList#default": default_b7a3c1f9e2d84a56b0c8f2e7d3a1b4c5,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

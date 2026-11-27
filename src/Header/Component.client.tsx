@@ -20,7 +20,6 @@ import {
 import type { Header as HeaderType, Media } from '@/payload-types'
 import {
   FALLBACK_NAV,
-  FALLBACK_CONSULTATION,
   FALLBACK_CTA,
   FALLBACK_CONTACT,
   FALLBACK_RISK_NOTICE,
@@ -91,7 +90,6 @@ export function HeaderClient({ data }: { data: HeaderType }) {
 
   const d = data as unknown as {
     navItems?: NavItem[] | null
-    consultationLink?: { link?: LinkField }
     riskNotice?: { enabled?: boolean | null; lead?: string | null; body?: string | null }
     contact?: {
       phone?: string | null
@@ -102,9 +100,6 @@ export function HeaderClient({ data }: { data: HeaderType }) {
   }
 
   const navItems = d.navItems?.length ? d.navItems : FALLBACK_NAV
-  const consultation = usable(d.consultationLink?.link)
-    ? d.consultationLink!.link!
-    : FALLBACK_CONSULTATION
   const cta = usable(data.ctaButton?.link) ? data.ctaButton!.link! : FALLBACK_CTA
   const contact = { ...FALLBACK_CONTACT, ...(d.contact ?? {}) }
 
@@ -235,13 +230,6 @@ export function HeaderClient({ data }: { data: HeaderType }) {
           {/* ml-auto also sits here so the cluster stays right-aligned once the
             nav is hidden; at lg the nav owns the push and this drops to 8px. */}
           <div className="ml-auto flex items-center gap-2 lg:ml-2">
-            <NextLink
-              href={consultation.url!}
-              className="hidden h-11 items-center px-3 text-button font-semibold text-chrome transition-colors hover:text-chrome-strong xl:inline-flex"
-            >
-              {consultation.label}
-            </NextLink>
-
             <span className="hidden sm:inline-flex">
               <NextLink href={cta.url!} className={ctaClass}>
                 {cta.label}
@@ -431,12 +419,6 @@ export function HeaderClient({ data }: { data: HeaderType }) {
             <div className="grid gap-2 border-t border-chrome-hairline p-(--gutter)">
               <NextLink href={cta.url!} className={`${ctaClass} w-full`}>
                 {cta.label}
-              </NextLink>
-              <NextLink
-                href={consultation.url!}
-                className="inline-flex h-11 w-full items-center justify-center rounded-sm border border-chrome-rule px-5 text-button font-semibold text-chrome-strong transition-colors hover:bg-chrome-ghost"
-              >
-                {consultation.label}
               </NextLink>
             </div>
           </div>

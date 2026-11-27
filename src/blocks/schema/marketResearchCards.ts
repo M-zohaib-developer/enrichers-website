@@ -12,6 +12,7 @@ export const marketResearchCards: Block = {
       defaultValue:
         "Notes from our research team on Pakistan's equity market, commodities and the global macro picture.",
     },
+    { name: 'subheading', type: 'text', label: 'Right-column heading (optional)', admin: { description: 'Small heading shown above the intro text, top-right.' } },
     { ...buttonsField, defaultValue: [{ blockType: 'secondaryButton', label: 'All research', url: '/latest-insight/' }] },
     {
       name: 'cards',
@@ -27,7 +28,7 @@ export const marketResearchCards: Block = {
             components: {
               Description: {
                 path: '@/fields/ImageGuide#ImageGuide',
-                clientProps: { size: '600 × 750', ratio: 0.8, hint: 'Research card cover — portrait orientation' },
+                clientProps: { size: '900 × 1260', ratio: 0.71, hint: 'Research cover — portrait 5:7 (matches the report covers)' },
               },
             },
           },

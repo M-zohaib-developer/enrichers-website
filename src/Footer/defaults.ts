@@ -144,9 +144,9 @@ export const FALLBACK_LEGAL = [
 export const FALLBACK_OFFICES_LINE = 'Head Office: Lahore · Islamabad Office · UAE Office'
 
 export const FALLBACK_BOTTOM: { link: LinkField }[] = [
-  { link: { label: 'Privacy policy', url: '/privacy-policy/' } },
-  { link: { label: 'Complaints', url: '/complaints/' } },
-  { link: { label: 'Regulation', url: '/regulation/' } },
+  { link: { label: 'Privacy Policy', url: '/privacy-policy/' } },
+  { link: { label: 'Terms of Use', url: '/terms-of-use/' } },
+  { link: { label: 'Disclaimer', url: '/regulation/' } },
 ]
 
 export const fallbackCopyright = () =>

@@ -20,7 +20,6 @@ import { getPayload } from 'payload'
 
 import config from '../src/payload.config'
 import {
-  FALLBACK_CONSULTATION,
   FALLBACK_CONTACT as HEADER_CONTACT,
   FALLBACK_CTA,
   FALLBACK_NAV,
@@ -46,7 +45,6 @@ const run = async () => {
     slug: 'header',
     data: {
       navItems: FALLBACK_NAV,
-      consultationLink: { link: FALLBACK_CONSULTATION },
       ctaButton: { link: FALLBACK_CTA },
       contact: HEADER_CONTACT,
       riskNotice: FALLBACK_RISK_NOTICE,
