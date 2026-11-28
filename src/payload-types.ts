@@ -1685,6 +1685,18 @@ export interface Page {
         blockType: 'videoGallery';
       }
   )[];
+  /**
+   * Draft = editor is still writing. Pending = waiting on admin. Changes Requested = admin returned it. Approved = admin published it.
+   */
+  reviewStatus?: ('draft' | 'pending' | 'changes_requested' | 'approved') | null;
+  /**
+   * Admin fills this in when requesting changes. Shown to the editor on reopen.
+   */
+  reviewNote?: string | null;
+  submittedBy?: (number | null) | User;
+  submittedAt?: string | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1907,6 +1919,23 @@ export interface Form {
   redirect?: {
     url: string;
   };
+  /**
+   * Send custom confirmation / notification emails when this form is submitted. One row per email — leave the array empty to disable and let the default admin notification fire.
+   *
+   * PLACEHOLDERS you can use in any text field (To, CC, BCC, Reply-To, From, Subject, Message):
+   *   • {{fieldName}}  — inserts the value the visitor typed for that field. The name must match the "Name" you set on the form field above (e.g. {{name}}, {{email}}, {{phone}}).
+   *   • {{email}}      — the visitor's email, when the form has an email field. Typical in "Reply To" so hitting Reply reaches them.
+   *   • {{*}}          — every submitted field joined into one block of text.
+   *   • {{*:table}}    — every submitted field rendered as a tidy two-column HTML table (recommended for the Message body).
+   *
+   * RECIPIENTS (To / CC / BCC) accept a single address or a comma-separated list, e.g. "ops@enrichers.com.pk, investors@enrichers.com.pk".
+   *
+   * REPLY TO is usually "{{email}}" so the admin can hit Reply to answer the lead directly. Leave blank to fall back to the From address.
+   *
+   * EMAIL FROM should normally be left blank — the system uses the SMTP user from Settings → Email (SMTP). Overriding it to a different address can land the message in Spam because Gmail only DKIM-signs mail whose From matches the authenticated user.
+   *
+   * A plain-text version, a List-Unsubscribe header, and the Enrichers brand wrapper are added automatically — just write the message body.
+   */
   emails?:
     | {
         emailTo?: string | null;
@@ -1915,6 +1944,13 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
+        /**
+         * The body of the email. Rich text supported.
+         *
+         * Drop {{*:table}} on its own line to render every submitted field as a two-column table. Reference a single field inline as {{fieldName}} (e.g. "Thanks {{name}}, we received your enquiry about {{primaryGoal}}.").
+         *
+         * Keep it short and conversational — one paragraph of context, then the table, then a closing line. Gmail penalises long image-heavy promotional HTML.
+         */
         message?: {
           root: {
             type: string;
@@ -1951,19 +1987,11 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-articles".
- */
-export interface BlogArticle {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1982,6 +2010,15 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles".
+ */
+export interface BlogArticle {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3481,6 +3518,12 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewStatus?: T;
+  reviewNote?: T;
+  submittedBy?: T;
+  submittedAt?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3498,6 +3541,7 @@ export interface BlogArticlesSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -4094,6 +4138,10 @@ export interface SiteSetting {
    * The address that receives every form enquiry.
    */
   notificationsTo?: string | null;
+  /**
+   * Leave blank to notify every admin when an editor submits a page. Fill in to send review emails to a single address instead (e.g. editor-queue@enrichers.com.pk).
+   */
+  reviewNotifyOverrideTo?: string | null;
   fromName?: string | null;
   /**
    * Must be an address your SMTP server is allowed to send as.
@@ -4386,6 +4434,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   whatsappTooltip?: T;
   smtpEnabled?: T;
   notificationsTo?: T;
+  reviewNotifyOverrideTo?: T;
   fromName?: T;
   fromAddress?: T;
   smtpHost?: T;

@@ -77,6 +77,16 @@ export const SiteSettings: GlobalConfig = {
               },
             },
             {
+              name: 'reviewNotifyOverrideTo',
+              type: 'text',
+              label: 'Send page-review notifications to (optional override)',
+              admin: {
+                description:
+                  'Leave blank to notify every admin when an editor submits a page. Fill in to send review emails to a single address instead (e.g. editor-queue@enrichers.com.pk).',
+                condition: (data) => Boolean(data?.smtpEnabled),
+              },
+            },
+            {
               name: 'fromName',
               type: 'text',
               label: 'From name',

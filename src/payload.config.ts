@@ -44,7 +44,10 @@ export default buildConfig({
       },
       beforeLogin: ['@/components/admin/BeforeLogin'],
       afterLogin: ['@/components/admin/LoginAside', '@/components/admin/LoginPlaceholders'],
-      afterDashboard: ['@/components/BlocksOverview'],
+      afterDashboard: [
+        '@/admin/components/PendingApprovalWidget#default',
+        '@/components/BlocksOverview',
+      ],
     },
     livePreview: {
       breakpoints: [
