@@ -25,7 +25,7 @@ export function LivePreviewListener() {
     const tick = () => router.refresh()
     const id = setInterval(() => {
       if (document.visibilityState === 'visible') tick()
-    }, 1500)
+    }, 750)
     return () => clearInterval(id)
   }, [router])
   return (

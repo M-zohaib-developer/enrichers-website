@@ -62,7 +62,7 @@ export const Pages: CollectionConfig = {
       // while the editor types, instead of only after a manual Save. The
       // RefreshRouteOnSave listener in LivePreviewListener then picks that up
       // and re-renders the preview automatically.
-      autosave: { interval: 800 },
+      autosave: { interval: 400 },
     },
     maxPerDoc: 20,
   },
