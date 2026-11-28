@@ -107,7 +107,16 @@ export async function sendFormNotification({
   submission: Submission
 }): Promise<void> {
   try {
-    const settings = (await payload.findGlobal({ slug: 'site-settings', depth: 0 })) as any
+    // overrideAccess: true is required here. Every SMTP field on
+    // SiteSettings has access.read restricted to logged-in admins (to keep
+    // the password out of the public API). A form submission is anonymous —
+    // req.user is null — so without overrideAccess the fields come back
+    // stripped and smtpHost looks undefined, making the hook silently skip.
+    const settings = (await payload.findGlobal({
+      slug: 'site-settings',
+      depth: 0,
+      overrideAccess: true,
+    })) as any
 
     if (!settings?.smtpEnabled || !settings?.smtpHost) {
       payload.logger.info('Form enquiry saved — email skipped (SMTP not enabled in Settings → Email).')
