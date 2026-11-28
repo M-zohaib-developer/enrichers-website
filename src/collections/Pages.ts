@@ -57,7 +57,13 @@ export const Pages: CollectionConfig = {
    *    of public queries the moment this is switched on.
    */
   versions: {
-    drafts: true,
+    drafts: {
+      // Autosave means the live-preview iframe refreshes every <interval>ms
+      // while the editor types, instead of only after a manual Save. The
+      // RefreshRouteOnSave listener in LivePreviewListener then picks that up
+      // and re-renders the preview automatically.
+      autosave: { interval: 800 },
+    },
     maxPerDoc: 20,
   },
   hooks: {

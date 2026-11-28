@@ -737,6 +737,10 @@ export interface Page {
               title?: string | null;
               quote?: string | null;
               body?: string | null;
+              /**
+               * Dot-separated list of sub-areas shown under the body, e.g. "Baab-ul-Ilm Research · Arid Land Development · Smart Farming".
+               */
+              tags?: string | null;
               url?: string | null;
               icon?: ('document' | 'development' | 'agriculture' | 'research' | 'hospitality') | null;
               /**
@@ -2634,6 +2638,7 @@ export interface PagesSelect<T extends boolean = true> {
                     title?: T;
                     quote?: T;
                     body?: T;
+                    tags?: T;
                     url?: T;
                     icon?: T;
                     image?: T;

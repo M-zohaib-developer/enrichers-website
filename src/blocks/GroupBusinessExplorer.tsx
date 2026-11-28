@@ -35,17 +35,27 @@ export function GroupBusinessExplorer({ data }: { data: BlockData }) {
           {items.map((entry: any, i: number) => <button key={i} type="button" role="tab" id={tabId(i)} aria-selected={active === i} aria-controls={panelId(i)} tabIndex={active === i ? 0 : -1} onClick={() => setActive(i)} className={`relative shrink-0 whitespace-nowrap px-5 py-3 text-left text-[15px] font-semibold transition-colors max-lg:h-12 max-lg:py-0 ${active === i ? 'text-text lg:bg-surface-sunken after:absolute after:bg-accent max-lg:after:inset-x-0 max-lg:after:-bottom-px max-lg:after:h-0.5 lg:after:inset-y-0 lg:after:-left-px lg:after:w-0.5' : 'text-text-muted hover:text-text'}`}>{entry.label}</button>)}
         </div>
         <div role="tabpanel" id={panelId(active)} aria-labelledby={tabId(active)} tabIndex={0} className="focus-visible:outline-offset-4">
-          <div className="grid gap-8 md:grid-cols-[1fr_220px]">
+          <div className="grid gap-8 md:grid-cols-[1fr_340px]">
             <div>
               <p className="text-overline font-semibold tracking-overline text-text-muted uppercase">{item.eyebrow}</p>
               <h3 className="font-display text-h2 mt-3 text-text">{item.title}</h3>
               {item.quote && <p className="font-display text-h5 mt-2 text-text-secondary">“{item.quote}”</p>}
               <p className="text-body-lg mt-5 max-w-[60ch] text-text-secondary">{item.body}</p>
+              {item.tags && (
+                <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1 text-overline font-semibold tracking-overline text-text-muted uppercase">
+                  {String(item.tags).split('·').map((t: string, i: number, arr: string[]) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <span>{t.trim()}</span>
+                      {i < arr.length - 1 && <span aria-hidden="true" className="text-accent">·</span>}
+                    </li>
+                  ))}
+                </ul>
+              )}
               <Buttons buttons={buttons} fallback={[{ label: `Explore ${item.title}`, url: item.url }, { label: 'Book a consultation', url: '/contact-us/', secondary: true }]} />
             </div>
-            <div className="theme-inverse relative hidden aspect-square place-items-center overflow-hidden rounded-sm md:grid">
+            <div className="theme-inverse relative hidden aspect-[4/5] place-items-center overflow-hidden rounded-sm md:grid">
               {imageSrc(item.image) ? (
-                <Image src={imageSrc(item.image, '')} alt={imageAlt(item.image, item.title || 'Business')} fill className="object-cover" sizes="220px" />
+                <Image src={imageSrc(item.image, '')} alt={imageAlt(item.image, item.title || 'Business')} fill className="object-cover" sizes="(min-width: 1024px) 340px, 50vw" />
               ) : (
                 <>
                   <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id={`${uid}-lattice`} width="34.64" height="20" patternUnits="userSpaceOnUse"><path d="M0 0L34.64 20M0 20L34.64 0M0 0V20M17.32 0V20" stroke="var(--ds-chrome-strong)" strokeOpacity="0.08" strokeWidth=".8" fill="none" /></pattern></defs><rect width="100%" height="100%" fill={`url(#${uid}-lattice)`} /></svg>

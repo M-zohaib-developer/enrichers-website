@@ -25,6 +25,14 @@ export const groupBusinessExplorer: Block = {
         { name: 'title', type: 'text' },
         { name: 'quote', type: 'text' },
         { name: 'body', type: 'textarea' },
+        {
+          name: 'tags',
+          type: 'text',
+          label: 'Category line (optional)',
+          admin: {
+            description: 'Dot-separated list of sub-areas shown under the body, e.g. "Baab-ul-Ilm Research · Arid Land Development · Smart Farming".',
+          },
+        },
         { name: 'url', type: 'text' },
         {
           name: 'icon',

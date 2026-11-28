@@ -363,8 +363,23 @@ export function ConsultationQualifier({ data }: { data: ConsultationData }) {
           <li><a href={data.phoneHref} className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M5 4H9L10.5 8.5L8 10C9 12.5 11.5 15 14 16L15.5 13.5L20 15V19C20 19.6 19.6 20 19 20C11 20 4 13 4 5C4 4.4 4.4 4 5 4Z" /></Icon>{data.phone}</a></li>
           <li><a href={data.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M4 5H20V16H10L5 20V16H4Z" /><path d="M8 10H16M8 13H13" /></Icon>{data.whatsappLabel}</a></li>
           {data.email && <li><a href={data.emailHref || `mailto:${data.email}`} className="flex items-center gap-3 font-semibold text-text hover:underline"><Icon><path d="M4 6H20V18H4Z" /><path d="M4 7L12 13L20 7" /></Icon>{data.email}</a></li>}
+          {data.address && (() => {
+            const [head, ...rest] = String(data.address).split(',')
+            const tail = rest.join(',').trim()
+            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(data.address))}`
+            return (
+              <li>
+                <a href={mapUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${head.trim()} in Google Maps`} className="flex items-start gap-3 text-text hover:underline">
+                  <Icon><path d="M12 21C12 21 19 15 19 10A7 7 0 0 0 5 10C5 15 12 21 12 21Z" /><circle cx="12" cy="10" r="2.5" /></Icon>
+                  <span>
+                    <span className="block font-semibold">{head.trim()}</span>
+                    {tail && <span className="block text-text-secondary">{tail}</span>}
+                  </span>
+                </a>
+              </li>
+            )
+          })()}
           <li className="flex items-center gap-3 text-text-secondary"><Icon><circle cx="12" cy="12" r="8.5" /><path d="M12 7V12L15.5 14" /></Icon>{data.hours}</li>
-          {data.address && <li className="flex items-start gap-3 text-text-secondary"><Icon><path d="M12 21C12 21 19 15 19 10A7 7 0 0 0 5 10C5 15 12 21 12 21Z" /><circle cx="12" cy="10" r="2.5" /></Icon><span>{data.address}</span></li>}
         </ul>
       </div>
       <div className="lg:col-span-7"><div className="rounded-lg border border-border bg-surface p-6 shadow-md md:p-8">{form ? (data.formMode === 'singlePage' ? <SinglePageForm form={form} data={data} /> : <ConsultationForm form={form} data={data} />) : <p className="text-body-sm text-text-secondary">Select a form in the block&rsquo;s Form tab.</p>}</div></div>

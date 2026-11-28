@@ -3,9 +3,9 @@
   "configurations": [
     {
       "name": "enrichers-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3002
+      "runtimeExecutable": "./node_modules/.bin/next",
+      "runtimeArgs": ["dev", "--webpack", "--port", "3004"],
+      "port": 3004
     }
   ]
 }
