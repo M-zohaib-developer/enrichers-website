@@ -21,6 +21,6 @@ for (const block of page.layout as any[]) {
     touched++
   }
 }
-await payload.update({ collection: 'pages', id: page.id, data: { layout: page.layout }, overrideAccess: true, context: { skipRevalidate: true } })
+await payload.update({ collection: 'pages', id: page.id, data: { layout: page.layout, _status: 'published' } as any, overrideAccess: true, context: { skipRevalidate: true } })
 console.log(`Updated ${touched} accountFaq block(s) on /home/.`)
 process.exit(0)

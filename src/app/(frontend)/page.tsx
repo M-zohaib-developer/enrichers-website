@@ -1,32 +1,49 @@
-import React from 'react'
-
+import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
+
 import config from '@/payload.config'
 import { RenderHomeBlocks } from '@/blocks/HomeBlocks'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { getCachedPageBySlug } from '@/utilities/getCachedDocument'
 
 /**
- * Candidate A token reference page — doc section 3.3 / Phase 2 exit gate.
- * Not a repaint of the real Home block (that is Phase 3). This page exists
- * only so a reviewer can compare typography, colour, container width, and
- * section rhythm against the live demo before bulk repainting begins:
- * https://enrichers-demo.innovidio.com/candidates/a
+ * Home page (/).
+ *
+ * Mirrors `/[slug]/page.tsx`: in draft mode (admin live preview) the page
+ * fetches the unsaved draft version uncached so edits appear immediately, and
+ * `LivePreviewListener` tells Payload's postMessage bridge to refresh the
+ * route on every autosave. For public visitors the cached published fetch is
+ * reused (same path as every other content page).
  */
 export default async function HomePage() {
-  let blocks: any[] = []
+  const { isEnabled: draft } = await draftMode()
 
+  let blocks: any[] = []
   try {
-    const payload = await getPayload({ config })
-    const result = await payload.find({
-      collection: 'pages',
-      depth: 1,
-      limit: 1,
-      pagination: false,
-      where: { slug: { equals: 'home' } },
-    })
-    if (result.docs[0]?.layout?.length) blocks = result.docs[0].layout as any[]
+    const page = draft
+      ? (
+          await (
+            await getPayload({ config })
+          ).find({
+            collection: 'pages',
+            draft: true,
+            depth: 1,
+            limit: 1,
+            pagination: false,
+            overrideAccess: true,
+            where: { slug: { equals: 'home' } },
+          })
+        ).docs[0]
+      : await getCachedPageBySlug('home')
+    if (page?.layout?.length) blocks = page.layout as any[]
   } catch {
-    // The homepage is intentionally empty until its CMS document is available.
+    // The homepage stays empty until its CMS document is reachable.
   }
 
-  return <RenderHomeBlocks blocks={blocks} />
+  return (
+    <>
+      {draft && <LivePreviewListener />}
+      <RenderHomeBlocks blocks={blocks} preview={draft} />
+    </>
+  )
 }
