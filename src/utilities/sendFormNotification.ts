@@ -28,6 +28,33 @@ const prettify = (name: string) => name.replace(/_/g, ' ').replace(/^./, (c) => 
 const looksLikeEmail = (v: unknown): v is string =>
   typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
+/**
+ * Strip HTML down to a plain-text alternative.
+ *
+ * Gmail's spam classifier flags HTML-only MIME messages hard — adding a
+ * text/plain part dropped our enquiry mail out of Spam in testing. This is
+ * deliberately simple: tables become line pairs, links keep their URL, block
+ * elements become line breaks, everything else is stripped.
+ */
+function htmlToText(html: string): string {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<tr[^>]*>\s*<td[^>]*>([\s\S]*?)<\/td>\s*<td[^>]*>([\s\S]*?)<\/td>\s*<\/tr>/gi, '$1: $2\n')
+    .replace(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, '$2 ($1)')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|h[1-6]|li|tr|table)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
 /** Convert Payload Lexical rich text (or a plain string) to HTML. */
 function richToHtml(node: unknown): string {
   if (!node) return ''
@@ -126,8 +153,17 @@ export async function sendFormNotification({
     const notifyTo = settings.notificationsTo || settings.fromAddress
     const port = Number(settings.smtpPort ?? 587)
     const fromName = settings.fromName || 'Enrichers Investment Group'
-    const fromAddress = settings.fromAddress || settings.smtpUser || 'noreply@enrichers.com.pk'
+    // Gmail only signs (DKIM) outbound mail when the From address matches the
+    // authenticated SMTP user — a mismatch here strips DKIM and almost
+    // guarantees the message lands in Spam. When the admin set a different
+    // fromAddress, we keep it as replyTo but send as the SMTP user.
+    const authUser = settings.smtpUser || settings.fromAddress || 'noreply@enrichers.com.pk'
+    const fromAddress = authUser
     const fromHeader = `"${fromName}" <${fromAddress}>`
+    const replyToDefault =
+      settings.fromAddress && settings.fromAddress !== authUser ? settings.fromAddress : undefined
+    // One standard header that noticeably improves Gmail deliverability.
+    const listUnsubscribeHeader = { 'List-Unsubscribe': `<mailto:${authUser}?subject=unsubscribe>` }
 
     const transport = nodemailer.createTransport({
       host: settings.smtpHost,
@@ -171,9 +207,11 @@ export async function sendFormNotification({
         transport.sendMail({
           from: fromHeader,
           to: notifyTo,
-          replyTo: submitterEmail || undefined,
+          replyTo: submitterEmail || replyToDefault,
           subject: form?.title ? `New enquiry — ${form.title}` : 'New website enquiry',
           html: notificationHtml,
+          text: htmlToText(notificationHtml),
+          headers: listUnsubscribeHeader,
         }),
       )
     }
@@ -199,9 +237,11 @@ export async function sendFormNotification({
         transport.sendMail({
           from: fromHeader,
           to: submitterEmail,
-          replyTo: notifyTo || undefined,
+          replyTo: notifyTo || replyToDefault,
           subject: `Thank you — ${fromName}`,
           html: confirmationHtml,
+          text: htmlToText(confirmationHtml),
+          headers: listUnsubscribeHeader,
         }),
       )
     }
@@ -213,15 +253,32 @@ export async function sendFormNotification({
       if (!to) continue
       const subject = applyPlaceholders((e.subject || `Message from ${fromName}`) as string, rows)
       const messageHtml = applyPlaceholders(richToHtml(e.message), rows)
+      // Ignore any admin-entered "Email From" that doesn't match the SMTP
+      // auth user — Gmail strips DKIM on mismatched From, dropping us into
+      // Spam. Stash the intended sender as replyTo instead.
+      const requestedFrom = sub(e.emailFrom)
+      const useFrom =
+        requestedFrom && requestedFrom.toLowerCase().includes(`<${authUser.toLowerCase()}>`)
+          ? requestedFrom
+          : requestedFrom && requestedFrom.toLowerCase() === authUser.toLowerCase()
+            ? requestedFrom
+            : fromHeader
+      const fallbackReply =
+        requestedFrom && requestedFrom !== fromHeader && requestedFrom !== authUser
+          ? requestedFrom
+          : undefined
+      const wrappedHtml = wrapEmail({ html: messageHtml, title: form?.title || 'Website message' })
       sends.push(
         transport.sendMail({
-          from: sub(e.emailFrom) || fromHeader,
+          from: useFrom,
           to,
           cc: sub(e.cc) || undefined,
           bcc: sub(e.bcc) || undefined,
-          replyTo: sub(e.replyTo) || submitterEmail || undefined,
+          replyTo: sub(e.replyTo) || submitterEmail || fallbackReply || replyToDefault,
           subject,
-          html: wrapEmail({ html: messageHtml, title: form?.title || 'Website message' }),
+          html: wrappedHtml,
+          text: htmlToText(wrappedHtml),
+          headers: listUnsubscribeHeader,
         }),
       )
     }
