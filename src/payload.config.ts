@@ -124,7 +124,46 @@ export default buildConfig({
       },
       formOverrides: {
         fields: ({ defaultFields }) => ([
-          ...defaultFields,
+          // Rewrite the "Emails" array's admin descriptions so editors see the
+          // full placeholder cheat-sheet instead of the plugin's one-liner.
+          // The plugin's own field definition is kept intact; only the two
+          // `admin.description` strings are replaced.
+          ...defaultFields.map((f: any) => {
+            if (f?.name !== 'emails') return f
+            const emailDescription = [
+              'Send custom confirmation / notification emails when this form is submitted. One row per email — leave the array empty to disable and let the default admin notification fire.',
+              '',
+              'PLACEHOLDERS you can use in any text field (To, CC, BCC, Reply-To, From, Subject, Message):',
+              '  • {{fieldName}}  — inserts the value the visitor typed for that field. The name must match the "Name" you set on the form field above (e.g. {{name}}, {{email}}, {{phone}}).',
+              '  • {{email}}      — the visitor\'s email, when the form has an email field. Typical in "Reply To" so hitting Reply reaches them.',
+              '  • {{*}}          — every submitted field joined into one block of text.',
+              '  • {{*:table}}    — every submitted field rendered as a tidy two-column HTML table (recommended for the Message body).',
+              '',
+              'RECIPIENTS (To / CC / BCC) accept a single address or a comma-separated list, e.g. "ops@enrichers.com.pk, investors@enrichers.com.pk".',
+              '',
+              'REPLY TO is usually "{{email}}" so the admin can hit Reply to answer the lead directly. Leave blank to fall back to the From address.',
+              '',
+              'EMAIL FROM should normally be left blank — the system uses the SMTP user from Settings → Email (SMTP). Overriding it to a different address can land the message in Spam because Gmail only DKIM-signs mail whose From matches the authenticated user.',
+              '',
+              'A plain-text version, a List-Unsubscribe header, and the Enrichers brand wrapper are added automatically — just write the message body.',
+            ].join('\n')
+            const messageDescription = [
+              'The body of the email. Rich text supported.',
+              '',
+              'Drop {{*:table}} on its own line to render every submitted field as a two-column table. Reference a single field inline as {{fieldName}} (e.g. "Thanks {{name}}, we received your enquiry about {{primaryGoal}}.").',
+              '',
+              'Keep it short and conversational — one paragraph of context, then the table, then a closing line. Gmail penalises long image-heavy promotional HTML.',
+            ].join('\n')
+            return {
+              ...f,
+              admin: { ...(f.admin || {}), description: emailDescription },
+              fields: (f.fields || []).map((sub: any) =>
+                sub?.name === 'message'
+                  ? { ...sub, admin: { ...(sub.admin || {}), description: messageDescription } }
+                  : sub,
+              ),
+            }
+          }),
           {
             name: 'submitButtonColor',
             type: 'select',
