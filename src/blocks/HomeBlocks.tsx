@@ -15,6 +15,7 @@ import { TabbedContent } from './TabbedContent'
 import { ProcessSteps } from './ProcessSteps'
 import { RequirementsChecklist } from './RequirementsChecklist'
 import { GuideAccordion } from './GuideAccordion'
+import { GlossaryLetterGrid } from './GlossaryLetterGrid'
 import { FaqAccordion } from './FaqAccordion'
 import { ReadyWhenYouAre } from './ReadyWhenYouAre'
 import { SkarduHotelFeature } from './SkarduHotelFeature'
@@ -53,6 +54,7 @@ const components = {
   processSteps: ProcessSteps,
   requirementsChecklist: RequirementsChecklist,
   guideAccordion: GuideAccordion,
+  glossaryLetterGrid: GlossaryLetterGrid,
   faqAccordion: FaqAccordion,
   marketHero: MarketHero,
   licensingCredentials: LicensingCredentials,

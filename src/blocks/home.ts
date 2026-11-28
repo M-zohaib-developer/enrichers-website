@@ -16,6 +16,7 @@ import { tabbedContent } from './schema/tabbedContent'
 import { processSteps } from './schema/processSteps'
 import { requirementsChecklist } from './schema/requirementsChecklist'
 import { guideAccordion } from './schema/guideAccordion'
+import { glossaryLetterGrid } from './schema/glossaryLetterGrid'
 import { faqAccordion } from './schema/faqAccordion'
 import { readyWhenYouAre } from './schema/readyWhenYouAre'
 import { skarduHotelFeature } from './schema/skarduHotelFeature'
@@ -54,6 +55,7 @@ export const HomeBlocks: Block[] = [
   processSteps,
   requirementsChecklist,
   guideAccordion,
+  glossaryLetterGrid,
   faqAccordion,
   marketHero,
   licensingCredentials,

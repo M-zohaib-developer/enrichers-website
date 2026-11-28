@@ -199,15 +199,18 @@ async function run() {
         active: i === 0,
       })),
     },
-    ...grouped.map((g) => ({
-      blockType: 'guideAccordion',
-      sectionId: `letter-${g.letter.toLowerCase()}`,
-      eyebrow: `Letter ${g.letter}`,
-      heading: g.letter,
-      intro: '',
-      columns: '2',
-      items: g.items,
-    })),
+    {
+      blockType: 'glossaryLetterGrid',
+      sectionId: 'glossary',
+      eyebrow: 'A–Z',
+      heading: 'Every term, defined',
+      intro:
+        'Two letters per row on desktop, stacked on mobile. Use the sticky bar above to jump straight to a letter.',
+      groups: grouped.map((g) => ({
+        letter: g.letter,
+        items: g.items.map((t) => ({ question: t.question, answer: t.answer })),
+      })),
+    },
   ]
 
   const existing = await payload.find({

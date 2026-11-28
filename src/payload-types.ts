@@ -426,6 +426,30 @@ export interface Page {
     | {
         sectionId?: string | null;
         eyebrow?: string | null;
+        heading?: string | null;
+        intro?: string | null;
+        /**
+         * One row per letter. Desktop renders two letters side by side (A|B, C|D…); mobile stacks them in order. Anchor ids are generated as "letter-{letter}" so the sticky nav keeps working.
+         */
+        groups: {
+          /**
+           * Single letter, e.g. A. Used as heading and anchor id.
+           */
+          letter: string;
+          items: {
+            question: string;
+            answer: string;
+            id?: string | null;
+          }[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'glossaryLetterGrid';
+      }
+    | {
+        sectionId?: string | null;
+        eyebrow?: string | null;
         heading: string;
         items: {
           question: string;
@@ -2339,6 +2363,29 @@ export interface PagesSelect<T extends boolean = true> {
                 | {
                     question?: T;
                     answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        glossaryLetterGrid?:
+          | T
+          | {
+              sectionId?: T;
+              eyebrow?: T;
+              heading?: T;
+              intro?: T;
+              groups?:
+                | T
+                | {
+                    letter?: T;
+                    items?:
+                      | T
+                      | {
+                          question?: T;
+                          answer?: T;
+                          id?: T;
+                        };
                     id?: T;
                   };
               id?: T;
